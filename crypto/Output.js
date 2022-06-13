@@ -1,4 +1,4 @@
-import assert from "assert/strict";
+import assert from "assert";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import protobuf from "protobufjs";
