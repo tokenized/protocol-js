@@ -1,0 +1,17 @@
+{
+  "name": "@tokenized/protocol-js",
+  "version": "1.0.0",
+  "description": "",
+  "exports": "./index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bin": "cli.js",
+  "dependencies": {
+    "@noble/secp256k1": "^1.5.5",
+    "bitcoin-address-validation": "^2.2.1",
+    "node-fetch": "^3.2.5",
+    "protobufjs": "^6.11.3"
+  }
+}

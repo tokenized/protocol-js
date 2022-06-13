@@ -1,0 +1,1542 @@
+{
+  "fieldAliases": [
+    {
+      "description": "Predefined tags for output metadata.",
+      "name": "Tag",
+      "resource": "Tags",
+      "size": 1,
+      "type": "uint"
+    },
+    {
+      "description": "Represents a time, encoded as a 64 bit unsigned integer representing the number of nanoseconds since the Unix epoch.",
+      "example": 1594668650000000000,
+      "name": "Timestamp",
+      "size": 8,
+      "type": "uint"
+    },
+    {
+      "description": "A representation of a bitcoin address in raw format, with no check sum or encoding.",
+      "name": "Address",
+      "type": "varbin",
+      "varSize": "small"
+    },
+    {
+      "description": "Represents a Bitcoin transaction ID, the double SHA256 hash of the serialized transaction.",
+      "example": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "name": "TxId",
+      "size": 32,
+      "type": "bin"
+    },
+    {
+      "description": "The type/format of the sender's proof of identity. 0 - not included, 1 - PaymailProof, 2 - IdentityOracleProof",
+      "name": "ProofOfIdentityType",
+      "options": [
+        0,
+        1,
+        2
+      ],
+      "size": 1,
+      "type": "uint"
+    },
+    {
+      "description": "A type of entity. (i.e. Individual, Public Company)",
+      "name": "EntityType",
+      "resource": "Entities",
+      "size": 1,
+      "type": "fixedchar"
+    },
+    {
+      "description": "A role within an entity. (i.e. CEO, CFO)",
+      "name": "Role",
+      "resource": "Roles",
+      "size": 1,
+      "type": "uint"
+    },
+    {
+      "description": "Represents a unique identifier for an instrument/token.",
+      "example": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "name": "InstrumentCode",
+      "size": 20,
+      "type": "bin"
+    }
+  ],
+  "fieldTypes": [
+    {
+      "description": "Administrator is used to refer to a Administration role in an Entity.",
+      "fields": [
+        {
+          "description": "Chairman, Director, Managing Partner, etc.. Found in 'Roles' in Specification/Resources",
+          "example": "7",
+          "label": "Administrator Type",
+          "name": "Type",
+          "type": "Role"
+        },
+        {
+          "description": "Length 0-255 bytes. 0 is valid.",
+          "example": "Satoshi Nakamoto",
+          "label": "Administrator Name",
+          "name": "Name",
+          "type": "varchar"
+        }
+      ],
+      "label": "Administrator",
+      "name": "Administrator"
+    },
+    {
+      "description": "Information about an entity in a channel.",
+      "fields": [
+        {
+          "description": "The address representing the locking script that is required to perform entity administrative level operations on a channel. Such as add/remove a member, accept/reject proposals, and requesting/receiving payments. This is recommended to be an m of n multi-signature address.",
+          "label": "Administrative Address",
+          "name": "AdministrativeAddress",
+          "type": "Address"
+        },
+        {
+          "description": "Specifies the output containing the locking script for the party. It should also be included in the M1 ReceiverIndexes. That output must respond with a proof of identity that identifies the company involved.",
+          "label": "Output Index",
+          "name": "OutputIndex",
+          "size": 4,
+          "type": "uint"
+        }
+      ],
+      "label": "Channel Party",
+      "name": "ChannelParty"
+    },
+    {
+      "description": "A file containing data.",
+      "fields": [
+        {
+          "description": "Full name, including file extension, of the file. Length 0-255 bytes. 0 is valid.",
+          "example": "Agreement.pdf",
+          "label": "Document Name",
+          "name": "Name",
+          "type": "varchar"
+        },
+        {
+          "description": "MIME type of the file. Length 0-255 bytes. 0 is valid. ",
+          "example": "application/pdf",
+          "label": "MIME Type",
+          "name": "Type",
+          "type": "varchar"
+        },
+        {
+          "description": "The contents of the file.",
+          "label": "File Contents",
+          "name": "Contents",
+          "type": "varbin",
+          "varSize": "medium"
+        }
+      ],
+      "label": "Document",
+      "name": "Document"
+    },
+    {
+      "description": "Entity represents the details of a legal Entity, such as a public or private company, government agency, or and individual.",
+      "fields": [
+        {
+          "description": "Length 1-255 bytes (0 is not valid). Issuing entity (company, organization, individual).  Can be any unique identifying string, including human readable names for branding/vanity purposes. ",
+          "example": "Tesla Inc.",
+          "label": "Name",
+          "name": "Name",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "The type of entity. (i.e Public Company, Individual) (Specification/Resources).",
+          "example": "P",
+          "label": "Type",
+          "name": "Type",
+          "type": "EntityType"
+        },
+        {
+          "description": "Null is valid. A Legal Entity Identifier (or LEI) is an international identifier made up of a 20-character identifier that identifies distinct legal entities that engage in financial transactions. It is defined by ISO 17442.[1] Natural persons are not required to have an LEI; they’re eligible to have one issued, however, but only if they act in an independent business capacity.[2] The LEI is a global standard, designed to be non-proprietary data that is freely accessible to all.[3] As of December 2018, over 1,300,000 legal entities from more than 200 countries have now been issued with LEIs.",
+          "example": "54930084UKLVMY22DS16",
+          "label": "Legal Entity Identifier",
+          "name": "LEI",
+          "notes": "ISO 17442 - https://en.wikipedia.org/wiki/Legal_Entity_Identifier",
+          "size": 20,
+          "type": "fixedchar"
+        },
+        {
+          "description": "Issuer/Entity/Contracting Party X Address Details (eg. HQ)",
+          "example": "2",
+          "label": "Unit Number",
+          "name": "UnitNumber",
+          "type": "varchar"
+        },
+        {
+          "description": "",
+          "example": "13577",
+          "label": "Building Number",
+          "name": "BuildingNumber",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "",
+          "example": "Fairmont Ave",
+          "label": "Street",
+          "name": "Street",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "",
+          "example": "Robinoh",
+          "label": "Suburb/City",
+          "name": "SuburbCity",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "",
+          "example": "BC",
+          "label": "Territory/State/Province Code",
+          "name": "TerritoryStateProvinceCode",
+          "size": 5,
+          "type": "fixedchar"
+        },
+        {
+          "description": "",
+          "example": "USA",
+          "label": "Country Code",
+          "name": "CountryCode",
+          "size": 3,
+          "type": "fixedchar"
+        },
+        {
+          "description": "",
+          "example": "50210",
+          "label": "Postal/ZIP Code",
+          "name": "PostalZIPCode",
+          "size": 12,
+          "type": "fixedchar"
+        },
+        {
+          "description": "Length 0-255 bytes. Address for text-based communication: eg. email address, Bitcoin address",
+          "example": "satoshi@tokenized.com",
+          "label": "Email Address",
+          "name": "EmailAddress",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "Length 0-255 bytes. 0 is valid. Phone Number for Entity.",
+          "example": "0448484848",
+          "label": "Phone Number",
+          "name": "PhoneNumber",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "A list of people that are in Administrative Roles for the Entity.  eg. Chair, Director, Managing Partner, etc.",
+          "label": "Administration",
+          "name": "Administration",
+          "type": "Administrator[]"
+        },
+        {
+          "description": "A list of people in Management Roles for the Entity. e.g CEO, COO, CTO, CFO, Secretary, Executive, etc.",
+          "label": "Management",
+          "name": "Management",
+          "type": "Manager[]"
+        },
+        {
+          "description": "Domain name owned by this entity. Length 0-255 bytes. 0 is valid.",
+          "example": "tokenized.com",
+          "label": "Domain Name",
+          "name": "DomainName",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "Deprecated for separate field in contract. Address of entity contract. When the contract type is instrument contract, or a child type, this field refers to the entity specified in the contract at the address specified. When this field is present, no other fields should be included in the entity.",
+          "label": "Entity Contract Address",
+          "name": "EntityContractAddress",
+          "type": "deprecated"
+        },
+        {
+          "description": "Length 0-255 bytes. Handle containing an alias and domain name performing queries defined in the Paymail protocol.",
+          "example": "satoshi@tokenized.id",
+          "label": "Paymail Handle",
+          "name": "PaymailHandle",
+          "type": "varchar",
+          "varSize": "tiny"
+        }
+      ],
+      "label": "Entity",
+      "name": "Entity"
+    },
+    {
+      "description": "A proof of identity based on identity oracles.",
+      "fields": [
+        {
+          "description": "The user id (UUID) in the identity oracle system. Used to request the entity data.",
+          "label": "User ID",
+          "name": "UserID",
+          "type": "varbin"
+        },
+        {
+          "description": "PII is not allowed in entity by GDPR, so only company information can be placed in this entity. In the future this might be supported for PII with better understanding of GDPR. The identity being provided. EntityContractAddress is located within this structure.",
+          "label": "Entity",
+          "name": "Entity",
+          "type": "Entity"
+        },
+        {
+          "description": "Signature of the serialized entity, public key, and block hash with the identity oracle's public key.",
+          "label": "OracleSignature",
+          "name": "OracleSignature",
+          "type": "OracleSignature"
+        }
+      ],
+      "label": "Identity Oracle Proof",
+      "name": "IdentityOracleProof"
+    },
+    {
+      "description": "Manager is used to refer to a role that is responsible for the Management of an Entity.",
+      "fields": [
+        {
+          "description": "CEO, COO, CFO, etc. Found in 'Roles' in Specification/Resources",
+          "example": "5",
+          "label": "Manager Type",
+          "name": "Type",
+          "type": "Role"
+        },
+        {
+          "description": "Length 0-255 bytes. 0 is valid.",
+          "example": "Satoshi Nakamoto",
+          "label": "Manager Name",
+          "name": "Name",
+          "type": "varchar"
+        }
+      ],
+      "label": "Manager",
+      "name": "Manager"
+    },
+    {
+      "description": "A signature from an oracle verifying some data.",
+      "fields": [
+        {
+          "description": "Base URL of the identity oracle that provided the signature.",
+          "example": "identity.tokenized.com",
+          "label": "Oracle URL",
+          "name": "OracleURL",
+          "type": "varchar"
+        },
+        {
+          "description": "The height of the block hash included in the data signed by the oracle. If the value is not included (zero), then no signature hash is included in the signed data.",
+          "label": "Block Height",
+          "name": "BlockHeight",
+          "size": 4,
+          "type": "uint"
+        },
+        {
+          "description": "The time frame that the proof is valid.",
+          "label": "Validity Period",
+          "name": "ValidityPeriod",
+          "type": "Period"
+        },
+        {
+          "description": "The algorithm used by the oracle signature.",
+          "label": "Signature Algorithm",
+          "name": "SignatureAlgorithm",
+          "size": 1,
+          "type": "uint"
+        },
+        {
+          "description": "Signature of the related data with the oracle's public key.",
+          "label": "Signature",
+          "name": "Signature",
+          "type": "varbin"
+        }
+      ],
+      "label": "Oracle Signature",
+      "name": "OracleSignature"
+    },
+    {
+      "code": 2,
+      "description": "Reference to a bitcoin transaction output.",
+      "fields": [
+        {
+          "label": "TxId",
+          "name": "TxId",
+          "type": "TxId"
+        },
+        {
+          "description": "The index of the output within the referenced transaction.",
+          "label": "Output Index",
+          "name": "OutputIndex",
+          "size": 4,
+          "type": "uint"
+        }
+      ],
+      "label": "Outpoint",
+      "name": "Outpoint"
+    },
+    {
+      "description": "A tag or category of an output used to categorize and organize outputs from different transactions.",
+      "fields": [
+        {
+          "description": "The text of the tag.",
+          "label": "Tag",
+          "name": "Tag",
+          "type": "varchar"
+        }
+      ],
+      "label": "Output Tag",
+      "name": "OutputTag"
+    },
+    {
+      "description": "A proof of identity based on paymail.",
+      "fields": [
+        {
+          "description": "The user id (UUID) in the identity oracle system. Used to request the entity data.",
+          "label": "User ID",
+          "name": "UserID",
+          "type": "varbin"
+        },
+        {
+          "description": "PII including personally identifiable user names not allowed by GDPR. This is put in for possible future use without a protocol change. Paymail handle in the form {alias}@{domain}.{tld}",
+          "example": "john@tokenized.com",
+          "label": "Handle",
+          "name": "Handle",
+          "type": "varchar"
+        },
+        {
+          "description": "Signature of the serialized entity, public key, and block hash with the identity oracle's public key.",
+          "label": "OracleSignature",
+          "name": "OracleSignature",
+          "type": "OracleSignature"
+        }
+      ],
+      "label": "Paymail Proof",
+      "name": "PaymailProof"
+    },
+    {
+      "description": "A period of time. Begin and end can be optional depending on context.",
+      "fields": [
+        {
+          "description": "The start of the period",
+          "label": "Begin",
+          "name": "Begin",
+          "type": "Timestamp"
+        },
+        {
+          "description": "The end of the period",
+          "label": "End",
+          "name": "End",
+          "type": "Timestamp"
+        }
+      ],
+      "label": "Period",
+      "name": "Period"
+    },
+    {
+      "description": "A TargetAddress defines a public address and quantity.",
+      "fields": [
+        {
+          "description": "Public address where the token balance will be changed.",
+          "label": "Address",
+          "name": "Address",
+          "type": "Address"
+        },
+        {
+          "description": "Qty of tokens to be frozen, thawed, confiscated or reconciled. For Contract-wide freezes 0 will be used.",
+          "example": "10000",
+          "label": "Quantity",
+          "name": "Quantity",
+          "size": 8,
+          "type": "uint"
+        }
+      ],
+      "label": "Target Address",
+      "name": "TargetAddress"
+    }
+  ],
+  "messages": [
+    {
+      "code": 2,
+      "description": "Generic public message or public announcement. Sent to an address(es).  Can be used for an official issuer announcement.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender creates the transaction.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "The subject / topic of the message.",
+          "label": "Subject",
+          "name": "Subject",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "The output of the message that this message is regarding (responding to).",
+          "label": "Regarding",
+          "name": "Regarding",
+          "type": "Outpoint"
+        },
+        {
+          "description": "Tokenized Ltd. announces product launch.",
+          "label": "Public Message",
+          "name": "PublicMessage",
+          "type": "Document"
+        },
+        {
+          "description": "Documents attached to the message.",
+          "label": "Attachments",
+          "listSize": "medium",
+          "name": "Attachments",
+          "type": "Document[]"
+        }
+      ],
+      "label": "Public Message",
+      "name": "PublicMessage"
+    },
+    {
+      "code": 3,
+      "description": "Generic private message. Sent to another address(es). Encryption is to be used.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender creates the transaction.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "The subject / topic of the message.",
+          "label": "Subject",
+          "name": "Subject",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "The output of the message that this message is regarding (responding to).",
+          "label": "Regarding",
+          "name": "Regarding",
+          "type": "Outpoint"
+        },
+        {
+          "description": "Tokenized Ltd announces product launch.",
+          "label": "Private Message",
+          "name": "PrivateMessage",
+          "type": "Document"
+        },
+        {
+          "description": "Documents attached to the message.",
+          "label": "Attachments",
+          "listSize": "medium",
+          "name": "Attachments",
+          "type": "Document[]"
+        }
+      ],
+      "label": "Private Message",
+      "name": "PrivateMessage"
+    },
+    {
+      "code": 4,
+      "description": "A message that contains a bitcoin transaction that was accepted by the network or an agent and then invalidated by a reorg, or zero conf double spend. This serves as on chain evidence of the sending party's signatures and approval for the given transaction.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender creates the transaction.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Serialized bitcoin transaction that was reverted/invalidated after being accepted.",
+          "label": "Transaction",
+          "name": "Transaction",
+          "type": "varbin",
+          "varSize": "medium"
+        }
+      ],
+      "label": "Reverted Tx",
+      "name": "RevertedTx"
+    },
+    {
+      "code": 1001,
+      "description": "A message that contains all of the details required for an agreement to be formed. Sent to an address(es). The Offer should have all, or nearly all, of the details required for the receiving party to accept the offer.  The Offer shall be in the form of a partially formed Bitcoin transaction with all of the relevent details (offer, consideration, offeror's payment/receipt details, etc.).  The Offer message is different to a Signature Request message in that it is missing the offeree's payment/receipt details (eg. UTXOs). If the Offer message is well received by the offeree, then the offeree can add their relevent details (eg. inputs/outputs) and sign the transaction.  If an additional signature is required from the offeror at this point, then the partially-signed transaction can be sent to the offeror by way of a Signature Request message.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender created the offer.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Serialized Bitcoin transaction. The transaction needs data added by another party upon acceptance of offer.",
+          "label": "Payload",
+          "name": "Payload",
+          "type": "varbin",
+          "varSize": "medium"
+        }
+      ],
+      "label": "Offer",
+      "name": "Offer"
+    },
+    {
+      "code": 1002,
+      "description": "Partially-signed transactions (Tokenized actions, Bitcoin, Multisig, Threshold Signatures, etc.) can be passed around on-chain to the parties (including Smart Contracts) that still have to sign the transaction.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender creates the transaction.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Full serialized bitcoin tx with multiple inputs from different wallets/users.",
+          "label": "Payload",
+          "name": "Payload",
+          "type": "varbin",
+          "varSize": "medium"
+        }
+      ],
+      "label": "Signature Request",
+      "name": "SignatureRequest"
+    },
+    {
+      "code": 1003,
+      "description": "A message that contains a multi-contract settlement that needs settlement data added by another contract. Sent to another contract to request data be added.",
+      "fields": [
+        {
+          "description": "Timestamp in nanoseconds for when the message sender creates the transaction.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Tx Id of the transfer request transaction that triggered this message.",
+          "label": "Transfer Tx Id",
+          "name": "TransferTxId",
+          "type": "TxId"
+        },
+        {
+          "description": "Contract fees (in bitcoin) and addresses(PKHs) where fees should be paid. Added by each contract as settlement data is added.",
+          "label": "Contract Fees",
+          "listSize": "small",
+          "name": "ContractFees",
+          "type": "TargetAddress[]"
+        },
+        {
+          "description": "Serialized settlement OP_RETURN that needs data added by another contract.",
+          "label": "Settlement",
+          "name": "Settlement",
+          "type": "varbin",
+          "varSize": "medium"
+        }
+      ],
+      "label": "Settlement Request",
+      "name": "SettlementRequest"
+    },
+    {
+      "code": 1004,
+      "description": "Metadata associated with the output. Aka Transaction details. It is used to describe the purpose of the transaction and add other relevant information. Often encrypted (DH, RSA) to make it private for one or more parties.  DH for b2b where multiple parties can see the description.  RSA or the like for descriptions only visible to one of the transacting parties. Optional",
+      "fields": [
+        {
+          "description": "A Description that accompanies the output. A transaction description.",
+          "example": "eg. Invoice 3024, Pay Mike back for camping.",
+          "label": "Output Description",
+          "name": "OutputDescription",
+          "notes": "  Can be NULL",
+          "type": "varchar",
+          "varSize": "medium"
+        },
+        {
+          "description": "Predefined values for describing the output.",
+          "label": "Tags",
+          "name": "Tags",
+          "type": "Tag[]"
+        },
+        {
+          "description": "Free form text fields for describing the output. Groceries, Moomba Gas Compressor Project, Cash Register 3, Fitness, Entertainment, Special, VIP Section, North Carolina Store, Waitress: Cindy Smith, etc.",
+          "label": "Custom Tags",
+          "name": "CustomTags",
+          "type": "OutputTag[]"
+        }
+      ],
+      "label": "Output Metadata",
+      "name": "OutputMetadata"
+    },
+    {
+      "code": 1005,
+      "description": "An administrator is making a distribution/payout. Used to publicly declare these payments and allow holders to be notified of them via the smart contract agent.\n",
+      "fields": [
+        {
+          "description": "A unique code that is used to identify the instrument. It is generated by hashing the contract public key hash and the instrument index. SHA256(contract PKH + instrument index)\n",
+          "label": "Instrument Code",
+          "name": "InstrumentCode",
+          "notes": "Cannot be changed by the administration, operator or smart contract.",
+          "required": true,
+          "type": "InstrumentCode"
+        },
+        {
+          "description": "Timestamp in nanoseconds of when the administrator initiated the distribution.",
+          "label": "Timestamp",
+          "name": "Timestamp",
+          "type": "Timestamp"
+        }
+      ],
+      "label": "Distribution",
+      "metadata": {
+        "outputs": [
+          {
+            "comments": null,
+            "label": "Contract Public Address for Instrument X",
+            "name": "InstrumentContract"
+          }
+        ]
+      },
+      "name": "Distribution"
+    },
+    {
+      "code": 2001,
+      "description": "A message used to initiate a new relationship between 2 or more parties. The M1 container specifies the sender tx input and requested participant tx outputs. If there are more than 2 parties the encryption secret provided in the envelope protocol is used as the base encryption secret. If there are only 2 parties, then the ECDH secret of each key pair is used to encrypt each message.",
+      "fields": [
+        {
+          "description": "The type or purposed of the relationship. 0 - Conversation (direct messages), 1 - Channel (entity/business to entity/business)",
+          "label": "Type",
+          "name": "Type",
+          "options": [
+            0,
+            1
+          ],
+          "size": 1,
+          "type": "uint"
+        },
+        {
+          "description": "The seed used to derive keys for the relationship.",
+          "label": "Seed",
+          "name": "Seed",
+          "type": "varbin"
+        },
+        {
+          "description": "The flag can optionally be used to identify messages in the relationship so that all members don't have to be tagged in each message. It isn't needed for two party relationships, but is recommended for relationships with more members. It will be included in it's own op return for all message transactions. It is recommended to be a random 20 byte value similar to public key hashes. The flag will be the Payload of an Envelope protocol message with a Payload Protocol ID of \"F\". If this value is not specified then there must be an output to the next key in the relationship chain for every member in the group.",
+          "label": "Flag",
+          "name": "Flag",
+          "type": "varbin"
+        },
+        {
+          "description": "Type of encryption used for messages within the relationship. 0 - Encryption keys embedded in envelope protocol. 1 - Encryption key embedded in this message is used as base key for future messages. Used for relationships with more than 2 members so the encryption key doesn't have to be encrypted to each member in every message.",
+          "label": "Encryption Type",
+          "name": "EncryptionType",
+          "options": [
+            0,
+            1
+          ],
+          "size": 1,
+          "type": "uint"
+        },
+        {
+          "description": "The type/format of the sender's proof of identity.",
+          "label": "Proof of Identity Type",
+          "name": "ProofOfIdentityType",
+          "type": "ProofOfIdentityType"
+        },
+        {
+          "description": "Sender's proof of identity.",
+          "label": "Proof of Identity",
+          "name": "ProofOfIdentity",
+          "size": "small",
+          "type": "varbin"
+        },
+        {
+          "description": "Information about the entities in the channel. Not included if this is not a channel initiation. These represent the companies in a channel. A channel is recommended to have 2 entities and several individual members per party. The individual members can discuss terms while the parties are used for official actions.",
+          "label": "Channel Parties",
+          "name": "ChannelParties",
+          "type": "ChannelParty[]"
+        }
+      ],
+      "label": "Initiate Relationship",
+      "name": "InitiateRelationship"
+    },
+    {
+      "code": 2002,
+      "description": "A pending accept to a relationship that provides information about a requested participant.",
+      "fields": [
+        {
+          "description": "The type/format of the sender's proof of identity.",
+          "label": "Proof of Identity Type",
+          "name": "ProofOfIdentityType",
+          "type": "ProofOfIdentityType"
+        },
+        {
+          "description": "Sender's proof of identity.",
+          "label": "Proof of Identity",
+          "name": "ProofOfIdentity",
+          "size": "small",
+          "type": "varbin"
+        }
+      ],
+      "label": "Pending Accept Relationship",
+      "name": "PendingAcceptRelationship"
+    },
+    {
+      "code": 2003,
+      "description": "Accept a relationship.",
+      "fields": [
+        {
+          "description": "The type/format of the sender's proof of identity.",
+          "label": "Proof of Identity Type",
+          "name": "ProofOfIdentityType",
+          "type": "ProofOfIdentityType"
+        },
+        {
+          "description": "Sender's proof of identity.",
+          "label": "Proof of Identity",
+          "name": "ProofOfIdentity",
+          "size": "small",
+          "type": "varbin"
+        }
+      ],
+      "label": "Accept Relationship",
+      "name": "AcceptRelationship"
+    },
+    {
+      "code": 2004,
+      "description": "Amend a relationship. Add/Remove members. Modify permissions. This is encrypted with the current base encryption secret, but can provide a new base encryption secret that starts after this message.",
+      "fields": [
+        {
+          "description": "The new seed used to derive keys for the relationship after this message.",
+          "label": "Seed",
+          "name": "Seed",
+          "type": "varbin"
+        },
+        {
+          "description": "The new base encryption secret used to derive encryption secrets for the relationship after this message. Each time a message is sent, the current seed hash is added to the base encryption secret and that value is used to encrypt the message.",
+          "label": "Base Encryption Secret",
+          "name": "BaseEncryptionSecret",
+          "type": "varbin"
+        },
+        {
+          "description": "Indexes to the outputs of the members that are being added to the group.",
+          "label": "Add Member Indexes",
+          "name": "AddMemberIndexes",
+          "size": 4,
+          "type": "uint"
+        },
+        {
+          "description": "Indexes to the outputs of the members that are being removed from the group.",
+          "label": "Drop Member Indexes",
+          "name": "DropMemberIndexes",
+          "size": 4,
+          "type": "uint"
+        }
+      ],
+      "label": "Relationship Amendment",
+      "name": "RelationshipAmendment"
+    },
+    {
+      "code": 2005,
+      "description": "Start a thread from within a conversation or channel.",
+      "fields": [
+        {
+          "description": "The flag is required to identify messages in the thread so that all members don't have to be tagged in each message. It is recommended to be a random 20 byte value similar to public key hashes. The flag will be the Payload of an Envelope protocol message with a Payload Protocol ID of \"F\"",
+          "label": "Flag",
+          "name": "Flag",
+          "type": "varbin"
+        },
+        {
+          "description": "The seed used to derive keys for the thread. If this value is not specified, then the original seed value from the parent conversation or channel is used.",
+          "label": "Seed",
+          "name": "Seed",
+          "type": "varbin"
+        }
+      ],
+      "label": "Initiate Thread",
+      "name": "InitiateThread"
+    }
+  ],
+  "name": "Tokenized Message Types",
+  "package": "messages",
+  "resources": [
+    {
+      "codeType": {
+        "size": 1,
+        "type": "fixedchar"
+      },
+      "description": "Legal Entities \u0026 Ownership Structures. 1 character.",
+      "name": "Entities",
+      "values": [
+        {
+          "code": "",
+          "label": "Unspecified",
+          "metadata": null,
+          "name": "Unspecified"
+        },
+        {
+          "code": "I",
+          "label": "Individual",
+          "metadata": {
+            "constitutionalDocument": null,
+            "roles": {
+              "administrators": {
+                "agent": [],
+                "legalGuardian": [],
+                "principal": null
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "friend": [],
+                "governmentAgency": [],
+                "suppliers": []
+              },
+              "managers": null,
+              "members": {
+                "principal": null
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "Individual"
+        },
+        {
+          "code": "P",
+          "label": "Public Company Limited by Shares",
+          "metadata": {
+            "constitutionalDocument": {
+              "companyConstitution": null
+            },
+            "roles": {
+              "administrators": {
+                "chairman": null,
+                "director": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "ceo": null,
+                "cfo": null,
+                "coo": null,
+                "cto": null,
+                "executive": [],
+                "secretary": null
+              },
+              "members": {
+                "shareholder": [],
+                "significantShareholder": []
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "PublicCompany"
+        },
+        {
+          "code": "C",
+          "label": "Private Company Limited by Shares",
+          "metadata": {
+            "constitutionalDocument": {
+              "companyConstitution": null
+            },
+            "roles": {
+              "administrators": {
+                "chairman": null,
+                "director": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "ceo": null,
+                "cfo": null,
+                "coo": null,
+                "cto": null,
+                "executive": [],
+                "secretary": null
+              },
+              "members": {
+                "shareholder": [],
+                "significantShareholder": []
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "PrivateCompany"
+        },
+        {
+          "code": "L",
+          "label": "Limited Partnership",
+          "metadata": {
+            "constitutionalDocument": {
+              "partnershipAgreement": null
+            },
+            "roles": {
+              "administrators": {
+                "partner": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "managingPartner": []
+              },
+              "members": {
+                "partner": []
+              }
+            },
+            "type": "Ownership"
+          },
+          "name": "LimitedPartnership"
+        },
+        {
+          "code": "X",
+          "label": "Unlimited Partnership",
+          "metadata": {
+            "constitutionalDocument": {
+              "partnershipAgreement": null
+            },
+            "roles": {
+              "administrators": {
+                "partner": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "contractor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "managingPartner": []
+              },
+              "members": {
+                "partner": []
+              }
+            },
+            "type": "Ownership"
+          },
+          "name": "UnlimitedPartnership"
+        },
+        {
+          "code": "T",
+          "label": "Sole Proprietorship",
+          "metadata": {
+            "constitutionalDocument": null,
+            "roles": {
+              "administrators": {
+                "agent": [],
+                "proprietor": null
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "members": {
+                "proprietor": null
+              }
+            },
+            "type": "Ownership"
+          },
+          "name": "SoleProprietorship"
+        },
+        {
+          "code": "S",
+          "label": "Statutory Company",
+          "metadata": {
+            "constitutionalDocument": {
+              "companyConstitution": null
+            },
+            "roles": {
+              "administrators": {
+                "chairman": null,
+                "director": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "ceo": null,
+                "cfo": null,
+                "coo": null,
+                "cto": null,
+                "executive": [],
+                "secretary": null
+              },
+              "members": {
+                "nationState": null
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "StatutoryCompany"
+        },
+        {
+          "code": "O",
+          "label": "Non-Profit Organization",
+          "metadata": {
+            "constitutionalDocument": {
+              "organizationConstitution": null
+            },
+            "role": {
+              "administrators": {
+                "chairman": null,
+                "director": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "managers": {
+                "ceo": null,
+                "cfo": null,
+                "coo": null,
+                "cto": null,
+                "executive": [],
+                "secretary": null
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "NonProfitOrganization"
+        },
+        {
+          "code": false,
+          "label": "Nation State",
+          "metadata": {
+            "constitutionalDocument": {
+              "nationalConstitution": null
+            },
+            "role": {
+              "administrators": null,
+              "associates": null,
+              "collaborators": null,
+              "managers": null,
+              "members": {
+                "citizen": []
+              }
+            },
+            "type": "Legal"
+          },
+          "name": "NationState"
+        },
+        {
+          "code": "G",
+          "label": "Government Agency",
+          "metadata": {
+            "constitutionalDocument": {
+              "charter": null
+            },
+            "role": {
+              "administrators": null,
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "members": null
+            },
+            "type": "Legal"
+          },
+          "name": "GovernmentAgency"
+        },
+        {
+          "code": "U",
+          "label": "Unit Trust",
+          "metadata": {
+            "constitutionalDocument": {
+              "trustDeed": null
+            },
+            "roles": {
+              "administrators": {
+                "protector": [],
+                "trustee": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "custodian": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "settlor": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "members": {
+                "unitholder": []
+              }
+            },
+            "type": "Ownership"
+          },
+          "name": "UnitTrust"
+        },
+        {
+          "code": "D",
+          "label": "Discretionary Trust",
+          "metadata": {
+            "constitutionalDocument": {
+              "trustDeed": null
+            },
+            "roles": {
+              "administrators": {
+                "protector": [],
+                "trustee": []
+              },
+              "associates": {
+                "accountant": [],
+                "advisor": [],
+                "custodian": [],
+                "employee": [],
+                "lawyer": [],
+                "manager": [],
+                "settlor": [],
+                "trader": []
+              },
+              "collaborators": {
+                "customer": [],
+                "governmentAgency": [],
+                "supplier": []
+              },
+              "members": {
+                "beneficiary": []
+              }
+            },
+            "type": "Ownership"
+          },
+          "name": "DiscretionaryTrust"
+        }
+      ]
+    },
+    {
+      "codeType": {
+        "type": "uint"
+      },
+      "description": "Roles that entities play in relation to their interactions with other entities. These roles have widely-accepted tasks, rights and duties.\n",
+      "name": "Roles",
+      "values": [
+        {
+          "code": 1,
+          "name": "Accountant"
+        },
+        {
+          "code": 2,
+          "name": "Advisor"
+        },
+        {
+          "code": 3,
+          "name": "Agent"
+        },
+        {
+          "code": 4,
+          "name": "Beneficiary"
+        },
+        {
+          "code": 5,
+          "name": "CEO"
+        },
+        {
+          "code": 6,
+          "name": "CFO"
+        },
+        {
+          "code": 7,
+          "name": "Chair"
+        },
+        {
+          "code": 8,
+          "name": "COO"
+        },
+        {
+          "code": 9,
+          "name": "CTO"
+        },
+        {
+          "code": 10,
+          "name": "Custodian"
+        },
+        {
+          "code": 11,
+          "name": "Director"
+        },
+        {
+          "code": 12,
+          "name": "Executive"
+        },
+        {
+          "code": 13,
+          "name": "Lawyer"
+        },
+        {
+          "code": 14,
+          "name": "Legal Guardian"
+        },
+        {
+          "code": 15,
+          "name": "Limited Partner"
+        },
+        {
+          "code": 16,
+          "name": "Manager"
+        },
+        {
+          "code": 17,
+          "name": "Managing Partner"
+        },
+        {
+          "code": 18,
+          "description": "Shareholder",
+          "name": "Member"
+        },
+        {
+          "code": 19,
+          "name": "Partner"
+        },
+        {
+          "code": 20,
+          "name": "Principal"
+        },
+        {
+          "code": 21,
+          "name": "Proprietor"
+        },
+        {
+          "code": 22,
+          "name": "Protector"
+        },
+        {
+          "code": 23,
+          "name": "Secretary"
+        },
+        {
+          "code": 24,
+          "name": "Settlor"
+        },
+        {
+          "code": 25,
+          "description": "Major Shareholder",
+          "name": "Significant Member"
+        },
+        {
+          "code": 26,
+          "name": "Smart Contract Operator"
+        },
+        {
+          "code": 27,
+          "name": "Trader"
+        },
+        {
+          "code": 28,
+          "name": "Trustee"
+        },
+        {
+          "code": 29,
+          "name": "Unit Holder"
+        }
+      ]
+    },
+    {
+      "codeType": {
+        "type": "uint"
+      },
+      "description": "Predefined tags for output metadata. Multiple values can be assigned to an output to describe a tx output.\n",
+      "metadata": {
+        "type": "Tag"
+      },
+      "name": "Tags",
+      "values": [
+        {
+          "code": 1,
+          "name": "Housing"
+        },
+        {
+          "code": 2,
+          "name": "Utilities"
+        },
+        {
+          "code": 3,
+          "name": "Food"
+        },
+        {
+          "code": 4,
+          "name": "Medical"
+        },
+        {
+          "code": 5,
+          "name": "Financial Services"
+        },
+        {
+          "code": 6,
+          "name": "Entertainment"
+        },
+        {
+          "code": 7,
+          "name": "Sales"
+        },
+        {
+          "code": 8,
+          "name": "Automotive"
+        },
+        {
+          "code": 9,
+          "name": "Transportation"
+        },
+        {
+          "code": 10,
+          "name": "Fitness"
+        },
+        {
+          "code": 20,
+          "name": "Electricity"
+        },
+        {
+          "code": 21,
+          "name": "Water"
+        },
+        {
+          "code": 22,
+          "name": "Internet"
+        },
+        {
+          "code": 23,
+          "name": "Medicine"
+        },
+        {
+          "code": 24,
+          "name": "Service"
+        },
+        {
+          "code": 25,
+          "name": "Repair"
+        },
+        {
+          "code": 26,
+          "name": "Supplies"
+        },
+        {
+          "code": 27,
+          "name": "Parts"
+        },
+        {
+          "code": 28,
+          "name": "Labor"
+        },
+        {
+          "code": 29,
+          "name": "Tip"
+        },
+        {
+          "code": 30,
+          "name": "Media"
+        },
+        {
+          "code": 40,
+          "name": "Music"
+        },
+        {
+          "code": 41,
+          "name": "Video"
+        },
+        {
+          "code": 42,
+          "name": "Photo"
+        },
+        {
+          "code": 43,
+          "name": "Audio"
+        },
+        {
+          "code": 100,
+          "name": "Alcohol"
+        },
+        {
+          "code": 101,
+          "name": "Tobacco"
+        },
+        {
+          "code": 120,
+          "name": "Discounted"
+        },
+        {
+          "code": 121,
+          "name": "Promotional"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

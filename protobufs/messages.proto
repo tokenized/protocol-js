@@ -1,0 +1,193 @@
+syntax = "proto3";
+
+option go_package="github.com/tokenized/specification/dist/golang/messages";
+
+package messages;
+
+// Message - Public Message (0002)
+message PublicMessage {
+    uint64 Timestamp                               = 1;   // Timestamp
+    string Subject                                 = 2;   // varchar
+    OutpointField Regarding                        = 3;   // Outpoint
+    DocumentField PublicMessage                    = 4;   // Document
+    repeated DocumentField Attachments             = 5;   // Document[]
+}
+
+// Message - Private Message (0003)
+message PrivateMessage {
+    uint64 Timestamp                               = 1;   // Timestamp
+    string Subject                                 = 2;   // varchar
+    OutpointField Regarding                        = 3;   // Outpoint
+    DocumentField PrivateMessage                   = 4;   // Document
+    repeated DocumentField Attachments             = 5;   // Document[]
+}
+
+// Message - Reverted Tx (0004)
+message RevertedTx {
+    uint64 Timestamp                               = 1;   // Timestamp
+    bytes Transaction                              = 2;   // varbin
+}
+
+// Message - Offer (1001)
+message Offer {
+    uint64 Timestamp                               = 1;   // Timestamp
+    bytes Payload                                  = 2;   // varbin
+}
+
+// Message - Signature Request (1002)
+message SignatureRequest {
+    uint64 Timestamp                               = 1;   // Timestamp
+    bytes Payload                                  = 2;   // varbin
+}
+
+// Message - Settlement Request (1003)
+message SettlementRequest {
+    uint64 Timestamp                               = 1;   // Timestamp
+    bytes TransferTxId                             = 2;   // TxId
+    repeated TargetAddressField ContractFees       = 3;   // TargetAddress[]
+    bytes Settlement                               = 4;   // varbin
+}
+
+// Message - Output Metadata (1004)
+message OutputMetadata {
+    string OutputDescription                       = 1;   // varchar
+    repeated uint32 Tags                           = 2;   // Tag[]
+    repeated OutputTagField CustomTags             = 3;   // OutputTag[]
+}
+
+// Message - Distribution (1005)
+message Distribution {
+    bytes InstrumentCode                           = 1;   // InstrumentCode
+    uint64 Timestamp                               = 2;   // Timestamp
+}
+
+// Message - Initiate Relationship (2001)
+message InitiateRelationship {
+    uint32 Type                                    = 1;   // uint
+    bytes Seed                                     = 2;   // varbin
+    bytes Flag                                     = 3;   // varbin
+    uint32 EncryptionType                          = 4;   // uint
+    uint32 ProofOfIdentityType                     = 5;   // ProofOfIdentityType
+    bytes ProofOfIdentity                          = 6;   // varbin
+    repeated ChannelPartyField ChannelParties      = 7;   // ChannelParty[]
+}
+
+// Message - Pending Accept Relationship (2002)
+message PendingAcceptRelationship {
+    uint32 ProofOfIdentityType                     = 1;   // ProofOfIdentityType
+    bytes ProofOfIdentity                          = 2;   // varbin
+}
+
+// Message - Accept Relationship (2003)
+message AcceptRelationship {
+    uint32 ProofOfIdentityType                     = 1;   // ProofOfIdentityType
+    bytes ProofOfIdentity                          = 2;   // varbin
+}
+
+// Message - Relationship Amendment (2004)
+message RelationshipAmendment {
+    bytes Seed                                     = 1;   // varbin
+    bytes BaseEncryptionSecret                     = 2;   // varbin
+    uint32 AddMemberIndexes                        = 3;   // uint
+    uint32 DropMemberIndexes                       = 4;   // uint
+}
+
+// Message - Initiate Thread (2005)
+message InitiateThread {
+    bytes Flag                                     = 1;   // varbin
+    bytes Seed                                     = 2;   // varbin
+}
+
+
+// Field - Administrator
+message AdministratorField {
+    uint32 Type                                    = 1;   // Role
+    string Name                                    = 2;   // varchar
+}
+
+// Field - Channel Party
+message ChannelPartyField {
+    bytes AdministrativeAddress                    = 1;   // Address
+    uint32 OutputIndex                             = 2;   // uint
+}
+
+// Field - Document
+message DocumentField {
+    string Name                                    = 1;   // varchar
+    string Type                                    = 2;   // varchar
+    bytes Contents                                 = 3;   // varbin
+}
+
+// Field - Entity
+message EntityField {
+    string Name                                    = 1;   // varchar
+    string Type                                    = 2;   // EntityType
+    string LEI                                     = 3;   // fixedchar
+    string UnitNumber                              = 4;   // varchar
+    string BuildingNumber                          = 5;   // varchar
+    string Street                                  = 6;   // varchar
+    string SuburbCity                              = 7;   // varchar
+    string TerritoryStateProvinceCode              = 8;   // fixedchar
+    string CountryCode                             = 9;   // fixedchar
+    string PostalZIPCode                           = 10;   // fixedchar
+    string EmailAddress                            = 11;  // varchar
+    string PhoneNumber                             = 12;  // varchar
+    repeated AdministratorField Administration     = 13;  // Administrator[]
+    repeated ManagerField Management               = 14;  // Manager[]
+    string DomainName                              = 15;  // varchar
+    reserved                                         16;  // Deprecated EntityContractAddress
+    string PaymailHandle                           = 17;  // varchar
+}
+
+// Field - Identity Oracle Proof
+message IdentityOracleProofField {
+    bytes UserID                                   = 1;   // varbin
+    EntityField Entity                             = 2;   // Entity
+    OracleSignatureField OracleSignature           = 3;   // OracleSignature
+}
+
+// Field - Manager
+message ManagerField {
+    uint32 Type                                    = 1;   // Role
+    string Name                                    = 2;   // varchar
+}
+
+// Field - Oracle Signature
+message OracleSignatureField {
+    string OracleURL                               = 1;   // varchar
+    uint32 BlockHeight                             = 2;   // uint
+    PeriodField ValidityPeriod                     = 3;   // Period
+    uint32 SignatureAlgorithm                      = 4;   // uint
+    bytes Signature                                = 5;   // varbin
+}
+
+// Field - Outpoint
+message OutpointField {
+    bytes TxId                                     = 1;   // TxId
+    uint32 OutputIndex                             = 2;   // uint
+}
+
+// Field - Output Tag
+message OutputTagField {
+    string Tag                                     = 1;   // varchar
+}
+
+// Field - Paymail Proof
+message PaymailProofField {
+    bytes UserID                                   = 1;   // varbin
+    string Handle                                  = 2;   // varchar
+    OracleSignatureField OracleSignature           = 3;   // OracleSignature
+}
+
+// Field - Period
+message PeriodField {
+    uint64 Begin                                   = 1;   // Timestamp
+    uint64 End                                     = 2;   // Timestamp
+}
+
+// Field - Target Address
+message TargetAddressField {
+    bytes Address                                  = 1;   // Address
+    uint64 Quantity                                = 2;   // uint
+}
+

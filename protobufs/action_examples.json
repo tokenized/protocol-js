@@ -1,0 +1,750 @@
+[
+  {
+    "code": "C1",
+    "label": "Contract Offer",
+    "name": "ContractOffer",
+    "fields": {
+      "(Deprecated)AdminOracle": null,
+      "(Deprecated)AdminOracleSigBlockHeight": null,
+      "(Deprecated)AdminOracleSignature": null,
+      "(Deprecated)ContractOperator": null,
+      "(Deprecated)ContractType": "Shareholder Agreement",
+      "(Deprecated)GoverningLaw": "USA",
+      "(Deprecated)IssuerLogoURL": "https://example.com/images/logo.png",
+      "(Deprecated)Jurisdiction": "US-CA",
+      "AdminIdentityCertificates": [
+        {
+          "BlockHeight": null,
+          "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+          "Expiration": "1594668650000000000",
+          "Signature": "3044022036164b0c724e6f19e234306444a11631b2f8e47d05468a099928adce0dead62102205138a635827d61915483e7ca1a53b37975a9aa0617c78ef7ac199d94742c36cf"
+        }
+      ],
+      "AdministrationProposal": "true",
+      "BodyOfAgreement": null,
+      "BodyOfAgreementType": "1",
+      "ContractExpiration": "1594668650000000000",
+      "ContractFee": null,
+      "ContractName": "Tesla - Shareholder Agreement",
+      "ContractOperatorIncluded": null,
+      "ContractPermissions": null,
+      "ContractType": "0",
+      "ContractURI": "https://tokenized.com/Contract/3qeoSCg7JmfSnJesJFojj",
+      "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "GoverningLaw": "USA",
+      "HolderProposal": "true",
+      "Issuer": {
+        "Administration": [
+          {
+            "Name": "Satoshi Nakamoto",
+            "Type": "7"
+          }
+        ],
+        "BuildingNumber": "13577",
+        "CountryCode": "USA",
+        "DomainName": "tokenized.com",
+        "EmailAddress": "satoshi@tokenized.com",
+        "EntityContractAddress": null,
+        "LEI": "54930084UKLVMY22DS16",
+        "Management": [
+          {
+            "Name": "Satoshi Nakamoto",
+            "Type": "5"
+          }
+        ],
+        "Name": "Tesla Inc.",
+        "PaymailHandle": "satoshi@tokenized.id",
+        "PhoneNumber": "0448484848",
+        "PostalZIPCode": "50210",
+        "Street": "Fairmont Ave",
+        "SuburbCity": "Robinoh",
+        "TerritoryStateProvinceCode": "BC",
+        "Type": "P",
+        "UnitNumber": "2"
+      },
+      "Jurisdiction": "US-CA",
+      "MasterAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "OperatorEntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "Oracles": [
+        {
+          "Entity": null,
+          "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+          "OracleTypes": [
+            null
+          ],
+          "PublicKey": null,
+          "URL": "http://oracle.tokenized.com/api/3650d9/version2010"
+        }
+      ],
+      "RestrictedQtyInstruments": "1",
+      "Services": [
+        {
+          "PublicKey": "027fed903fe7d94a7a5bab491fb728aebcc74260840c0b3d4dadb870cd34ffbfc4",
+          "Type": "0",
+          "URL": null
+        }
+      ],
+      "SupportingDocs": [
+        {
+          "Contents": null,
+          "Name": "Agreement.pdf",
+          "Type": "application/pdf"
+        }
+      ],
+      "VotingSystems": [
+        {
+          "HolderProposalFee": "100",
+          "Name": "Special Resolutions",
+          "TallyLogic": "0",
+          "ThresholdPercentage": "75",
+          "VoteMultiplierPermitted": null,
+          "VoteType": "A"
+        }
+      ]
+    }
+  },
+  {
+    "code": "C2",
+    "label": "Contract Formation",
+    "name": "ContractFormation",
+    "fields": {
+      "(Deprecated)AdminOracle": null,
+      "(Deprecated)AdminOracleSigBlockHeight": null,
+      "(Deprecated)AdminOracleSignature": null,
+      "(Deprecated)ContractOperator": null,
+      "(Deprecated)ContractType": "Shareholder Agreement",
+      "(Deprecated)GoverningLaw": "USA",
+      "(Deprecated)IssuerLogoURL": "https://example.tld/images/logo.png",
+      "(Deprecated)Jurisdiction": "US-CA",
+      "AdminAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "AdminIdentityCertificates": [
+        {
+          "BlockHeight": null,
+          "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+          "Expiration": "1594668650000000000",
+          "Signature": "3044022036164b0c724e6f19e234306444a11631b2f8e47d05468a099928adce0dead62102205138a635827d61915483e7ca1a53b37975a9aa0617c78ef7ac199d94742c36cf"
+        }
+      ],
+      "AdministrationProposal": "true",
+      "BodyOfAgreement": null,
+      "BodyOfAgreementType": "1",
+      "ContractExpiration": "1594668650000000000",
+      "ContractFee": null,
+      "ContractName": "Tesla - Shareholder Agreement",
+      "ContractPermissions": null,
+      "ContractRevision": "0",
+      "ContractType": "0",
+      "ContractURI": "https://tokenized.com/Contract/3qeoSCg7JmfSnJesJFojj",
+      "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "GoverningLaw": "USA",
+      "HolderProposal": "true",
+      "Issuer": {
+        "Administration": [
+          {
+            "Name": "Satoshi Nakamoto",
+            "Type": "7"
+          }
+        ],
+        "BuildingNumber": "13577",
+        "CountryCode": "USA",
+        "DomainName": "tokenized.com",
+        "EmailAddress": "satoshi@tokenized.com",
+        "EntityContractAddress": null,
+        "LEI": "54930084UKLVMY22DS16",
+        "Management": [
+          {
+            "Name": "Satoshi Nakamoto",
+            "Type": "5"
+          }
+        ],
+        "Name": "Tesla Inc.",
+        "PaymailHandle": "satoshi@tokenized.id",
+        "PhoneNumber": "0448484848",
+        "PostalZIPCode": "50210",
+        "Street": "Fairmont Ave",
+        "SuburbCity": "Robinoh",
+        "TerritoryStateProvinceCode": "BC",
+        "Type": "P",
+        "UnitNumber": "2"
+      },
+      "Jurisdiction": "US-CA",
+      "MasterAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "OperatorAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "OperatorEntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "Oracles": [
+        {
+          "Entity": null,
+          "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+          "OracleTypes": [
+            null
+          ],
+          "PublicKey": null,
+          "URL": "http://oracle.tokenized.com/api/3650d9/version2010"
+        }
+      ],
+      "RestrictedQtyInstruments": "1",
+      "Services": [
+        {
+          "PublicKey": "027fed903fe7d94a7a5bab491fb728aebcc74260840c0b3d4dadb870cd34ffbfc4",
+          "Type": "0",
+          "URL": null
+        }
+      ],
+      "SupportingDocs": [
+        {
+          "Contents": null,
+          "Name": "Agreement.pdf",
+          "Type": "application/pdf"
+        }
+      ],
+      "Timestamp": "1594668650000000000",
+      "VotingSystems": [
+        {
+          "HolderProposalFee": "100",
+          "Name": "Special Resolutions",
+          "TallyLogic": "0",
+          "ThresholdPercentage": "75",
+          "VoteMultiplierPermitted": null,
+          "VoteType": "A"
+        }
+      ]
+    }
+  },
+  {
+    "code": "C3",
+    "label": "Contract Amendment",
+    "name": "ContractAmendment",
+    "fields": {
+      "Amendments": [
+        {
+          "Data": null,
+          "FieldIndexPath": null,
+          "Operation": "0"
+        }
+      ],
+      "ChangeAdministrationAddress": "1",
+      "ChangeOperatorAddress": "1",
+      "ContractRevision": "42",
+      "RefTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506"
+    }
+  },
+  {
+    "code": "C4",
+    "label": "Static Contract Formation",
+    "name": "StaticContractFormation",
+    "fields": {
+      "(Deprecated)GoverningLawDeprecated": "USA",
+      "(Deprecated)JurisdictionDeprecated": "US-CA",
+      "BodyOfAgreement": null,
+      "BodyOfAgreementType": "1",
+      "ContractCode": "260840c0b3d4dadb870cd34ffbfc47fed903fe7d94a7a5bab491fb728aebcc74",
+      "ContractExpiration": "1594668650000000000",
+      "ContractName": "Tesla - Shareholder Agreement",
+      "ContractRevision": "0",
+      "ContractType": "Non-Disclosure Agreement",
+      "ContractURI": "https://tokenized.com/Contract/3qeoSCg7JmfSnJesJFojj",
+      "EffectiveDate": "1594668650000000000",
+      "Entities": [
+        {
+          "Administration": [
+            {
+              "Name": "Satoshi Nakamoto",
+              "Type": "7"
+            }
+          ],
+          "BuildingNumber": "13577",
+          "CountryCode": "USA",
+          "DomainName": "tokenized.com",
+          "EmailAddress": "satoshi@tokenized.com",
+          "EntityContractAddress": null,
+          "LEI": "54930084UKLVMY22DS16",
+          "Management": [
+            {
+              "Name": "Satoshi Nakamoto",
+              "Type": "5"
+            }
+          ],
+          "Name": "Tesla Inc.",
+          "PaymailHandle": "satoshi@tokenized.id",
+          "PhoneNumber": "0448484848",
+          "PostalZIPCode": "50210",
+          "Street": "Fairmont Ave",
+          "SuburbCity": "Robinoh",
+          "TerritoryStateProvinceCode": "BC",
+          "Type": "P",
+          "UnitNumber": "2"
+        }
+      ],
+      "EntityOracle": {
+        "Entity": null,
+        "EntityContract": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+        "OracleTypes": [
+          null
+        ],
+        "PublicKey": null,
+        "URL": "http://oracle.tokenized.com/api/3650d9/version2010"
+      },
+      "EntityOracleSigBlockHeight": null,
+      "EntityOracleSignature": null,
+      "GoverningLaw": "USA",
+      "Jurisdiction": "US-CA",
+      "PrevRevTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "SupportingDocs": [
+        {
+          "Contents": null,
+          "Name": "Agreement.pdf",
+          "Type": "application/pdf"
+        }
+      ]
+    }
+  },
+  {
+    "code": "C5",
+    "label": "Contract Address Change",
+    "name": "ContractAddressChange",
+    "fields": {
+      "NewContractAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "C6",
+    "label": "Body Of Agreement Offer",
+    "name": "BodyOfAgreementOffer",
+    "fields": {
+      "Chapters": [
+        {
+          "Articles": [
+            {
+              "Body": null,
+              "Children": [
+                {
+                  "Body": null,
+                  "Children": null,
+                  "Title": null
+                }
+              ],
+              "Title": null
+            }
+          ],
+          "Preamble": null,
+          "Title": null
+        }
+      ],
+      "Definitions": [
+        {
+          "Definition": null,
+          "Term": null
+        }
+      ]
+    }
+  },
+  {
+    "code": "C7",
+    "label": "Body Of Agreement Formation",
+    "name": "BodyOfAgreementFormation",
+    "fields": {
+      "Chapters": [
+        {
+          "Articles": [
+            {
+              "Body": null,
+              "Children": [
+                {
+                  "Body": null,
+                  "Children": null,
+                  "Title": null
+                }
+              ],
+              "Title": null
+            }
+          ],
+          "Preamble": null,
+          "Title": null
+        }
+      ],
+      "Definitions": [
+        {
+          "Definition": null,
+          "Term": null
+        }
+      ],
+      "Revision": "0",
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "C8",
+    "label": "Body Of Agreement Amendment",
+    "name": "BodyOfAgreementAmendment",
+    "fields": {
+      "Amendments": [
+        {
+          "Data": null,
+          "FieldIndexPath": null,
+          "Operation": "0"
+        }
+      ],
+      "RefTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "Revision": "0"
+    }
+  },
+  {
+    "code": "I1",
+    "label": "Instrument Definition",
+    "name": "InstrumentDefinition",
+    "fields": {
+      "(Deprecated)TradeRestrictionsDeprecated": null,
+      "(Deprecated)TransfersPermitted": null,
+      "AdministrationProposal": "true",
+      "AuthorizedTokenQty": "1000000",
+      "EnforcementOrdersPermitted": "1",
+      "HolderProposal": "true",
+      "InstrumentModificationGovernance": "1",
+      "InstrumentPayload": null,
+      "InstrumentPermissions": null,
+      "InstrumentType": "CCY",
+      "TradeRestrictions": [
+        "GBR"
+      ],
+      "VoteMultiplier": "3",
+      "VotingRights": "true"
+    }
+  },
+  {
+    "code": "I2",
+    "label": "Instrument Creation",
+    "name": "InstrumentCreation",
+    "fields": {
+      "(Deprecated)TradeRestrictionsDeprecated": null,
+      "(Deprecated)TransfersPermitted": null,
+      "AdministrationProposal": "true",
+      "AuthorizedTokenQty": "1000000",
+      "EnforcementOrdersPermitted": "true",
+      "HolderProposal": "true",
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentIndex": "0",
+      "InstrumentModificationGovernance": "1",
+      "InstrumentPayload": null,
+      "InstrumentPermissions": null,
+      "InstrumentRevision": "456789",
+      "InstrumentType": "CCY",
+      "Timestamp": "1594668650000000000",
+      "TradeRestrictions": [
+        "GBR"
+      ],
+      "VoteMultiplier": "3",
+      "VotingRights": "true"
+    }
+  },
+  {
+    "code": "I3",
+    "label": "Instrument Modification",
+    "name": "InstrumentModification",
+    "fields": {
+      "Amendments": [
+        {
+          "Data": null,
+          "FieldIndexPath": null,
+          "Operation": "0"
+        }
+      ],
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentRevision": "0",
+      "InstrumentType": "SHC",
+      "RefTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506"
+    }
+  },
+  {
+    "code": "T1",
+    "label": "Transfer",
+    "name": "Transfer",
+    "fields": {
+      "ExchangeFee": "0.01",
+      "ExchangeFeeAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "Instruments": [
+        {
+          "ContractIndex": null,
+          "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+          "InstrumentReceivers": [
+            {
+              "Address": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+              "OracleConfirmationSig": "3044022036164b0c724e6f19e234306444a11631b2f8e47d05468a099928adce0dead62102205138a635827d61915483e7ca1a53b37975a9aa0617c78ef7ac199d94742c36cf",
+              "OracleIndex": null,
+              "OracleSigAlgorithm": "1",
+              "OracleSigBlockHeight": null,
+              "OracleSigExpiry": "1594668650000000000",
+              "Quantity": "100"
+            }
+          ],
+          "InstrumentSenders": [
+            {
+              "Index": "0",
+              "Quantity": "100"
+            }
+          ],
+          "InstrumentType": "SHC"
+        }
+      ],
+      "OfferExpiry": "1594668650000000000"
+    }
+  },
+  {
+    "code": "T2",
+    "label": "Settlement",
+    "name": "Settlement",
+    "fields": {
+      "Instruments": [
+        {
+          "ContractIndex": null,
+          "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+          "InstrumentType": "SHC",
+          "Settlements": [
+            {
+              "Index": "0",
+              "Quantity": "100"
+            }
+          ]
+        }
+      ],
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "G1",
+    "label": "Proposal",
+    "name": "Proposal",
+    "fields": {
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "ProposalDescription": "Change the name of the Contract.",
+      "ProposalDocumentHash": "77201b0094f50df309f0343e4f44dae64d0de503c91038faf2c6b039f9f18aec",
+      "ProposedAmendments": [
+        {
+          "Data": null,
+          "FieldIndexPath": null,
+          "Operation": "0"
+        }
+      ],
+      "Type": null,
+      "VoteCutOffTimestamp": "1594668650000000000",
+      "VoteMax": "15",
+      "VoteOptions": "ABCDEFGHIJKLMNO",
+      "VoteSystem": "1"
+    }
+  },
+  {
+    "code": "G2",
+    "label": "Vote",
+    "name": "Vote",
+    "fields": {
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "G3",
+    "label": "Ballot Cast",
+    "name": "BallotCast",
+    "fields": {
+      "Vote": "A",
+      "VoteTxId": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506"
+    }
+  },
+  {
+    "code": "G4",
+    "label": "Ballot Counted",
+    "name": "BallotCounted",
+    "fields": {
+      "Quantity": null,
+      "Timestamp": "1594668650000000000",
+      "Vote": "A",
+      "VoteTxId": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506"
+    }
+  },
+  {
+    "code": "G5",
+    "label": "Result",
+    "name": "Result",
+    "fields": {
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "OptionTally": [
+        null
+      ],
+      "ProposedAmendments": [
+        {
+          "Data": null,
+          "FieldIndexPath": null,
+          "Operation": "0"
+        }
+      ],
+      "Result": null,
+      "Timestamp": "1594668650000000000",
+      "VoteTxId": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506"
+    }
+  },
+  {
+    "code": "E1",
+    "label": "Order",
+    "name": "Order",
+    "fields": {
+      "(Deprecated)RefTxs": null,
+      "(Deprecated)SupportingEvidenceHash": null,
+      "AuthorityName": "Supreme and District Courts Brisbane",
+      "AuthorityPublicKey": null,
+      "BitcoinDispersions": [
+        {
+          "Index": "0",
+          "Quantity": "100"
+        }
+      ],
+      "ComplianceAction": "F",
+      "DepositAddress": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+      "FreezePeriod": "Tue Oct 09 2018 05:00:00 GMT+1000 (AEST)",
+      "FreezeTxId": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "Message": "Compelled by a court order.",
+      "OrderSignature": null,
+      "ReferenceTransactions": [
+        {
+          "Outputs": [
+            null
+          ],
+          "Transaction": "0"
+        }
+      ],
+      "SignatureAlgorithm": "1",
+      "SupportingEvidence": null,
+      "SupportingEvidenceFormat": null,
+      "TargetAddresses": [
+        {
+          "Address": "20f8d521553a2b0de0ceba82b70c5dd184c6cd2f43",
+          "Quantity": "10000"
+        }
+      ]
+    }
+  },
+  {
+    "code": "E2",
+    "label": "Freeze",
+    "name": "Freeze",
+    "fields": {
+      "FreezePeriod": "1594668650000000000",
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "Quantities": [
+        {
+          "Index": "0",
+          "Quantity": "100"
+        }
+      ],
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "E3",
+    "label": "Thaw",
+    "name": "Thaw",
+    "fields": {
+      "FreezeTxId": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "E4",
+    "label": "Confiscation",
+    "name": "Confiscation",
+    "fields": {
+      "DepositQty": "10000",
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "Quantities": [
+        {
+          "Index": "0",
+          "Quantity": "100"
+        }
+      ],
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "E5",
+    "label": "Reconciliation",
+    "name": "Reconciliation",
+    "fields": {
+      "InstrumentCode": "0e6996402ea456156838652e3bd82c6c0986ef79",
+      "InstrumentType": "SHC",
+      "Quantities": [
+        {
+          "Index": "0",
+          "Quantity": "100"
+        }
+      ],
+      "Timestamp": "1594668650000000000"
+    }
+  },
+  {
+    "code": "R1",
+    "label": "Establishment",
+    "name": "Establishment",
+    "fields": {
+      "Message": "North America Whitelist"
+    }
+  },
+  {
+    "code": "R2",
+    "label": "Addition",
+    "name": "Addition",
+    "fields": {
+      "Message": "username"
+    }
+  },
+  {
+    "code": "R3",
+    "label": "Alteration",
+    "name": "Alteration",
+    "fields": {
+      "EntryTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "Message": "Changed Country of Residence"
+    }
+  },
+  {
+    "code": "R4",
+    "label": "Removal",
+    "name": "Removal",
+    "fields": {
+      "EntryTxID": "9d1ef0b1201c1dec3c1eb1caf758a988205226173e988e7a04afb4ea9977f506",
+      "Message": "Removed due to violation of company policy."
+    }
+  },
+  {
+    "code": "M1",
+    "label": "Message",
+    "name": "Message",
+    "fields": {
+      "MessageCode": null,
+      "MessagePayload": "Hello world!",
+      "ReceiverIndexes": [
+        null
+      ],
+      "SenderIndexes": [
+        null
+      ]
+    }
+  },
+  {
+    "code": "M2",
+    "label": "Rejection",
+    "name": "Rejection",
+    "fields": {
+      "AddressIndexes": [
+        null
+      ],
+      "Message": "Sorry, you don't have enough tokens.",
+      "RejectAddressIndex": null,
+      "RejectionCode": "1",
+      "Timestamp": "1594668650000000000"
+    }
+  }
+]

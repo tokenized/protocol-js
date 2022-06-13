@@ -1,0 +1,484 @@
+syntax = "proto3";
+
+option go_package="github.com/tokenized/specification/dist/golang/actions";
+
+package actions;
+
+// Message - Contract Offer (C1)
+message ContractOffer {
+    string ContractName                            = 1;   // varchar
+    uint32 BodyOfAgreementType                     = 2;   // uint
+    bytes BodyOfAgreement                          = 3;   // varbin
+    reserved                                         4;   // Deprecated ContractType
+    repeated DocumentField SupportingDocs          = 5;   // Document[]
+    reserved                                         6;   // Deprecated GoverningLaw
+    reserved                                         7;   // Deprecated Jurisdiction
+    uint64 ContractExpiration                      = 8;   // Timestamp
+    string ContractURI                             = 9;   // varchar
+    EntityField Issuer                             = 10;   // Entity
+    reserved                                         11;  // Deprecated IssuerLogoURL
+    bool ContractOperatorIncluded                  = 12;  // bool
+    reserved                                         13;  // Deprecated ContractOperator
+    reserved                                         14;  // Deprecated AdminOracle
+    reserved                                         15;  // Deprecated AdminOracleSignature
+    reserved                                         16;  // Deprecated AdminOracleSigBlockHeight
+    uint64 ContractFee                             = 17;  // uint
+    repeated VotingSystemField VotingSystems       = 18;  // VotingSystem[]
+    bytes ContractPermissions                      = 19;  // varbin
+    uint64 RestrictedQtyInstruments                = 20;  // uint
+    bool AdministrationProposal                    = 21;  // bool
+    bool HolderProposal                            = 22;  // bool
+    repeated OracleField Oracles                   = 23;  // Oracle[]
+    bytes MasterAddress                            = 24;  // Address
+    bytes EntityContract                           = 25;  // Address
+    bytes OperatorEntityContract                   = 26;  // Address
+    uint32 ContractType                            = 27;  // uint
+    repeated ServiceField Services                 = 28;  // Service[]
+    repeated AdminIdentityCertificateField AdminIdentityCertificates = 29;  // AdminIdentityCertificate[]
+    string GoverningLaw                            = 30;  // LegalSystem
+    string Jurisdiction                            = 31;  // Polity
+}
+
+// Message - Contract Formation (C2)
+message ContractFormation {
+    string ContractName                            = 1;   // varchar
+    uint32 BodyOfAgreementType                     = 2;   // uint
+    bytes BodyOfAgreement                          = 3;   // varbin
+    reserved                                         4;   // Deprecated ContractType
+    repeated DocumentField SupportingDocs          = 5;   // Document[]
+    reserved                                         6;   // Deprecated GoverningLaw
+    reserved                                         7;   // Deprecated Jurisdiction
+    uint64 ContractExpiration                      = 8;   // Timestamp
+    string ContractURI                             = 9;   // varchar
+    EntityField Issuer                             = 10;   // Entity
+    reserved                                         11;  // Deprecated IssuerLogoURL
+    reserved                                         12;  // Deprecated ContractOperator
+    reserved                                         13;  // Deprecated AdminOracle
+    reserved                                         14;  // Deprecated AdminOracleSignature
+    reserved                                         15;  // Deprecated AdminOracleSigBlockHeight
+    uint64 ContractFee                             = 16;  // uint
+    repeated VotingSystemField VotingSystems       = 17;  // VotingSystem[]
+    bytes ContractPermissions                      = 18;  // varbin
+    uint64 RestrictedQtyInstruments                = 19;  // uint
+    bool AdministrationProposal                    = 20;  // bool
+    bool HolderProposal                            = 21;  // bool
+    repeated OracleField Oracles                   = 22;  // Oracle[]
+    bytes MasterAddress                            = 23;  // Address
+    uint32 ContractRevision                        = 24;  // uint
+    uint64 Timestamp                               = 25;  // Timestamp
+    bytes EntityContract                           = 26;  // Address
+    bytes OperatorEntityContract                   = 27;  // Address
+    uint32 ContractType                            = 28;  // uint
+    repeated ServiceField Services                 = 29;  // Service[]
+    repeated AdminIdentityCertificateField AdminIdentityCertificates = 30;  // AdminIdentityCertificate[]
+    bytes AdminAddress                             = 31;  // Address
+    bytes OperatorAddress                          = 32;  // Address
+    string GoverningLaw                            = 33;  // LegalSystem
+    string Jurisdiction                            = 34;  // Polity
+}
+
+// Message - Contract Amendment (C3)
+message ContractAmendment {
+    bool ChangeAdministrationAddress               = 1;   // bool
+    bool ChangeOperatorAddress                     = 2;   // bool
+    uint32 ContractRevision                        = 3;   // uint
+    repeated AmendmentField Amendments             = 4;   // Amendment[]
+    bytes RefTxID                                  = 5;   // TxId
+}
+
+// Message - Static Contract Formation (C4)
+message StaticContractFormation {
+    string ContractName                            = 1;   // varchar
+    bytes ContractCode                             = 2;   // ContractCode
+    uint32 BodyOfAgreementType                     = 3;   // uint
+    bytes BodyOfAgreement                          = 4;   // varbin
+    string ContractType                            = 5;   // varchar
+    repeated DocumentField SupportingDocs          = 6;   // Document[]
+    uint32 ContractRevision                        = 7;   // uint
+    reserved                                         8;   // Deprecated GoverningLawDeprecated
+    reserved                                         9;   // Deprecated JurisdictionDeprecated
+    uint64 EffectiveDate                           = 10;   // Timestamp
+    uint64 ContractExpiration                      = 11;  // Timestamp
+    string ContractURI                             = 12;  // varchar
+    bytes PrevRevTxID                              = 13;  // TxId
+    repeated EntityField Entities                  = 14;  // Entity[]
+    OracleField EntityOracle                       = 15;  // Oracle
+    bytes EntityOracleSignature                    = 16;  // varbin
+    uint32 EntityOracleSigBlockHeight              = 17;  // uint
+    string GoverningLaw                            = 18;  // LegalSystem
+    string Jurisdiction                            = 19;  // Polity
+}
+
+// Message - Contract Address Change (C5)
+message ContractAddressChange {
+    bytes NewContractAddress                       = 1;   // Address
+    uint64 Timestamp                               = 2;   // Timestamp
+}
+
+// Message - Body Of Agreement Offer (C6)
+message BodyOfAgreementOffer {
+    repeated ChapterField Chapters                 = 1;   // Chapter[]
+    repeated DefinedTermField Definitions          = 2;   // DefinedTerm[]
+}
+
+// Message - Body Of Agreement Formation (C7)
+message BodyOfAgreementFormation {
+    repeated ChapterField Chapters                 = 1;   // Chapter[]
+    repeated DefinedTermField Definitions          = 2;   // DefinedTerm[]
+    uint32 Revision                                = 3;   // uint
+    uint64 Timestamp                               = 4;   // Timestamp
+}
+
+// Message - Body Of Agreement Amendment (C8)
+message BodyOfAgreementAmendment {
+    uint32 Revision                                = 1;   // uint
+    repeated AmendmentField Amendments             = 2;   // Amendment[]
+    bytes RefTxID                                  = 3;   // TxId
+}
+
+// Message - Instrument Definition (I1)
+message InstrumentDefinition {
+    bytes InstrumentPermissions                    = 1;   // varbin
+    reserved                                         2;   // Deprecated TransfersPermitted
+    reserved                                         3;   // Deprecated TradeRestrictionsDeprecated
+    bool EnforcementOrdersPermitted                = 4;   // bool
+    bool VotingRights                              = 5;   // bool
+    uint32 VoteMultiplier                          = 6;   // uint
+    bool AdministrationProposal                    = 7;   // bool
+    bool HolderProposal                            = 8;   // bool
+    uint32 InstrumentModificationGovernance        = 9;   // uint
+    uint64 AuthorizedTokenQty                      = 10;   // uint
+    string InstrumentType                          = 11;  // InstrumentType
+    bytes InstrumentPayload                        = 12;  // varbin
+    repeated string TradeRestrictions              = 13;  // Polity[]
+}
+
+// Message - Instrument Creation (I2)
+message InstrumentCreation {
+    bytes InstrumentCode                           = 1;   // InstrumentCode
+    uint64 InstrumentIndex                         = 2;   // uint
+    bytes InstrumentPermissions                    = 3;   // varbin
+    reserved                                         4;   // Deprecated TransfersPermitted
+    reserved                                         5;   // Deprecated TradeRestrictionsDeprecated
+    bool EnforcementOrdersPermitted                = 6;   // bool
+    bool VotingRights                              = 7;   // bool
+    uint32 VoteMultiplier                          = 8;   // uint
+    bool AdministrationProposal                    = 9;   // bool
+    bool HolderProposal                            = 10;   // bool
+    uint32 InstrumentModificationGovernance        = 11;  // uint
+    uint64 AuthorizedTokenQty                      = 12;  // uint
+    string InstrumentType                          = 13;  // InstrumentType
+    bytes InstrumentPayload                        = 14;  // varbin
+    uint32 InstrumentRevision                      = 15;  // uint
+    uint64 Timestamp                               = 16;  // Timestamp
+    repeated string TradeRestrictions              = 17;  // Polity[]
+}
+
+// Message - Instrument Modification (I3)
+message InstrumentModification {
+    string InstrumentType                          = 1;   // fixedchar
+    bytes InstrumentCode                           = 2;   // InstrumentCode
+    uint32 InstrumentRevision                      = 3;   // uint
+    repeated AmendmentField Amendments             = 4;   // Amendment[]
+    bytes RefTxID                                  = 5;   // TxId
+}
+
+// Message - Transfer (T1)
+message Transfer {
+    repeated InstrumentTransferField Instruments   = 1;   // InstrumentTransfer[]
+    uint64 OfferExpiry                             = 2;   // Timestamp
+    uint64 ExchangeFee                             = 3;   // uint
+    bytes ExchangeFeeAddress                       = 4;   // Address
+}
+
+// Message - Settlement (T2)
+message Settlement {
+    repeated InstrumentSettlementField Instruments = 1;   // InstrumentSettlement[]
+    uint64 Timestamp                               = 2;   // Timestamp
+}
+
+// Message - Proposal (G1)
+message Proposal {
+    uint32 Type                                    = 1;   // uint
+    string InstrumentType                          = 2;   // fixedchar
+    bytes InstrumentCode                           = 3;   // InstrumentCode
+    uint32 VoteSystem                              = 4;   // uint
+    repeated AmendmentField ProposedAmendments     = 5;   // Amendment[]
+    string VoteOptions                             = 6;   // varchar
+    uint32 VoteMax                                 = 7;   // uint
+    string ProposalDescription                     = 8;   // varchar
+    bytes ProposalDocumentHash                     = 9;   // bin
+    uint64 VoteCutOffTimestamp                     = 10;   // Timestamp
+}
+
+// Message - Vote (G2)
+message Vote {
+    uint64 Timestamp                               = 1;   // Timestamp
+}
+
+// Message - Ballot Cast (G3)
+message BallotCast {
+    bytes VoteTxId                                 = 1;   // TxId
+    string Vote                                    = 2;   // varchar
+}
+
+// Message - Ballot Counted (G4)
+message BallotCounted {
+    bytes VoteTxId                                 = 1;   // TxId
+    string Vote                                    = 2;   // varchar
+    uint64 Quantity                                = 3;   // uint
+    uint64 Timestamp                               = 4;   // Timestamp
+}
+
+// Message - Result (G5)
+message Result {
+    string InstrumentType                          = 1;   // fixedchar
+    bytes InstrumentCode                           = 2;   // InstrumentCode
+    repeated AmendmentField ProposedAmendments     = 3;   // Amendment[]
+    bytes VoteTxId                                 = 4;   // TxId
+    repeated uint64 OptionTally                    = 5;   // uint[]
+    string Result                                  = 6;   // varchar
+    uint64 Timestamp                               = 7;   // Timestamp
+}
+
+// Message - Order (E1)
+message Order {
+    string ComplianceAction                        = 1;   // fixedchar
+    string InstrumentType                          = 2;   // fixedchar
+    bytes InstrumentCode                           = 3;   // InstrumentCode
+    repeated TargetAddressField TargetAddresses    = 4;   // TargetAddress[]
+    bytes FreezeTxId                               = 5;   // TxId
+    uint64 FreezePeriod                            = 6;   // Timestamp
+    bytes DepositAddress                           = 7;   // Address
+    string AuthorityName                           = 8;   // varchar
+    bytes AuthorityPublicKey                       = 9;   // varbin
+    uint32 SignatureAlgorithm                      = 10;   // uint
+    bytes OrderSignature                           = 11;  // varbin
+    reserved                                         12;  // Deprecated SupportingEvidenceHash
+    reserved                                         13;  // Deprecated RefTxs
+    repeated QuantityIndexField BitcoinDispersions = 14;  // QuantityIndex[]
+    string Message                                 = 15;  // varchar
+    uint32 SupportingEvidenceFormat                = 16;  // uint
+    bytes SupportingEvidence                       = 17;  // varbin
+    repeated ReferenceTransactionField ReferenceTransactions = 18;  // ReferenceTransaction[]
+}
+
+// Message - Freeze (E2)
+message Freeze {
+    string InstrumentType                          = 1;   // fixedchar
+    bytes InstrumentCode                           = 2;   // InstrumentCode
+    repeated QuantityIndexField Quantities         = 3;   // QuantityIndex[]
+    uint64 FreezePeriod                            = 4;   // Timestamp
+    uint64 Timestamp                               = 5;   // Timestamp
+}
+
+// Message - Thaw (E3)
+message Thaw {
+    bytes FreezeTxId                               = 1;   // TxId
+    uint64 Timestamp                               = 2;   // Timestamp
+}
+
+// Message - Confiscation (E4)
+message Confiscation {
+    string InstrumentType                          = 1;   // fixedchar
+    bytes InstrumentCode                           = 2;   // InstrumentCode
+    repeated QuantityIndexField Quantities         = 3;   // QuantityIndex[]
+    uint64 DepositQty                              = 4;   // uint
+    uint64 Timestamp                               = 5;   // Timestamp
+}
+
+// Message - Reconciliation (E5)
+message Reconciliation {
+    string InstrumentType                          = 1;   // fixedchar
+    bytes InstrumentCode                           = 2;   // InstrumentCode
+    repeated QuantityIndexField Quantities         = 3;   // QuantityIndex[]
+    uint64 Timestamp                               = 4;   // Timestamp
+}
+
+// Message - Establishment (R1)
+message Establishment {
+    string Message                                 = 1;   // varchar
+}
+
+// Message - Addition (R2)
+message Addition {
+    string Message                                 = 1;   // varchar
+}
+
+// Message - Alteration (R3)
+message Alteration {
+    bytes EntryTxID                                = 1;   // TxId
+    string Message                                 = 2;   // varchar
+}
+
+// Message - Removal (R4)
+message Removal {
+    bytes EntryTxID                                = 1;   // TxId
+    string Message                                 = 2;   // varchar
+}
+
+// Message - Message (M1)
+message Message {
+    repeated uint32 SenderIndexes                  = 1;   // uint[]
+    repeated uint32 ReceiverIndexes                = 2;   // uint[]
+    uint32 MessageCode                             = 3;   // uint
+    bytes MessagePayload                           = 4;   // varbin
+}
+
+// Message - Rejection (M2)
+message Rejection {
+    repeated uint32 AddressIndexes                 = 1;   // uint[]
+    uint32 RejectAddressIndex                      = 2;   // uint
+    uint32 RejectionCode                           = 3;   // RejectionCode
+    string Message                                 = 4;   // varchar
+    uint64 Timestamp                               = 5;   // Timestamp
+}
+
+
+// Field - Administrator
+message AdministratorField {
+    uint32 Type                                    = 1;   // Role
+    string Name                                    = 2;   // varchar
+}
+
+// Field - Administrator Identity Certificate
+message AdminIdentityCertificateField {
+    bytes EntityContract                           = 1;   // Address
+    bytes Signature                                = 2;   // Signature
+    uint32 BlockHeight                             = 3;   // uint
+    uint64 Expiration                              = 4;   // Timestamp
+}
+
+// Field - Amendment
+message AmendmentField {
+    bytes FieldIndexPath                           = 1;   // varbin
+    uint32 Operation                               = 2;   // uint
+    bytes Data                                     = 3;   // varbin
+}
+
+// Field - InstrumentReceiver
+message InstrumentReceiverField {
+    bytes Address                                  = 1;   // Address
+    uint64 Quantity                                = 2;   // uint
+    uint32 OracleSigAlgorithm                      = 3;   // uint
+    uint32 OracleIndex                             = 4;   // uint
+    bytes OracleConfirmationSig                    = 5;   // Signature
+    uint32 OracleSigBlockHeight                    = 6;   // uint
+    uint64 OracleSigExpiry                         = 7;   // Timestamp
+}
+
+// Field - Instrument Settlement
+message InstrumentSettlementField {
+    uint32 ContractIndex                           = 1;   // uint
+    string InstrumentType                          = 2;   // fixedchar
+    bytes InstrumentCode                           = 3;   // InstrumentCode
+    repeated QuantityIndexField Settlements        = 4;   // QuantityIndex[]
+}
+
+// Field - Instrument Transfer
+message InstrumentTransferField {
+    uint32 ContractIndex                           = 1;   // uint
+    string InstrumentType                          = 2;   // fixedchar
+    bytes InstrumentCode                           = 3;   // InstrumentCode
+    repeated QuantityIndexField InstrumentSenders  = 4;   // QuantityIndex[]
+    repeated InstrumentReceiverField InstrumentReceivers = 5;   // InstrumentReceiver[]
+}
+
+// Field - Chapter
+message ChapterField {
+    string Title                                   = 1;   // varchar
+    string Preamble                                = 2;   // varchar
+    repeated ClauseField Articles                  = 3;   // Clause[]
+}
+
+// Field - Clause
+message ClauseField {
+    string Title                                   = 1;   // varchar
+    string Body                                    = 2;   // varchar
+    repeated ClauseField Children                  = 3;   // Clause[]
+}
+
+// Field - Defined Term
+message DefinedTermField {
+    string Term                                    = 1;   // varchar
+    string Definition                              = 2;   // varchar
+}
+
+// Field - Document
+message DocumentField {
+    string Name                                    = 1;   // varchar
+    string Type                                    = 2;   // varchar
+    bytes Contents                                 = 3;   // varbin
+}
+
+// Field - Entity
+message EntityField {
+    string Name                                    = 1;   // varchar
+    string Type                                    = 2;   // EntityType
+    string LEI                                     = 3;   // fixedchar
+    string UnitNumber                              = 4;   // varchar
+    string BuildingNumber                          = 5;   // varchar
+    string Street                                  = 6;   // varchar
+    string SuburbCity                              = 7;   // varchar
+    string TerritoryStateProvinceCode              = 8;   // fixedchar
+    string CountryCode                             = 9;   // fixedchar
+    string PostalZIPCode                           = 10;   // fixedchar
+    string EmailAddress                            = 11;  // varchar
+    string PhoneNumber                             = 12;  // varchar
+    repeated AdministratorField Administration     = 13;  // Administrator[]
+    repeated ManagerField Management               = 14;  // Manager[]
+    string DomainName                              = 15;  // varchar
+    reserved                                         16;  // Deprecated EntityContractAddress
+    string PaymailHandle                           = 17;  // varchar
+}
+
+// Field - Manager
+message ManagerField {
+    uint32 Type                                    = 1;   // Role
+    string Name                                    = 2;   // varchar
+}
+
+// Field - Oracle
+message OracleField {
+    reserved                                         1;   // Deprecated Entity
+    reserved                                         2;   // Deprecated URL
+    reserved                                         3;   // Deprecated PublicKey
+    repeated uint32 OracleTypes                    = 4;   // uint[]
+    bytes EntityContract                           = 5;   // Address
+}
+
+// Field - Quantity Index
+message QuantityIndexField {
+    uint32 Index                                   = 1;   // uint
+    uint64 Quantity                                = 2;   // uint
+}
+
+// Field - Reference Transaction
+message ReferenceTransactionField {
+    bytes Transaction                              = 1;   // varbin
+    repeated bytes Outputs                         = 2;   // varbin[]
+}
+
+// Field - Service
+message ServiceField {
+    uint32 Type                                    = 1;   // uint
+    string URL                                     = 2;   // varchar
+    bytes PublicKey                                = 3;   // PublicKey
+}
+
+// Field - Target Address
+message TargetAddressField {
+    bytes Address                                  = 1;   // Address
+    uint64 Quantity                                = 2;   // uint
+}
+
+// Field - Voting System
+message VotingSystemField {
+    string Name                                    = 1;   // varchar
+    string VoteType                                = 2;   // fixedchar
+    uint32 TallyLogic                              = 3;   // uint
+    uint32 ThresholdPercentage                     = 4;   // uint
+    bool VoteMultiplierPermitted                   = 5;   // bool
+    uint64 HolderProposalFee                       = 6;   // uint
+}
+
