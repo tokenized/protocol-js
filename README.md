@@ -34,4 +34,4 @@ Transfer tokens from one address using bsv funding from another to a target addr
 ```
 
 ## Example code
-See [./cli.js] for usage examples
+See [cli.js](./cli.js) for usage examples
