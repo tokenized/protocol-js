@@ -67,15 +67,15 @@ function decodeTokenized(actionCodeBuffer, payload) {
   let actionCode = new TextDecoder().decode(actionCodeBuffer);
 
   let message = actionLookup.get(actionCode)?.decode(payload);
-  
-  let instrument = assetTypeLookup.get(message?.AssetType)?.decode(message?.InstrumentPayload);
+
+  let instrument = assetTypeLookup.get(message?.InstrumentType)?.decode(message?.InstrumentPayload);
 
   let content = message?.MessagePayload && new TextDecoder().decode(message?.MessagePayload);
 
   return {
     actionCode,
     message,
-    asset: instrument,
+    instrument,
     content
   }
 }

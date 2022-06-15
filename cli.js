@@ -6,8 +6,8 @@ Get a transaction by hash from WhatsOnChain and decode it
 protocol-js transactions 1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a
 Get all transactions for an address from WhatsOnChain and decode them
 
-protocol-js key private.key
-Make a private key if it does not exist and print the address of the key
+protocol-js key private.key m/1/2
+Make a private key if it does not exist and print the address of a BIP-32 derivation the key
 
 protocol-js transfer private.key m/1/1/1 m/1/1/2 1 1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a
 protocol-js transfer <private key file> <bsv path> <token path> <token quantity> <target address>
