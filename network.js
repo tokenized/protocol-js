@@ -22,10 +22,20 @@ export async function getTransaction(txid) {
 
 
 export async function broadcastTransaction(network, transactionHex) {
-    console.log(await (await fetch(`https://api.whatsonchain.com/v1/bsv/${encodeURIComponent(network)}/tx/raw`, { method: "POST", body: JSON.stringify({ txhex: transactionHex }) })).text());
+    if (process.env["DRY_RUN"]) return;
+    return await (await fetch(`https://api.whatsonchain.com/v1/bsv/${encodeURIComponent(network)}/tx/raw`, { method: "POST", body: JSON.stringify({ txhex: transactionHex }) })).text();
 }
 
-
 export async function getAddressHistory(address) {
-    return await (await fetch(`https://api.whatsonchain.com/v1/bsv/main/address/${encodeURIComponent(address)}/history`)).json();
+    await mkdir("tx-cache", { recursive: true });
+    let filePath = join("tx-cache", `${address}.json`);
+    let history;
+    try {
+        if (!process.env["ADDRESS_CACHE"]) throw null;
+        history = JSON.parse(await readFile(filePath));
+    } catch (e) {
+        history = await (await fetch(`https://api.whatsonchain.com/v1/bsv/main/address/${encodeURIComponent(address)}/history`)).json();
+        await writeFile(filePath, JSON.stringify(history));
+    }
+    return history;
 }

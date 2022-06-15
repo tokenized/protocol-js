@@ -1,7 +1,8 @@
 import { Buffer } from 'node:buffer';
 import ReadBuffer from './ReadBuffer.js';
 import WriteBuffer from './WriteBuffer.js';
-import Hash from './Hash.js';
+import Hash, { ripemd160sha256, ripemd160sha256sync } from './Hash.js';
+import { publicKeyHashToAddress } from './address.js';
 
 // Input is a Bitcoin input containing the hash and index of the UTXO being spent as well as a
 //   unlocking script and sequence value.
@@ -11,6 +12,13 @@ export default class Input {
     this.index = index;
     this.script = script;
     this.sequence = sequence;
+  }
+
+  static p2pkh({hash, index, output}, key) {
+    let input = new Input(new Hash(hash), index, new Uint8Array(106));
+    input.spendingOutput = output;
+    input.key = key;
+    return input;
   }
 
   // fromString reads a hex string containing a serialized input.
@@ -49,7 +57,21 @@ export default class Input {
     writeBuffer.writeUInt32LE(this.sequence);
   }
 
+  get payload() {
+    try {
+      const read = new ReadBuffer(this.script);
+      const signature = read.readPushData();
+      const publicKey = read.readPushData();
+
+      return { p2pkh: publicKeyHashToAddress(ripemd160sha256sync(publicKey)) };
+    } catch (e) {
+      // ignore parse script failure
+      console.log(e);
+    }
+  }
+
   toString() {
-    return `${this.hash} #${this.index}`;
+    let { hash, index, payload } = this;
+    return `${this.hash} #${this.index} ${payload?.p2pkh || ''}`;
   }
 }

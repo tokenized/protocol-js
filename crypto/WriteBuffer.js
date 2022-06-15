@@ -1,3 +1,5 @@
+import assert from "assert";
+
 // WriteBuffer creates a Buffer from a series of sequential writes.
 export default class WriteBuffer {
   constructor() {
@@ -8,7 +10,7 @@ export default class WriteBuffer {
   append(size, callback) {
     if (this.length + size > this.buffer.byteLength) {
       let newBuffer = new ArrayBuffer(this.buffer.byteLength * 2);
-      newBuffer.set(this.buffer);
+      new Uint8Array(newBuffer).set(new Uint8Array(this.buffer));
       this.buffer = newBuffer;
     }
     callback(this.buffer, this.length);
@@ -17,6 +19,7 @@ export default class WriteBuffer {
 
   // write writes the contents of a buffer.
   writeBytes(data) {
+    assert(ArrayBuffer.isView(data));
     this.append(data.byteLength, (buffer, offset) => new Uint8Array(buffer).set(data, offset));
   }
 
@@ -33,7 +36,7 @@ export default class WriteBuffer {
   // writeUInt32LE writes a 32 bit unsigned integer in little endian format.
   writeUInt32LE(value) {
     this.append(4, (buffer, offset) => new DataView(buffer).setUint32(offset, value, true));
-    
+
   }
 
   // writeUInt32BE writes a 32 bit unsigned integer in big endian format.
@@ -65,6 +68,7 @@ export default class WriteBuffer {
 
   // writePushData writes a Bitcoin script push data. It precedes the data with a variable size.
   writePushData(bytes) {
+    assert(ArrayBuffer.isView(bytes));
     if (bytes.byteLength <= 0x4b) {
       // Max single byte push data size
       this.writeUInt8(bytes.byteLength);
@@ -82,6 +86,14 @@ export default class WriteBuffer {
     }
 
     this.writeBytes(bytes);
+  }
+
+  writePushNumber(number) {
+    if (number >= -1 && number <= 0x10) {
+      this.writeUInt8(number + 0x50);
+    } else {
+      throw new Error("Push number not implemented for numbers outside -1 .. 16")
+    }
   }
 
   // toBytes returns a single Uint8Array containing all of the data written.

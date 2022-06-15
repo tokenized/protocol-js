@@ -109,19 +109,19 @@ export default class Tx {
       value,
       useType,
     );
-    const sig = await secp.sign(sighash, privateKey, {canonical: true});
+    const sig = await privateKey.sign(sighash);
     const script = new WriteBuffer();
 
     // Add signature to script.
     // Manually append hash type.
     const sigDER = new WriteBuffer();
-    sigDER.writeBytes(sig);
+    sigDER.writeBytes(sig.toBytes());
     sigDER.writeUInt8(useType);
 
     script.writePushData(sigDER.toBytes());
 
     // Add public key to script.
-    script.writePushData(secp.getPublicKey(privateKey));
+    script.writePushData(privateKey.publicKey().toBytes());
 
     this.inputs[inputIndex].script = script.toBytes();
   }
@@ -226,7 +226,7 @@ export default class Tx {
     // Hash type
     buf.writeUInt32LE(useType);
 
-    return (await sha256sha256(buf.toBytes())).toBytes();
+    return await sha256sha256(buf.toBytes());
   }
 
   getFee() {

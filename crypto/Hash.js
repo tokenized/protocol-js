@@ -152,7 +152,13 @@ export async function sha256sha256(buf) {
 
 export async function ripemd160sha256(buf) {
   const first = await sha256(buf);
-  return await ripemd160(first.toBytes().buffer);
+  return await ripemd160(first.toBytes());
+}
+
+export function ripemd160sha256sync(bytes) {
+  return createHash('ripemd160').update(
+    createHash('sha256').update(bytes).digest()
+  ).digest();
 }
 
 async function hmac(hashFunction, blocksize, data, key) {

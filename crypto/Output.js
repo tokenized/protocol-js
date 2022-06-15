@@ -28,6 +28,58 @@ const actionLookup = new Map(actions.messages.map(({ code, name }) =>
   [code, actionsProtobuf.lookupType(`actions.${name}`)]
 ));
 
+const assets = JSON.parse(await readFile(join(protobufsPath, "assets.json")));
+const assetsProtobuf = await protobuf.load(join(protobufsPath, "assets.proto"));
+
+const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
+    [code, assetsProtobuf.lookupType(`assets.${name}`)]
+));
+
+export function contractAddressToBase58(input) {
+  let type = input[0];
+  if (type != 0x20) {
+      throw "Not a public key hash address";
+  }
+  return publicKeyHashToAddress(input.slice(1));
+}
+
+export function base58AddressToContractAddress(address) {
+  return new Uint8Array([0x20, ...addressToPublicKeyHash(address)]);
+}
+
+function jsonTransform(value) {
+  if (value instanceof Uint8Array && value.length == 21 && value[0] == 0x20) {
+    return contractAddressToBase58(value);
+  }
+  if (value instanceof Array) {
+    return value.map(jsonTransform);
+  }
+  if (value instanceof Uint8Array) {
+    return `0x${bytesToHex(value)}`;
+  }
+  if (value instanceof Object) {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, jsonTransform(v)]));
+  }
+  return value;
+}
+
+function decodeTokenized(actionCodeBuffer, payload) {
+  let actionCode = new TextDecoder().decode(actionCodeBuffer);
+
+  let message = actionLookup.get(actionCode)?.decode(payload);
+  
+  let instrument = assetTypeLookup.get(message?.AssetType)?.decode(message?.InstrumentPayload);
+
+  let content = message?.MessagePayload && new TextDecoder().decode(message?.MessagePayload);
+
+  return {
+    actionCode,
+    message,
+    asset: instrument,
+    content
+  }
+}
+
 
 // Output is a Bitcoin output containing a value and a locking script.
 export default class Output {
@@ -47,6 +99,20 @@ export default class Output {
     return new Output(writer.toBytes(), value);
   }
 
+  static tokenized(actionCode, message) {
+    let writer = new WriteBuffer();
+    writer.writeUInt8(OP_FALSE);
+    writer.writeUInt8(OP_RETURN);
+    writer.writePushData(new Uint8Array([0xbd, 0x01]));
+    writer.writePushNumber(1);
+    writer.writePushData(new TextEncoder().encode("test.TKN"));
+    writer.writePushNumber(3);
+    writer.writePushData(new Uint8Array([0]));
+    writer.writePushData(new TextEncoder().encode(actionCode));
+    writer.writePushData(actionLookup.get(actionCode)?.encode(message).finish());
+    return new Output(writer.toBytes(), 0n);
+  }
+
   get payload() {
     try {
       let read = new ReadBuffer(this.script);
@@ -56,7 +122,7 @@ export default class Output {
       if (initial == OP_DUP && read.readUInt8() == OP_HASH160) {
         const hash = read.readPushData();
         if (hash.byteLength == 20 && read.readUInt8() == OP_EQUALVERIFY && read.readUInt8() == OP_CHECKSIG) {
-          return {P2PKH: publicKeyHashToAddress(hash)};
+          return { p2pkh: publicKeyHashToAddress(hash) };
         }
       }
 
@@ -67,15 +133,9 @@ export default class Output {
           const protocol = new TextDecoder().decode(read.readPushData());
           if (protocol == "test.TKN" || protocol == "TKN") {
             let [version, typeCode, payloadProtobuf] = new Array(read.readPushNumber()).fill().map(() => read.readPushData());
-            if (bytesToHex(version) == '00') {
-              const actionCode = new TextDecoder().decode(typeCode);
-
-              return {
-                actionCode,
-                message: actionLookup.get(actionCode)?.decode(payloadProtobuf)
-              }
+            if (version.byteLength == 0 || bytesToHex(version) == '00') {
+              return decodeTokenized(typeCode, payloadProtobuf);
             }
-
           }
         }
 
@@ -83,24 +143,18 @@ export default class Output {
           const protocol = new TextDecoder().decode(read.readPushData());
           if (protocol == "test.TKN" || protocol == "TKN") {
             let tokenizedEnvelope = Envelope.decode(new Uint8Array(read.readPushData()));
-
-            const actionCode = new TextDecoder().decode(tokenizedEnvelope.Identifier);
-            
-            return {
-              actionCode,
-              message: actionLookup.get(actionCode)?.decode(read.readPushData())
-            }
+            return decodeTokenized(tokenizedEnvelope.Identifier, read.readPushData());
           }
         }
       }
     } catch (e) {
       console.log(e);
-      // Ignore unparseable script
+      return {error: `${e}`};
     }
   }
 
-  
-  
+
+
   // fromReadBuffer reads a serialized output from a ReadBuffer.
   static fromReadBuffer(read) {
     const b = new Uint8Array(read.readBytes(8));
@@ -124,7 +178,7 @@ export default class Output {
   write(writeBuffer) {
     this.normalizeValue();
 
-    
+
     const b = numberToBytes(this.value);
     b.reverse();
     const valueBytes = padBytesEnd(b, 8);
@@ -142,12 +196,15 @@ export default class Output {
   }
 
   toString() {
-    const {value, payload} = this;
-    if (payload?.P2PKH) {
-      return `${value} -> ${payload.P2PKH}`;
+    const { value, payload, spent } = this;
+    if (payload?.error) {
+      return `${value} ! ${payload.error}`;
+    }
+    if (payload?.p2pkh) {
+      return `${value} -> ${payload.p2pkh} ${spent !== undefined ? (spent ? "SPENT" : "UNSPENT") : ''}`;
     }
     if (payload?.actionCode) {
-      return `${value}: ${payload.actionCode}\n${JSON.stringify(payload.message, null, 4)}`
+      return `${value}: ${payload.actionCode}\n${JSON.stringify(jsonTransform(payload), null, 4)}`
     }
     return `${this.value}`;
   }

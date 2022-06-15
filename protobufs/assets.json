@@ -1,0 +1,3008 @@
+{
+  "fieldAliases": [
+    {
+      "description": "International Organization for Standardization code for Currency. 3 character code.\n",
+      "example": "AUD",
+      "name": "CurrencyType",
+      "resource": "Currencies",
+      "size": 3,
+      "type": "fixedchar"
+    },
+    {
+      "description": "Represents a time, encoded as a 64 bit unsigned integer representing the number of nanoseconds since the Unix epoch.\n",
+      "example": 1594668650000000000,
+      "name": "Timestamp",
+      "size": 8,
+      "type": "uint"
+    },
+    {
+      "description": "Represents a time encoded as a 64 bit unsigned integer representing the number of seconds since the Unix epoch.\n",
+      "example": 1594668654,
+      "name": "TimestampSeconds",
+      "size": 8,
+      "type": "uint"
+    },
+    {
+      "description": "Represents a time delta encoded as a 64 bit unsigned integer representing the number of seconds since a previous timestamp.\n",
+      "example": 1500,
+      "name": "Seconds",
+      "size": 8,
+      "type": "uint"
+    }
+  ],
+  "fieldTypes": [
+    {
+      "description": "Age restriction is used to specify required ages for asset ownership.",
+      "fields": [
+        {
+          "description": "The lowest age valid to own asset. Zero for no restriction.",
+          "label": "Lower Age Limit",
+          "name": "Lower",
+          "size": 1,
+          "type": "uint"
+        },
+        {
+          "description": "The highest age valid to own asset. Zero for no restriction.",
+          "label": "Upper Age Limit",
+          "name": "Upper",
+          "size": 1,
+          "type": "uint"
+        }
+      ],
+      "label": "Age Restriction",
+      "name": "AgeRestriction"
+    },
+    {
+      "description": "A value specified in terms of a currency.",
+      "fields": [
+        {
+          "description": "Denominated in precision specified in Precision field.",
+          "example": 100,
+          "label": "Value",
+          "name": "Value",
+          "required": true,
+          "size": 8,
+          "type": "uint"
+        },
+        {
+          "description": "International Organization for Standardization code for Currency. Currency for coupon. From  resources/currency.\n",
+          "example": "AUD",
+          "label": "Currency Code",
+          "name": "CurrencyCode",
+          "required": true,
+          "type": "CurrencyType"
+        },
+        {
+          "description": "Required field to specify the decimal precision of the value. It will normally be the  \"precision\" value associated with the Currency. It is the number of decimal places between  the number of tokens and the common unit of measure. For example, in AUD, the common unit is  the dollar, but a token would only be worth a penny. So the precision should be 2 for the  two decimal places in a dollar amount \"$1.00\". In this scenario 100 tokens are worth $1.\n",
+          "example": 2,
+          "label": "Precision",
+          "name": "Precision",
+          "required": true,
+          "size": 1,
+          "type": "uint"
+        }
+      ],
+      "label": "Currency Value",
+      "name": "CurrencyValue"
+    },
+    {
+      "description": "A rate value specified in terms of a precision.",
+      "fields": [
+        {
+          "description": "Required field to specify the decimal precision of the value. It will normally be the  \"precision\" value associated with the Currency. It is the number of decimal places between  the number of tokens and the common unit of measure. For example, in AUD, the common unit is  the dollar, but a token would only be worth a penny. So the precision should be 2 for the  two decimal places in a dollar amount \"$1.00\". In this scenario 100 tokens are worth $1.\n",
+          "example": 2,
+          "label": "Precision",
+          "name": "Precision",
+          "size": 1,
+          "type": "uint"
+        },
+        {
+          "example": "Denominated in precision specified in Precision field.",
+          "label": "Value",
+          "name": "Value",
+          "size": 8,
+          "span": "right",
+          "type": "uint"
+        }
+      ],
+      "label": "Rate",
+      "name": "Rate"
+    }
+  ],
+  "messages": [
+    {
+      "code": "MBR",
+      "description": "A Membership",
+      "fields": [
+        {
+          "description": "Age restriction is used to specify required ages for asset ownership.",
+          "label": "Age Restriction",
+          "name": "AgeRestriction",
+          "type": "AgeRestriction"
+        },
+        {
+          "displayOrder": 3,
+          "example": "Fri Nov 09 2018 09:00:00 GMT+1000 (AEST)",
+          "label": "Valid From",
+          "name": "ValidFrom",
+          "span": "right",
+          "type": "Timestamp"
+        },
+        {
+          "displayOrder": 3,
+          "example": "Fri Nov 09 2018 09:00:00 GMT+1000 (AEST)",
+          "label": "Expiration Timestamp",
+          "name": "ExpirationTimestamp",
+          "span": "right",
+          "type": "Timestamp"
+        },
+        {
+          "displayOrder": 3,
+          "example": 34536457575486868,
+          "label": "ID",
+          "name": "ID",
+          "span": "right",
+          "type": "varchar"
+        },
+        {
+          "displayOrder": 3,
+          "example": "Owner, Administrator, Manager, General, can be NULL.",
+          "label": "Membership Class",
+          "name": "MembershipClass",
+          "span": "right",
+          "type": "varchar"
+        },
+        {
+          "displayOrder": 3,
+          "example": "Director, Partner, CEO, COO, etc., can be NULL from Roles in Resources/Roles",
+          "label": "Role Type",
+          "name": "RoleType",
+          "span": "right",
+          "type": "varchar"
+        },
+        {
+          "displayOrder": 3,
+          "example": "Silver, Platinum, can be NULL.",
+          "label": "Membership Type",
+          "name": "MembershipType",
+          "span": "right",
+          "type": "varchar"
+        },
+        {
+          "displayOrder": 1,
+          "example": "Rights and duties listed.",
+          "label": "Description",
+          "name": "Description",
+          "required": true,
+          "span": "full",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        }
+      ],
+      "label": "Membership",
+      "metadata": {
+        "examples": [
+          "Director on the Board of a Company or Organization",
+          "Employee",
+          "Member of a Bikie Club",
+          "Bitcoin Association",
+          "Gym Membership",
+          "Citizenship",
+          "Political Party"
+        ],
+        "kind": "Identity"
+      },
+      "name": "Membership"
+    },
+    {
+      "code": "CCY",
+      "description": "Currency, fiat money, cash.  Issued by a monetary authority (eg. Reserve Bank of Australia, ECB, Bank of England).  Currency is free of counterparty risk except for the risks associated with the management of the currency by the monetary authority and its recognition as acceptable legal tender by the market and associated government(s).  Custody of currency must be backed by a 1:1 ratio, or a full reserve. A currency asset type should be considered the digital equivalent of physical cash.",
+      "fields": [
+        {
+          "description": "International Organization for Standardization code for Currency. (Specification/Resources)",
+          "example": "AUD",
+          "label": "Currency Code",
+          "name": "CurrencyCode",
+          "required": true,
+          "span": "full",
+          "type": "CurrencyType"
+        },
+        {
+          "example": "Reserve Bank of Australia",
+          "label": "Monetary Authority",
+          "name": "MonetaryAuthority",
+          "span": "full",
+          "type": "varchar"
+        },
+        {
+          "description": "Deprecated because the currency asset should be distinguished by its meta data and contract.",
+          "example": "Australian dollar",
+          "label": "Description",
+          "name": "Description",
+          "span": "full",
+          "type": "deprecated",
+          "varSize": "small"
+        },
+        {
+          "description": "Required field to specify the decimal precision of a currency. It will normally be the \"precision\" value associated with the CurrencyCode. It is the number of decimal places between the number of tokens and the common unit of measure. For example, in AUD, the common unit is the dollar, but a token would only be worth a penny. So the precision should be 2 for the two decimal places in a dollar amount \"$1.00\". In this scenario 100 tokens are worth $1.",
+          "example": 100,
+          "label": "Precision",
+          "name": "Precision",
+          "required": true,
+          "size": 8,
+          "span": "full",
+          "type": "uint"
+        }
+      ],
+      "label": "Currency",
+      "metadata": {
+        "examples": [
+          "Australian dollar",
+          "Canadian dollar"
+        ],
+        "kind": "Currency"
+      },
+      "name": "Currency"
+    },
+    {
+      "code": "SHC",
+      "description": "Common stock represents ownership interests in companies.",
+      "fields": [
+        {
+          "description": "Ticker symbol assigned by exchanges to represent the asset.",
+          "displayOrder": 4,
+          "example": "AAPL",
+          "label": "Ticker Symbol",
+          "name": "Ticker",
+          "size": 5,
+          "type": "fixedchar"
+        },
+        {
+          "description": "International Securities Identification Number",
+          "displayOrder": 2,
+          "example": "US0004026250",
+          "label": "ISIN (optional)",
+          "name": "ISIN",
+          "size": 12,
+          "span": "full",
+          "type": "fixedchar"
+        },
+        {
+          "displayOrder": 1,
+          "example": "Class C",
+          "label": "Description",
+          "name": "Description",
+          "required": true,
+          "span": "full",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        }
+      ],
+      "label": "Share - Common",
+      "metadata": {
+        "category": "Equity Security",
+        "examples": [
+          "Tesla Shareholders Agreement",
+          "Bitmain Shareholder Agreement",
+          "Antpool Investment Agreement"
+        ],
+        "kind": "Security"
+      },
+      "name": "ShareCommon"
+    },
+    {
+      "code": "BFR",
+      "description": "A fixed rate bond is a bond that pays the same level of interest over its entire term. An investor who wants to earn a guaranteed interest rate for a specified term could purchase a fixed rate bond in the form of a Treasury, corporate bond, municipal bond, or certificate of deposit (CD).\n",
+      "fields": [
+        {
+          "description": "Name of bond",
+          "example": "City of Chicago, Midway Airport, Series 2001A",
+          "label": "Name",
+          "name": "Name",
+          "type": "varchar"
+        },
+        {
+          "description": "Type of bond.\n  C - Corporate\n  M - Municipal\n  G - Government / Sovereign\n",
+          "example": "C",
+          "label": "Bond Type",
+          "name": "BondType",
+          "options": [
+            "C",
+            "M",
+            "G"
+          ],
+          "required": true,
+          "size": 1,
+          "type": "fixedchar"
+        },
+        {
+          "description": "International Securities Identification Number or Committee on Uniform Securities Identification Procedures.\n",
+          "example": "US0004026250",
+          "label": "ISIN/CUSIP (optional)",
+          "name": "ISIN",
+          "type": "varchar"
+        },
+        {
+          "description": "An asset that secures securing the bond.  If null, then the bond is unsecured.",
+          "label": "Collateral",
+          "name": "Collateral",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "Par value of the bond. The value that will be paid at maturity.",
+          "label": "Par Value",
+          "name": "ParValue",
+          "required": true,
+          "type": "CurrencyValue"
+        },
+        {
+          "description": "The fixed interest rate of the bond.",
+          "label": "Interest Rate",
+          "name": "InterestRate",
+          "type": "Rate"
+        },
+        {
+          "description": "Unix epoch date time (in seconds) for the first interest payment.",
+          "label": "Interest Payment Intiial Date",
+          "name": "InterestPaymentInitialDate",
+          "only_valid_when": {
+            "field_name": "InterestRate"
+          },
+          "required_when": {
+            "field_name": "InterestRate"
+          },
+          "type": "TimestampSeconds"
+        },
+        {
+          "description": "Number of seconds from the previous interest payment until the next payment. A delta in seconds from the previous payment.\n",
+          "label": "Interest Payment Date Deltas",
+          "listSize": "small",
+          "name": "InterestPaymentDateDeltas",
+          "only_valid_when": {
+            "field_name": "InterestRate"
+          },
+          "required_when": {
+            "field_name": "InterestRate"
+          },
+          "type": "Seconds[]"
+        },
+        {
+          "description": "The rate of the penalty per the penalty period.",
+          "label": "Late Payment Penalty Rate",
+          "name": "LatePaymentPenaltyRate",
+          "type": "Rate"
+        },
+        {
+          "description": "The amount of time after a payment is due before the late payment penalty is applied.\n",
+          "label": "Late Payment Window",
+          "name": "LatePaymentWindow",
+          "only_valid_when": {
+            "field_name": "LatePaymentPenaltyRate"
+          },
+          "type": "TimestampSeconds"
+        },
+        {
+          "description": "The period at which the late payment penalty accrues.",
+          "label": "Late Payment Penalty Period",
+          "name": "LatePaymentPenaltyPeriod",
+          "only_valid_when": {
+            "field_name": "LatePaymentPenaltyRate"
+          },
+          "type": "TimestampSeconds"
+        },
+        {
+          "description": "The date of the maturity of the bond. When the par value is paid.",
+          "label": "Maturity Date",
+          "name": "MaturityDate",
+          "required": true,
+          "type": "Timestamp"
+        },
+        {
+          "description": "Age restriction is used to specify required ages for asset ownership.",
+          "label": "Age Restriction",
+          "name": "AgeRestriction",
+          "type": "AgeRestriction"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.\n",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        }
+      ],
+      "label": "Bond - Fixed Rate",
+      "metadata": {
+        "examples": [
+          "Chicago, Midway Airport, Series 2001A"
+        ],
+        "kind": "Debt Security"
+      },
+      "name": "BondFixedRate"
+    },
+    {
+      "code": "COU",
+      "description": "A voucher entitling the holder to a discount on a particular product or service.",
+      "fields": [
+        {
+          "description": "The entity responsible for redemption of this coupon.",
+          "example": "Woolworths - Robina Town Centre",
+          "label": "Redeeming Entity",
+          "name": "RedeemingEntity",
+          "type": "varchar"
+        },
+        {
+          "label": "Valid From Timestamp",
+          "name": "ValidFromTimestamp",
+          "type": "Timestamp"
+        },
+        {
+          "label": "Expiration Timestamp",
+          "name": "ExpirationTimestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Deprecated for FaceValue.",
+          "label": "Value",
+          "name": "Value",
+          "type": "deprecated"
+        },
+        {
+          "description": "Deprecated for FaceValue.",
+          "label": "Currency",
+          "name": "Currency",
+          "type": "deprecated"
+        },
+        {
+          "example": "Gift Card",
+          "label": "Coupon Name",
+          "name": "CouponName",
+          "required": true,
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "Deprecated for FaceValue.",
+          "label": "Precision",
+          "name": "Precision",
+          "type": "deprecated"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.\n",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        },
+        {
+          "description": "Face value of each coupon specified in a currency.",
+          "label": "Face Value",
+          "name": "FaceValue",
+          "type": "CurrencyValue"
+        },
+        {
+          "label": "Redemption Venue",
+          "name": "RedemptionVenue",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "label": "Details",
+          "name": "Details",
+          "type": "varchar",
+          "varSize": "small"
+        }
+      ],
+      "label": "Coupon",
+      "metadata": {
+        "category": "Coupons",
+        "examples": [
+          "Sale Price Discount",
+          "Kickstarter Campaign",
+          "Free Beer at BSV Meetup"
+        ],
+        "kind": "Utility"
+      },
+      "name": "Coupon"
+    },
+    {
+      "code": "LOY",
+      "description": "A Loyalty Point",
+      "fields": [
+        {
+          "description": "Age restriction is used to specify required ages for asset ownership.",
+          "label": "Age Restriction",
+          "name": "AgeRestriction",
+          "type": "AgeRestriction"
+        },
+        {
+          "example": "Qantas Frequent Flyer Points",
+          "label": "Program Name",
+          "name": "ProgramName",
+          "required": true,
+          "type": "varchar"
+        },
+        {
+          "label": "Valid From",
+          "name": "ValidFrom",
+          "type": "deprecated"
+        },
+        {
+          "label": "Expiration Timestamp",
+          "name": "ExpirationTimestamp",
+          "type": "Timestamp"
+        },
+        {
+          "label": "Details",
+          "name": "Details",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.\n",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        }
+      ],
+      "label": "Loyalty Points",
+      "metadata": {
+        "examples": [
+          "Burger Prince Dollars",
+          "Air Kilometers",
+          "Frequent Shopper Points"
+        ],
+        "kind": "Utility"
+      },
+      "name": "LoyaltyPoints"
+    },
+    {
+      "code": "TIC",
+      "description": "Admission ticket",
+      "fields": [
+        {
+          "description": "Age restriction is used to specify required ages for asset ownership.",
+          "label": "Age Restriction",
+          "name": "AgeRestriction",
+          "type": "AgeRestriction"
+        },
+        {
+          "label": "Admission Type",
+          "name": "AdmissionType",
+          "type": "deprecated"
+        },
+        {
+          "example": "Orion Cinemas - 293 Stehpens St, Vancouver, BC V4A 9V1",
+          "label": "Venue",
+          "name": "Venue",
+          "type": "varchar"
+        },
+        {
+          "example": "Gold Class, Platinum, VIP, Section A, etc.",
+          "label": "Class",
+          "name": "Class",
+          "type": "deprecated"
+        },
+        {
+          "example": "Upper Bowl",
+          "label": "Area",
+          "name": "Area",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "example": "Seat 5, or A122",
+          "label": "Seat",
+          "name": "Seat",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "label": "Event Start Timestamp",
+          "name": "EventStartTimestamp",
+          "type": "Timestamp"
+        },
+        {
+          "label": "Valid From",
+          "name": "ValidFrom",
+          "type": "deprecated"
+        },
+        {
+          "label": "Expiration Timestamp",
+          "name": "ExpirationTimestamp",
+          "type": "deprecated"
+        },
+        {
+          "example": "Coingeek Conference - London (November 2018).",
+          "label": "Event Name",
+          "name": "EventName",
+          "required": true,
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.\n",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        },
+        {
+          "label": "Details",
+          "name": "Details",
+          "type": "varchar",
+          "varSize": "small"
+        },
+        {
+          "example": "Sec 1",
+          "label": "Section",
+          "name": "Section",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "example": "Sec 1",
+          "label": "Row",
+          "name": "Row",
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "label": "Event End Timestamp",
+          "name": "EventEndTimestamp",
+          "type": "Timestamp"
+        }
+      ],
+      "label": "Ticket (Admission)",
+      "metadata": {
+        "category": "Ticket",
+        "examples": [
+          "Freddie Mercury Concert",
+          "Bitcoin Conference",
+          "Zoo Park Entry"
+        ],
+        "kind": "Utility"
+      },
+      "name": "TicketAdmission"
+    },
+    {
+      "code": "CHP",
+      "description": "Casino Chip",
+      "fields": [
+        {
+          "description": "Deprecated for FaceValue",
+          "label": "Currency Code",
+          "name": "CurrencyCode",
+          "type": "deprecated"
+        },
+        {
+          "description": "Real Money (R), Free Play (F)",
+          "example": "R",
+          "label": "Use Type",
+          "name": "UseType",
+          "options": [
+            "R",
+            "F"
+          ],
+          "required": true,
+          "size": 1,
+          "type": "fixedchar"
+        },
+        {
+          "description": "Age restriction is used to specify required ages for asset ownership.",
+          "label": "Age Restriction",
+          "name": "AgeRestriction",
+          "type": "AgeRestriction"
+        },
+        {
+          "label": "Valid From",
+          "name": "ValidFrom",
+          "type": "deprecated"
+        },
+        {
+          "label": "Expiration Timestamp",
+          "name": "ExpirationTimestamp",
+          "type": "Timestamp"
+        },
+        {
+          "description": "Deprecated for FaceValue",
+          "label": "Precision",
+          "name": "Precision",
+          "type": "deprecated"
+        },
+        {
+          "description": "Set to true if transfers are permitted between two parties, otherwise set to false to prevent peer-to-peer transfers.\n",
+          "label": "Transfers Permitted",
+          "name": "TransfersPermitted",
+          "type": "bool"
+        },
+        {
+          "description": "The name of the casino, or host, of the chip.",
+          "label": "Casino Name",
+          "name": "CasinoName",
+          "required": true,
+          "type": "varchar",
+          "varSize": "tiny"
+        },
+        {
+          "description": "Face value of each coupon specified in a currency.",
+          "label": "Face Value",
+          "name": "FaceValue",
+          "required": true,
+          "type": "CurrencyValue"
+        }
+      ],
+      "label": "Casino Chip",
+      "metadata": {
+        "kind": "Utility"
+      },
+      "name": "CasinoChip"
+    }
+  ],
+  "name": "Tokenized Asset Types",
+  "package": "assets",
+  "resources": [
+    {
+      "codeType": {
+        "size": 3,
+        "type": "fixedchar"
+      },
+      "description": "International Organization for Standardization code for Currency. 3 character code.",
+      "name": "Currencies",
+      "values": [
+        {
+          "code": "AED",
+          "label": "United Arab Emirates dirham",
+          "metadata": {
+            "fractional_unit": "Fils",
+            "monetary_authority": "Central Bank of the United Arab Emirates",
+            "polity": [
+              "ARE"
+            ],
+            "precision": 2,
+            "symbol": "د.إ"
+          },
+          "name": "UnitedArabEmiratesDirham"
+        },
+        {
+          "code": "AFN",
+          "label": "Afghan afghani",
+          "metadata": {
+            "fractional_unit": "Pul",
+            "monetary_authority": "Central Bank of Afghanistan",
+            "polity": [
+              "AFG"
+            ],
+            "precision": 2,
+            "symbol": "؋"
+          },
+          "name": "AfghanAfghani"
+        },
+        {
+          "code": "ALL",
+          "label": "Albanian lek",
+          "metadata": {
+            "fractional_unit": "Qindarkë",
+            "monetary_authority": "Bank of Albania",
+            "polity": [
+              "ALB"
+            ],
+            "precision": 2,
+            "symbol": "L"
+          },
+          "name": "AlbanianLek"
+        },
+        {
+          "code": "AMD",
+          "label": "Armenian dram",
+          "metadata": {
+            "fractional_unit": "Luma",
+            "monetary_authority": "Central Bank of the Republic of Armenia",
+            "polity": [
+              "ARM"
+            ],
+            "precision": 2,
+            "symbol": "֏"
+          },
+          "name": "ArmenianDram"
+        },
+        {
+          "code": "ANG",
+          "label": "Netherlands Antillean guilder",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Curaçao and Sint Maarten",
+            "polity": [
+              "SXM",
+              "CUW"
+            ],
+            "precision": 2,
+            "symbol": "ƒ"
+          },
+          "name": "NetherlandsAntilleanGuilder"
+        },
+        {
+          "code": "AOA",
+          "label": "Angolan kwanza",
+          "metadata": {
+            "fractional_unit": "Cêntimo",
+            "monetary_authority": "Central Bank of Angola",
+            "polity": [
+              "AGO"
+            ],
+            "precision": 2,
+            "symbol": "Kz"
+          },
+          "name": "AngolanKwanza"
+        },
+        {
+          "code": "ARS",
+          "label": "Argentine peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Argentina",
+            "polity": [
+              "ARG"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "ArgentinePeso"
+        },
+        {
+          "code": "AUD",
+          "label": "Australian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Reserve Bank of Australia",
+            "polity": [
+              "AUS",
+              "NRU",
+              "KIR",
+              "TUV"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "AustralianDollar"
+        },
+        {
+          "code": "AWG",
+          "label": "Aruban florin",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Aruba",
+            "polity": [
+              "ABW"
+            ],
+            "precision": 2,
+            "symbol": "ƒ"
+          },
+          "name": "ArubanFlorin"
+        },
+        {
+          "code": "AZN",
+          "label": "Azerbaijani manat",
+          "metadata": {
+            "fractional_unit": "Qəpik",
+            "monetary_authority": "Central Bank of Azerbaijan",
+            "polity": [
+              "AZE"
+            ],
+            "precision": 2,
+            "symbol": "₼"
+          },
+          "name": "AzerbaijaniManat"
+        },
+        {
+          "code": "BAM",
+          "label": "Bosnia and Herzegovina convertible mark",
+          "metadata": {
+            "fractional_unit": "Fening",
+            "monetary_authority": "Central Bank of Bosnia and Herzegovina",
+            "polity": [
+              "BIH"
+            ],
+            "precision": 2,
+            "symbol": "КМ"
+          },
+          "name": "BosniaHerzegovinaConvertibleMark"
+        },
+        {
+          "code": "BBD",
+          "label": "Barbadian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Barbados",
+            "polity": [
+              "BRB"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "BarbadianDollar"
+        },
+        {
+          "code": "BDT",
+          "label": "Bangladeshi taka",
+          "metadata": {
+            "fractional_unit": "Poisha",
+            "monetary_authority": "Bangladesh Bank",
+            "polity": [
+              "BGD"
+            ],
+            "precision": 2,
+            "symbol": "৳"
+          },
+          "name": "BangladeshiTaka"
+        },
+        {
+          "code": "BGN",
+          "label": "Bulgarian lev",
+          "metadata": {
+            "fractional_unit": "Stotinka",
+            "monetary_authority": "Bulgarian National Bank",
+            "polity": [
+              "BGR"
+            ],
+            "precision": 2,
+            "symbol": "лв"
+          },
+          "name": "BulgarianLev"
+        },
+        {
+          "code": "BHD",
+          "label": "Bahraini dinar",
+          "metadata": {
+            "fractional_unit": "Fils",
+            "monetary_authority": "Central Bank of Bahrain",
+            "polity": [
+              "BHR"
+            ],
+            "precision": 1,
+            "symbol": ".د.ب"
+          },
+          "name": "BahrainiDinar"
+        },
+        {
+          "code": "BIF",
+          "label": "Burundian franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Bank of the Republic of Burundi",
+            "polity": [
+              "BDI"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "BurundianFranc"
+        },
+        {
+          "code": "BMD",
+          "label": "Bermudian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bermuda Monetary Authority",
+            "polity": [
+              "BMU"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "BermudianDollar"
+        },
+        {
+          "code": "BND",
+          "label": "Brunei dollar",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "Monetary Authority of Brunei Darussalam",
+            "polity": [
+              "BRN"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "BruneiDollar"
+        },
+        {
+          "code": "BOB",
+          "label": "Bolivian boliviano",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Bolivia",
+            "polity": [
+              "BOL"
+            ],
+            "precision": 2,
+            "symbol": "Bs."
+          },
+          "name": "BolivianBoliviano"
+        },
+        {
+          "code": "BRL",
+          "label": "Brazilian real",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Brazil",
+            "polity": [
+              "BRA"
+            ],
+            "precision": 2,
+            "symbol": "R$"
+          },
+          "name": "BrazilianReal"
+        },
+        {
+          "code": "BSD",
+          "label": "Bahamian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of The Bahamas",
+            "polity": [
+              "BHS"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "BahamianDollar"
+        },
+        {
+          "code": "BSV",
+          "label": "Bitcoin SV",
+          "metadata": {
+            "fractional_unit": "Satoshis",
+            "monetary_authority": "Satoshi Nakamoto",
+            "precision": 8,
+            "symbol": "₿"
+          },
+          "name": "Bitcoin"
+        },
+        {
+          "code": "BTN",
+          "label": "Bhutanese ngultrum",
+          "metadata": {
+            "fractional_unit": "Chetrum",
+            "monetary_authority": "Royal Monetary Authority of Bhutan",
+            "polity": [
+              "BTN"
+            ],
+            "precision": 2,
+            "symbol": "Nu."
+          },
+          "name": "BhutaneseNgultrum"
+        },
+        {
+          "code": "BWP",
+          "label": "Botswana pula",
+          "metadata": {
+            "fractional_unit": "Thebe",
+            "monetary_authority": "Bank of Botswana",
+            "polity": [
+              "BWA"
+            ],
+            "precision": 2,
+            "symbol": "P"
+          },
+          "name": "BotswanaPula"
+        },
+        {
+          "code": "BYN",
+          "label": "Belarusian ruble",
+          "metadata": {
+            "fractional_unit": "Kapyeyka",
+            "monetary_authority": "National Bank of the Republic of Belarus",
+            "polity": [
+              "BLR"
+            ],
+            "precision": 2,
+            "symbol": "Br"
+          },
+          "name": "BelarusianRuble"
+        },
+        {
+          "code": "BZD",
+          "label": "Belize dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Belize",
+            "polity": [
+              "BLZ"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "BelizeDollar"
+        },
+        {
+          "code": "CAD",
+          "label": "Canadian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Canada",
+            "polity": [
+              "CAN"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "CanadianDollar"
+        },
+        {
+          "code": "CDF",
+          "label": "Congolese franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Central Bank of the Congo",
+            "polity": [
+              "COD"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "CongoleseFranc"
+        },
+        {
+          "code": "CHF",
+          "label": "Swiss franc",
+          "metadata": {
+            "fractional_unit": "Rappen",
+            "monetary_authority": "Swiss National Bank",
+            "polity": [
+              "CHE",
+              "LIE"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "SwissFranc"
+        },
+        {
+          "code": "CLP",
+          "label": "Chilean peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Chile",
+            "polity": [
+              "CHL"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "ChileanPeso"
+        },
+        {
+          "code": "CNY",
+          "label": "Chinese yuan",
+          "metadata": {
+            "fractional_unit": "Fen",
+            "monetary_authority": "People's Bank of China",
+            "polity": [
+              "CHN"
+            ],
+            "precision": 2,
+            "symbol": "¥"
+          },
+          "name": "ChineseYuan"
+        },
+        {
+          "code": "COP",
+          "label": "Colombian peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Bank of the Republic",
+            "polity": [
+              "COL"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "ColombianPeso"
+        },
+        {
+          "code": "CRC",
+          "label": "Costa Rican colon",
+          "metadata": {
+            "fractional_unit": "Céntimo",
+            "monetary_authority": "Central Bank of Costa Rica",
+            "polity": [
+              "CRI"
+            ],
+            "precision": 2,
+            "symbol": "₡"
+          },
+          "name": "CostaRicanColon"
+        },
+        {
+          "code": "CUC",
+          "label": "Cuban convertible peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Cuba",
+            "polity": [
+              "CUB"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "CubanConvertiblePeso"
+        },
+        {
+          "code": "CVE",
+          "label": "Cape Verdean escudo",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Bank of Cape Verde",
+            "polity": [
+              "CUB"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "CapeVerdeanEscudo"
+        },
+        {
+          "code": "CZK",
+          "label": "Czech koruna",
+          "metadata": {
+            "fractional_unit": "Haléř",
+            "monetary_authority": "Czech National Bank",
+            "polity": [
+              "CZE"
+            ],
+            "precision": 2,
+            "symbol": "Kč"
+          },
+          "name": "CzechKoruna"
+        },
+        {
+          "code": "DJF",
+          "label": "Djiboutian franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Central Bank of Djibouti",
+            "polity": [
+              "DJI"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "DjiboutianFranc"
+        },
+        {
+          "code": "DKK",
+          "label": "Danish krone",
+          "metadata": {
+            "fractional_unit": "Øre",
+            "monetary_authority": "Danmarks Nationalbank",
+            "polity": [
+              "DNK",
+              "FRO",
+              "GRL"
+            ],
+            "precision": 2,
+            "symbol": "kr"
+          },
+          "name": "DanishKrone"
+        },
+        {
+          "code": "DOP",
+          "label": "Dominican peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of the Dominican Republic",
+            "polity": [
+              "DOM"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "DominicanPeso"
+        },
+        {
+          "code": "DZD",
+          "label": "Algerian dinar",
+          "metadata": {
+            "fractional_unit": "Santeem",
+            "monetary_authority": "Bank of Algeria",
+            "polity": [
+              "DZA"
+            ],
+            "precision": 2,
+            "symbol": "د.ج"
+          },
+          "name": "AlgerianDinar"
+        },
+        {
+          "code": "EGP",
+          "label": "Egyptian pound",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Central Bank of Egypt",
+            "polity": [
+              "EGY"
+            ],
+            "precision": 2,
+            "symbol": "E£"
+          },
+          "name": "EgyptianPound"
+        },
+        {
+          "code": "ERN",
+          "label": "Eritrean nakfa",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Bank of Eritrea",
+            "polity": [
+              "ERI"
+            ],
+            "precision": 2,
+            "symbol": "Nfk"
+          },
+          "name": "EritreanNakfa"
+        },
+        {
+          "code": "ETB",
+          "label": "Ethiopian birr",
+          "metadata": {
+            "fractional_unit": "Santim",
+            "monetary_authority": "Bank of Eritrea",
+            "polity": [
+              "ETH"
+            ],
+            "precision": 2,
+            "symbol": "Br"
+          },
+          "name": "EthiopianBirr"
+        },
+        {
+          "code": "EUR",
+          "label": "Euro",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "European Central Bank",
+            "polity": [
+              "ALA",
+              "AND",
+              "AUT",
+              "BEL",
+              "CYP",
+              "EST",
+              "FIN",
+              "FRA",
+              "ATF",
+              "DEU",
+              "GRC",
+              "GLP",
+              "IRL",
+              "ITA",
+              "LVA",
+              "LTU",
+              "LUX",
+              "MLT",
+              "GUF",
+              "MTQ",
+              "MYT",
+              "MCO",
+              "MNE",
+              "NLD",
+              "PRT",
+              "REU",
+              "BLM",
+              "MAF",
+              "SPM",
+              "SMR",
+              "SVK",
+              "SVN",
+              "ESP"
+            ],
+            "precision": 2,
+            "symbol": "€"
+          },
+          "name": "Euro"
+        },
+        {
+          "code": "FJD",
+          "label": "Fijian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Reserve Bank of Fiji",
+            "polity": [
+              "FJI"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "FijianDollar"
+        },
+        {
+          "code": "FKP",
+          "label": "Falkland Islands pound",
+          "metadata": {
+            "fractional_unit": "Penny",
+            "monetary_authority": "Government of the Falkland Islands",
+            "polity": [
+              "FLK"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "FalklandIslandsPound"
+        },
+        {
+          "code": "GBP",
+          "label": "Pound sterling",
+          "metadata": {
+            "fractional_unit": "Penny",
+            "monetary_authority": "Bank of England",
+            "polity": [
+              "GBR",
+              "IOT",
+              "IMN",
+              "JEY",
+              "GGY"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "PoundSterling"
+        },
+        {
+          "code": "GEL",
+          "label": "Georgian lari",
+          "metadata": {
+            "fractional_unit": "Tetri",
+            "monetary_authority": "National Bank of Georgia",
+            "polity": [
+              "GEO"
+            ],
+            "precision": 2,
+            "symbol": "₾"
+          },
+          "name": "GeorgianLari"
+        },
+        {
+          "code": "GHS",
+          "label": "Ghanaian cedi",
+          "metadata": {
+            "fractional_unit": "Pesewa",
+            "monetary_authority": "Bank of Ghana",
+            "polity": [
+              "GHA"
+            ],
+            "precision": 2,
+            "symbol": "₵"
+          },
+          "name": "GhanaianCedi"
+        },
+        {
+          "code": "GIP",
+          "label": "Gibraltar pound",
+          "metadata": {
+            "fractional_unit": "Penny",
+            "monetary_authority": "Government of Gibraltar",
+            "polity": [
+              "GIB"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "GibraltarPound"
+        },
+        {
+          "code": "GMD",
+          "label": "Gambian dalasi",
+          "metadata": {
+            "fractional_unit": "Butut",
+            "monetary_authority": "Central Bank of The Gambia",
+            "polity": [
+              "GMB"
+            ],
+            "precision": 2,
+            "symbol": "D"
+          },
+          "name": "GambianDalasi"
+        },
+        {
+          "code": "GNF",
+          "label": "Guinean franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Government of Gibraltar",
+            "polity": [
+              "GNQ"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "GuineanFranc"
+        },
+        {
+          "code": "GTQ",
+          "label": "Guatemalan quetzal",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Bank of Guatemala",
+            "polity": [
+              "GTM"
+            ],
+            "precision": 2,
+            "symbol": "Q"
+          },
+          "name": "GuatemalanQuetzal"
+        },
+        {
+          "code": "GYD",
+          "label": "Guyanese dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Guyana",
+            "polity": [
+              "GUY"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "GuyaneseDollar"
+        },
+        {
+          "code": "HKD",
+          "label": "Hong Kong dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Hong Kong Monetary Authority",
+            "polity": [
+              "HKG"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "HongKongDollar"
+        },
+        {
+          "code": "HNL",
+          "label": "Honduran lempira",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Honduras",
+            "polity": [
+              "HND"
+            ],
+            "precision": 2,
+            "symbol": "L"
+          },
+          "name": "HonduranLempira"
+        },
+        {
+          "code": "HRK",
+          "label": "Croatian kuna",
+          "metadata": {
+            "fractional_unit": "Lipa",
+            "monetary_authority": "Croatian National Bank",
+            "polity": [
+              "HRV"
+            ],
+            "precision": 2,
+            "symbol": "kn"
+          },
+          "name": "CroatianKuna"
+        },
+        {
+          "code": "HTG",
+          "label": "Haitian gourde",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Bank of the Republic of Haiti",
+            "polity": [
+              "HTI"
+            ],
+            "precision": 2,
+            "symbol": "G"
+          },
+          "name": "HaitianGourde"
+        },
+        {
+          "code": "HUF",
+          "label": "Hungarian forint",
+          "metadata": {
+            "fractional_unit": "Fillér",
+            "monetary_authority": "Hungarian National Bank",
+            "polity": [
+              "HUN"
+            ],
+            "precision": 2,
+            "symbol": "Ft"
+          },
+          "name": "HungarianForint"
+        },
+        {
+          "code": "IDR",
+          "label": "Indonesian rupiah",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "Bank of Indonesia",
+            "polity": [
+              "IDN"
+            ],
+            "precision": 2,
+            "symbol": "Rp"
+          },
+          "name": "IndonesianRupiah"
+        },
+        {
+          "code": "ILS",
+          "label": "Israeli new shekel",
+          "metadata": {
+            "fractional_unit": "Agora",
+            "monetary_authority": "Bank of Israel",
+            "polity": [
+              "ISR",
+              "PSE"
+            ],
+            "precision": 2,
+            "symbol": "₪"
+          },
+          "name": "IsraeliNewShekel"
+        },
+        {
+          "code": "INR",
+          "label": "Indian rupee",
+          "metadata": {
+            "fractional_unit": "Paisa",
+            "monetary_authority": "Reserve Bank of India",
+            "polity": [
+              "IND",
+              "BTN"
+            ],
+            "precision": 2,
+            "symbol": "₹"
+          },
+          "name": "IndianRupee"
+        },
+        {
+          "code": "IQD",
+          "label": "Iraqi dinar",
+          "metadata": {
+            "fractional_unit": "Fils",
+            "monetary_authority": "Central Bank of Iraq",
+            "polity": [
+              "IRQ"
+            ],
+            "precision": 1,
+            "symbol": "ع.د"
+          },
+          "name": "IraqiDinar"
+        },
+        {
+          "code": "IRR",
+          "label": "Iranian rial",
+          "metadata": {
+            "fractional_unit": "Dinar",
+            "monetary_authority": "Central Bank of Iraq",
+            "polity": [
+              "IRN"
+            ],
+            "precision": 2,
+            "symbol": "﷼"
+          },
+          "name": "IranianRial"
+        },
+        {
+          "code": "ISK",
+          "label": "Icelandic króna",
+          "metadata": {
+            "fractional_unit": "Eyrir",
+            "monetary_authority": "Central Bank of Iceland",
+            "polity": [
+              "ISL"
+            ],
+            "precision": 2,
+            "symbol": "kr"
+          },
+          "name": "IcelandicKrona"
+        },
+        {
+          "code": "JMD",
+          "label": "Jamaican dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Jamaica",
+            "polity": [
+              "JAM"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "JamaicanDollar"
+        },
+        {
+          "code": "JOD",
+          "label": "Jordanian dinar",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Central Bank of Jordan",
+            "polity": [
+              "JOR",
+              "PSE"
+            ],
+            "precision": 2,
+            "symbol": "د.ا"
+          },
+          "name": "JordanianDinar"
+        },
+        {
+          "code": "JPY",
+          "label": "Japanese yen",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "Bank of Japan",
+            "polity": [
+              "JPN"
+            ],
+            "precision": 2,
+            "symbol": "¥"
+          },
+          "name": "JapaneseYen"
+        },
+        {
+          "code": "KES",
+          "label": "Kenyan shilling",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Kenya",
+            "polity": [
+              "KEN"
+            ],
+            "precision": 2,
+            "symbol": "Sh"
+          },
+          "name": "KenyanShilling"
+        },
+        {
+          "code": "KGS",
+          "label": "Kyrgyzstani som",
+          "metadata": {
+            "fractional_unit": "Tyiyn",
+            "monetary_authority": "National Bank of the Kyrgyz Republic",
+            "polity": [
+              "KGZ"
+            ],
+            "precision": 2,
+            "symbol": "с"
+          },
+          "name": "KyrgyzstaniSom"
+        },
+        {
+          "code": "KHR",
+          "label": "Cambodian riel",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "National Bank of Cambodia",
+            "polity": [
+              "KHM"
+            ],
+            "precision": 2,
+            "symbol": "៛"
+          },
+          "name": "CambodianRiel"
+        },
+        {
+          "code": "KMF",
+          "label": "Comoro franc",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "Central Bank of the Comoros",
+            "polity": [
+              "COM"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "ComoroFranc"
+        },
+        {
+          "code": "KPW",
+          "label": "North Korean won",
+          "metadata": {
+            "fractional_unit": "Chon",
+            "monetary_authority": "Central Bank of the Democratic People's Republic of Korea",
+            "polity": [
+              "PRK"
+            ],
+            "precision": 2,
+            "symbol": "₩"
+          },
+          "name": "NorthKoreanWon"
+        },
+        {
+          "code": "KRW",
+          "label": "South Korean won",
+          "metadata": {
+            "fractional_unit": "Jeon",
+            "monetary_authority": "Bank of Korea",
+            "polity": [
+              "KOR"
+            ],
+            "precision": 2,
+            "symbol": "₩"
+          },
+          "name": "SouthKoreanWon"
+        },
+        {
+          "code": "KWD",
+          "label": "Kuwaiti dinar",
+          "metadata": {
+            "fractional_unit": "Fils",
+            "monetary_authority": "Central Bank of Kuwait",
+            "polity": [
+              "KWT"
+            ],
+            "precision": 1,
+            "symbol": "د.ك"
+          },
+          "name": "KuwaitiDinar"
+        },
+        {
+          "code": "KYD",
+          "label": "Cayman Islands dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Cayman Islands Monetary Authority",
+            "polity": [
+              "CYM"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "CaymanIslandsDollar"
+        },
+        {
+          "code": "KZT",
+          "label": "Kazakhstani tenge",
+          "metadata": {
+            "fractional_unit": "Tïın",
+            "monetary_authority": "National Bank of Kazakhstan",
+            "polity": [
+              "KAZ"
+            ],
+            "precision": 2,
+            "symbol": "₸"
+          },
+          "name": "KazakhstaniTenge"
+        },
+        {
+          "code": "LAK",
+          "label": "Lao kip",
+          "metadata": {
+            "fractional_unit": "Att",
+            "monetary_authority": "Bank of the Lao People's Democratic Republic",
+            "polity": [
+              "LAO"
+            ],
+            "precision": 2,
+            "symbol": "₭"
+          },
+          "name": "LaoKip"
+        },
+        {
+          "code": "LBP",
+          "label": "Lebanese pound",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Banque du Liban",
+            "polity": [
+              "LBN"
+            ],
+            "precision": 2,
+            "symbol": "ل.ل"
+          },
+          "name": "LebanesePound"
+        },
+        {
+          "code": "LKR",
+          "label": "Sri Lankan rupee",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Sri Lanka",
+            "polity": [
+              "LKA"
+            ],
+            "precision": 2,
+            "symbol": "Rs"
+          },
+          "name": "SriLankanRupee"
+        },
+        {
+          "code": "LRD",
+          "label": "Liberian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Liberia",
+            "polity": [
+              "LBR"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "LiberianDollar"
+        },
+        {
+          "code": "LSL",
+          "label": "Lesotho loti",
+          "metadata": {
+            "fractional_unit": "Sente",
+            "monetary_authority": "Central Bank of Lesotho",
+            "polity": [
+              "LBR"
+            ],
+            "precision": 2,
+            "symbol": "L"
+          },
+          "name": "LesothoLoti"
+        },
+        {
+          "code": "LYD",
+          "label": "Libyan dinar",
+          "metadata": {
+            "fractional_unit": "Dirham",
+            "monetary_authority": "Central Bank of Libya",
+            "polity": [
+              "LBY"
+            ],
+            "precision": 1,
+            "symbol": "ل.د"
+          },
+          "name": "LibyanDinar"
+        },
+        {
+          "code": "MAD",
+          "label": "Moroccan dirham",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Bank Al-Maghrib",
+            "polity": [
+              "MAR"
+            ],
+            "precision": 2,
+            "symbol": "د.م."
+          },
+          "name": "MoroccanDirham"
+        },
+        {
+          "code": "MDL",
+          "label": "Moldovan leu",
+          "metadata": {
+            "fractional_unit": "Ban",
+            "monetary_authority": "National Bank of Moldova",
+            "polity": [
+              "MDA"
+            ],
+            "precision": 2,
+            "symbol": "L"
+          },
+          "name": "MoldovanLeu"
+        },
+        {
+          "code": "MGA",
+          "label": "Malagasy ariary",
+          "metadata": {
+            "fractional_unit": "Iraimbilanja",
+            "fractions": 5,
+            "monetary_authority": "Central Bank of Madagascar",
+            "polity": [
+              "MDG"
+            ],
+            "precision": 2,
+            "symbol": "Ar"
+          },
+          "name": "MalagasyAriary"
+        },
+        {
+          "code": "MKD",
+          "label": "Macedonian denar",
+          "metadata": {
+            "fractional_unit": "Deni",
+            "monetary_authority": "National Bank of the Republic of Macedonia",
+            "polity": [
+              "MKD"
+            ],
+            "precision": 2,
+            "symbol": "ден"
+          },
+          "name": "MacedonianDenar"
+        },
+        {
+          "code": "MMK",
+          "label": "Myanmar kyat",
+          "metadata": {
+            "fractional_unit": "Pya",
+            "monetary_authority": "Central Bank of Myanmar",
+            "polity": [
+              "MMR"
+            ],
+            "precision": 2,
+            "symbol": "Ks"
+          },
+          "name": "MyanmarKyat"
+        },
+        {
+          "code": "MNT",
+          "label": "Mongolian tögrög",
+          "metadata": {
+            "fractional_unit": "Möngö",
+            "monetary_authority": "Bank of Mongolia",
+            "polity": [
+              "MNG"
+            ],
+            "precision": 2,
+            "symbol": "₮"
+          },
+          "name": "MongolianTogrog"
+        },
+        {
+          "code": "MOP",
+          "label": "Macanese pataca",
+          "metadata": {
+            "fractional_unit": "Avo",
+            "monetary_authority": "Monetary Authority of Macau",
+            "polity": [
+              "MAC"
+            ],
+            "precision": 2,
+            "symbol": "P"
+          },
+          "name": "MacanesePataca"
+        },
+        {
+          "code": "MRU",
+          "label": "Mauritanian ouguiya",
+          "metadata": {
+            "fractional_unit": "Khoums",
+            "fractions": 5,
+            "monetary_authority": "Central Bank of Mauritania",
+            "polity": [
+              "MRT"
+            ],
+            "precision": 2,
+            "symbol": "UM"
+          },
+          "name": "MauritanianOuguiya"
+        },
+        {
+          "code": "MUR",
+          "label": "Mauritian rupee",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Mauritius",
+            "polity": [
+              "MUS"
+            ],
+            "precision": 2,
+            "symbol": "₨"
+          },
+          "name": "MauritianRupee"
+        },
+        {
+          "code": "MVR",
+          "label": "Maldivian rufiyaa",
+          "metadata": {
+            "fractional_unit": "Laari",
+            "monetary_authority": "Maldives Monetary Authority",
+            "polity": [
+              "MDV"
+            ],
+            "precision": 2,
+            "symbol": ".ރ"
+          },
+          "name": "MaldivianRufiyaa"
+        },
+        {
+          "code": "MWK",
+          "label": "Malawian kwacha",
+          "metadata": {
+            "fractional_unit": "Tambala",
+            "monetary_authority": "Reserve Bank of Malawi",
+            "polity": [
+              "MWI"
+            ],
+            "precision": 2,
+            "symbol": "MK"
+          },
+          "name": "MalawianKwacha"
+        },
+        {
+          "code": "MXN",
+          "label": "Mexican peso",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Bank of Mexico",
+            "polity": [
+              "MEX"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "MexicanPeso"
+        },
+        {
+          "code": "MYR",
+          "label": "Malaysian ringgit",
+          "metadata": {
+            "fractional_unit": "Sen",
+            "monetary_authority": "Central Bank of Malaysia",
+            "polity": [
+              "MYS"
+            ],
+            "precision": 2,
+            "symbol": "RM"
+          },
+          "name": "MalaysianRinggit"
+        },
+        {
+          "code": "MZN",
+          "label": "Mozambican metical",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Bank of Mozambique",
+            "polity": [
+              "MOZ"
+            ],
+            "precision": 2,
+            "symbol": "MT"
+          },
+          "name": "MozambicanMetical"
+        },
+        {
+          "code": "NAD",
+          "label": "Namibian dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Namibia",
+            "polity": [
+              "NAM"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "NamibianDollar"
+        },
+        {
+          "code": "NGN",
+          "label": "Nigerian naira",
+          "metadata": {
+            "fractional_unit": "Kobo",
+            "monetary_authority": "Central Bank of Nigeria",
+            "polity": [
+              "NGA"
+            ],
+            "precision": 2,
+            "symbol": "₦"
+          },
+          "name": "NigerianNaira"
+        },
+        {
+          "code": "NIO",
+          "label": "Nicaraguan córdoba",
+          "metadata": {
+            "fractional_unit": "Centavo",
+            "monetary_authority": "Central Bank of Nicaragua",
+            "polity": [
+              "NIC"
+            ],
+            "precision": 2,
+            "symbol": "C$"
+          },
+          "name": "NicaraguaCordoba"
+        },
+        {
+          "code": "NOK",
+          "label": "Norwegian krone",
+          "metadata": {
+            "fractional_unit": "Øre",
+            "monetary_authority": "Norges Bank",
+            "polity": [
+              "NOR, SJM, BVT"
+            ],
+            "precision": 2,
+            "symbol": "kr"
+          },
+          "name": "NorwegianKrone"
+        },
+        {
+          "code": "NPR",
+          "label": "Nepalese rupee",
+          "metadata": {
+            "fractional_unit": "Paisa",
+            "monetary_authority": "Nepal Rastra Bank",
+            "polity": [
+              "NPL"
+            ],
+            "precision": 2,
+            "symbol": "₨"
+          },
+          "name": "NepaleseRupee"
+        },
+        {
+          "code": "NZD",
+          "label": "New Zealand dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Reserve Bank of New Zealand",
+            "polity": [
+              "NZL",
+              "COK",
+              "NIU",
+              "PCN",
+              "TKL"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "NewZealandDollar"
+        },
+        {
+          "code": "OMR",
+          "label": "Omani rial",
+          "metadata": {
+            "fractional_unit": "Baisa",
+            "monetary_authority": "Central Bank of Oman",
+            "polity": [
+              "OMN"
+            ],
+            "precision": 1,
+            "symbol": "ر.ع."
+          },
+          "name": "OmaniRial"
+        },
+        {
+          "code": "PAB",
+          "label": "Panamanian balboa",
+          "metadata": {
+            "fractional_unit": "Centésimo",
+            "monetary_authority": "Central Bank of Oman",
+            "polity": [
+              "PAN"
+            ],
+            "precision": 2,
+            "symbol": "B/."
+          },
+          "name": "PanamanianBalboa"
+        },
+        {
+          "code": "PEN",
+          "label": "Peruvian sol",
+          "metadata": {
+            "fractional_unit": "Céntimo",
+            "monetary_authority": "Central Reserve Bank of Peru",
+            "polity": [
+              "PER"
+            ],
+            "precision": 2,
+            "symbol": "S/."
+          },
+          "name": "PeruvianSol"
+        },
+        {
+          "code": "PGK",
+          "label": "Papua New Guinean kina",
+          "metadata": {
+            "fractional_unit": "Toea",
+            "monetary_authority": "Bank of Papua New Guinea",
+            "polity": [
+              "PNG"
+            ],
+            "precision": 2,
+            "symbol": "K"
+          },
+          "name": "PapuaNewGuineanKina"
+        },
+        {
+          "code": "PHP",
+          "label": "Philippine peso",
+          "metadata": {
+            "fractional_unit": "Sentimo",
+            "monetary_authority": "Central Bank of the Philippines",
+            "polity": [
+              "PHL"
+            ],
+            "precision": 2,
+            "symbol": "₱"
+          },
+          "name": "PhilippinePeso"
+        },
+        {
+          "code": "PKR",
+          "label": "Pakistani rupee",
+          "metadata": {
+            "fractional_unit": "Paisa",
+            "monetary_authority": "State Bank of Pakistan",
+            "polity": [
+              "PAK"
+            ],
+            "precision": 2,
+            "symbol": "₨"
+          },
+          "name": "PakistaniRupee"
+        },
+        {
+          "code": "PLN",
+          "label": "Polish złoty",
+          "metadata": {
+            "fractional_unit": "Grosz",
+            "monetary_authority": "National Bank of Poland",
+            "polity": [
+              "POL"
+            ],
+            "precision": 2,
+            "symbol": "zł"
+          },
+          "name": "PolishZloty"
+        },
+        {
+          "code": "PYG",
+          "label": "Paraguayan guaraní",
+          "metadata": {
+            "fractional_unit": "Céntimo",
+            "monetary_authority": "Central Bank of Paraguay",
+            "polity": [
+              "PRY"
+            ],
+            "precision": 2,
+            "symbol": "₲"
+          },
+          "name": "ParaguayanGuarani"
+        },
+        {
+          "code": "QAR",
+          "label": "Qatari riyal",
+          "metadata": {
+            "fractional_unit": "Dirham",
+            "monetary_authority": "Qatar Central Bank",
+            "polity": [
+              "QAT"
+            ],
+            "precision": 2,
+            "symbol": "ر.ق"
+          },
+          "name": "QatariRiyal"
+        },
+        {
+          "code": "RON",
+          "label": "Romanian leu",
+          "metadata": {
+            "fractional_unit": "Ban",
+            "monetary_authority": "National Bank of Romania",
+            "polity": [
+              "ROU"
+            ],
+            "precision": 2,
+            "symbol": "lei"
+          },
+          "name": "RomanianLeu"
+        },
+        {
+          "code": "RSD",
+          "label": "Serbian dinar",
+          "metadata": {
+            "fractional_unit": "Para",
+            "monetary_authority": "National Bank of Serbia",
+            "polity": [
+              "SRB"
+            ],
+            "precision": 2,
+            "symbol": "din"
+          },
+          "name": "SerbianDinar"
+        },
+        {
+          "code": "RUB",
+          "label": "Russian ruble",
+          "metadata": {
+            "fractional_unit": "Kopek",
+            "monetary_authority": "Bank of Russia",
+            "polity": [
+              "RUS"
+            ],
+            "precision": 2,
+            "symbol": "₽"
+          },
+          "name": "RussianRuble"
+        },
+        {
+          "code": "RWF",
+          "label": "Rwandan franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "National Bank of Rwanda",
+            "polity": [
+              "RWA"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "RwandanFranc"
+        },
+        {
+          "code": "SAR",
+          "label": "Saudi riyal",
+          "metadata": {
+            "fractional_unit": "Halala",
+            "monetary_authority": "Saudi Arabian Monetary Authority",
+            "polity": [
+              "SAU"
+            ],
+            "precision": 2,
+            "symbol": "ر.س"
+          },
+          "name": "SaudiRiyal"
+        },
+        {
+          "code": "SBD",
+          "label": "Solomon Islands dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Solomon Islands",
+            "polity": [
+              "SLB"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "SolomonIslandDollar"
+        },
+        {
+          "code": "SCR",
+          "label": "Seychellois rupee",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Solomon Islands",
+            "polity": [
+              "SYC"
+            ],
+            "precision": 2,
+            "symbol": "₨"
+          },
+          "name": "SeychelloisRupee"
+        },
+        {
+          "code": "SDG",
+          "label": "Sudanese pound",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Bank of Sudan",
+            "polity": [
+              "SSD"
+            ],
+            "precision": 2,
+            "symbol": "ج.س."
+          },
+          "name": "SudanesePound"
+        },
+        {
+          "code": "SEK",
+          "label": "Swedish krona",
+          "metadata": {
+            "fractional_unit": "Öre",
+            "monetary_authority": "Sveriges Riksbank",
+            "polity": [
+              "SWE"
+            ],
+            "precision": 2,
+            "symbol": "kr"
+          },
+          "name": "SwedishKrona"
+        },
+        {
+          "code": "SGD",
+          "label": "Singapore dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Monetary Authority of Singapore",
+            "polity": [
+              "SGP"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "SingaporeDollar"
+        },
+        {
+          "code": "SHP",
+          "label": "Saint Helena pound",
+          "metadata": {
+            "fractional_unit": "Penny",
+            "monetary_authority": "Government of Saint Helena",
+            "polity": [
+              "SHN"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "SaintHelenaPound"
+        },
+        {
+          "code": "SLL",
+          "label": "Sierra Leonean leone",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Sierra Leone",
+            "polity": [
+              "SLE"
+            ],
+            "precision": 2,
+            "symbol": "Le"
+          },
+          "name": "SierraLeoneanLeone"
+        },
+        {
+          "code": "SOS",
+          "label": "Somali shilling",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Somalia",
+            "polity": [
+              "SOM"
+            ],
+            "precision": 2,
+            "symbol": "Sl"
+          },
+          "name": "SomaliShilling"
+        },
+        {
+          "code": "SRD",
+          "label": "Surilabelse dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Surilabel",
+            "polity": [
+              "SUR"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "SurilabelseDollar"
+        },
+        {
+          "code": "SSP",
+          "label": "South Sudanese pound",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Bank of South Sudan",
+            "polity": [
+              "SSD"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "SouthSudanesePound"
+        },
+        {
+          "code": "STN",
+          "label": "São Tomé and Príncipe dobra",
+          "metadata": {
+            "fractional_unit": "Cêntimo",
+            "monetary_authority": "Central Bank of São Tomé and Príncipe",
+            "polity": [
+              "STP"
+            ],
+            "precision": 2,
+            "symbol": "Db"
+          },
+          "name": "SaoTomePrincipeDobra"
+        },
+        {
+          "code": "SYP",
+          "label": "Syrian pound",
+          "metadata": {
+            "fractional_unit": "Piastre",
+            "monetary_authority": "Central Bank of Syria",
+            "polity": [
+              "SYR"
+            ],
+            "precision": 2,
+            "symbol": "£"
+          },
+          "name": "SyrianPound"
+        },
+        {
+          "code": "SZL",
+          "label": "Swazi lilangeni",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Swaziland",
+            "polity": [
+              "SWZ"
+            ],
+            "precision": 2,
+            "symbol": "L"
+          },
+          "name": "SwaziLilangeni"
+        },
+        {
+          "code": "THB",
+          "label": "Thai baht",
+          "metadata": {
+            "fractional_unit": "Satang",
+            "monetary_authority": "Bank of Thailand",
+            "polity": [
+              "THA"
+            ],
+            "precision": 2,
+            "symbol": "฿"
+          },
+          "name": "ThaiBaht"
+        },
+        {
+          "code": "TJS",
+          "label": "Tajikistani somoni",
+          "metadata": {
+            "fractional_unit": "Diram",
+            "monetary_authority": "National Bank of Tajikistan",
+            "polity": [
+              "TJK"
+            ],
+            "precision": 2,
+            "symbol": "ЅМ"
+          },
+          "name": "TajikistaniSomoni"
+        },
+        {
+          "code": "TMT",
+          "label": "Turkmenistan manat",
+          "metadata": {
+            "fractional_unit": "Tennesi",
+            "monetary_authority": "Central Bank of Turkmenistan",
+            "polity": [
+              "TKM"
+            ],
+            "precision": 2,
+            "symbol": "m"
+          },
+          "name": "TurkmenistanManat"
+        },
+        {
+          "code": "TND",
+          "label": "Tunisian dinar",
+          "metadata": {
+            "fractional_unit": "Millime",
+            "monetary_authority": "Central Bank of Tunisia",
+            "polity": [
+              "TUN"
+            ],
+            "precision": 1,
+            "symbol": "د.ت"
+          },
+          "name": "TunisianDinar"
+        },
+        {
+          "code": "TOP",
+          "label": "Tongan paʻanga",
+          "metadata": {
+            "fractional_unit": "Seniti",
+            "monetary_authority": "National Reserve Bank of Tonga",
+            "polity": [
+              "TON"
+            ],
+            "precision": 2,
+            "symbol": "T$"
+          },
+          "name": "TonganPaAnga"
+        },
+        {
+          "code": "TRY",
+          "label": "Turkish lira",
+          "metadata": {
+            "fractional_unit": "Kuruş",
+            "monetary_authority": "Central Bank of the Republic of Turkey",
+            "polity": [
+              "TUR"
+            ],
+            "precision": 2,
+            "symbol": "₺"
+          },
+          "name": "TurkishLira"
+        },
+        {
+          "code": "TTD",
+          "label": "Trinidad and Tobago dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of Trinidad and Tobago",
+            "polity": [
+              "TTO"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "TrinidadTobagoDollar"
+        },
+        {
+          "code": "TWD",
+          "label": "New Taiwan dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Central Bank of the Republic of China (Taiwan)",
+            "polity": [
+              "TWN"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "NewTaiwanDollar"
+        },
+        {
+          "code": "TZS",
+          "label": "Tanzanian shilling",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Tanzania",
+            "polity": [
+              "TZA"
+            ],
+            "precision": 2,
+            "symbol": "Sh"
+          },
+          "name": "TanzanianShilling"
+        },
+        {
+          "code": "UAH",
+          "label": "Ukrainian hryvnia",
+          "metadata": {
+            "fractional_unit": "Kopiyka",
+            "monetary_authority": "National Bank of Ukraine",
+            "polity": [
+              "UKR"
+            ],
+            "precision": 2,
+            "symbol": "₴"
+          },
+          "name": "UkrainianHryvnia"
+        },
+        {
+          "code": "UGX",
+          "label": "Ugandan shilling",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Bank of Uganda",
+            "polity": [
+              "UGA"
+            ],
+            "precision": 2,
+            "symbol": "Sh"
+          },
+          "name": "UgandanShilling"
+        },
+        {
+          "code": "USD",
+          "label": "United States dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Federal Reserve",
+            "polity": [
+              "USA",
+              "ASM",
+              "VGB",
+              "BES",
+              "ECU",
+              "SLV",
+              "GUM",
+              "HTI",
+              "MHL",
+              "FSM",
+              "MNP",
+              "PLW",
+              "PAN",
+              "PRI",
+              "TLS",
+              "TCA",
+              "VIR",
+              "UMI"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "UnitedStatesDollar"
+        },
+        {
+          "code": "UYU",
+          "label": "Uruguayan peso",
+          "metadata": {
+            "fractional_unit": "Centésimo",
+            "monetary_authority": "Central Bank of Uruguay",
+            "polity": [
+              "URY"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "UruguayanPeso"
+        },
+        {
+          "code": "UZS",
+          "label": "Uzbekistani soʻm",
+          "metadata": {
+            "fractional_unit": "Tiyin",
+            "monetary_authority": "Central Bank of the Republic of Uzbekistan",
+            "polity": [
+              "UZB"
+            ],
+            "precision": 2,
+            "symbol": "so'm"
+          },
+          "name": "UzbekistaniSom"
+        },
+        {
+          "code": "VES",
+          "label": "Venezuelan bolívar soberano",
+          "metadata": {
+            "fractional_unit": "Céntimo",
+            "monetary_authority": "Central Bank of Venezuela",
+            "polity": [
+              "VEN"
+            ],
+            "precision": 2,
+            "symbol": "Bs."
+          },
+          "name": "VenezuelanBolivarSoberano"
+        },
+        {
+          "code": "VND",
+          "label": "Vietlabelse đồng",
+          "metadata": {
+            "fractional_unit": "Hào",
+            "monetary_authority": "State Bank of Vietnam",
+            "polity": [
+              "VNM"
+            ],
+            "precision": 2,
+            "symbol": "₫"
+          },
+          "name": "VietlabelseDong"
+        },
+        {
+          "code": "VUV",
+          "label": "Vanuatu vatu",
+          "metadata": {
+            "fractional_unit": null,
+            "monetary_authority": "Reserve Bank of Vanuatu",
+            "polity": [
+              "VUT"
+            ],
+            "precision": 0,
+            "symbol": "Vt"
+          },
+          "name": "VanuatuVatu"
+        },
+        {
+          "code": "WST",
+          "label": "Samoan tālā",
+          "metadata": {
+            "fractional_unit": "Sene",
+            "monetary_authority": "Central Bank of Samoa",
+            "polity": [
+              "WSM"
+            ],
+            "precision": 2,
+            "symbol": "T"
+          },
+          "name": "SamoanTala"
+        },
+        {
+          "code": "XAF",
+          "label": "Central African CFA franc",
+          "metadata": {
+            "fractional_unit": "Sene",
+            "monetary_authority": "Central Bank of Samoa",
+            "polity": [
+              "CMR",
+              "CAF",
+              "COG",
+              "TCD",
+              "GNQ",
+              "GAB"
+            ],
+            "precision": 2,
+            "symbol": "T"
+          },
+          "name": "CentralAfricanCFAFranc"
+        },
+        {
+          "code": "XCD",
+          "label": "East Caribbean dollar",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "Eastern Caribbean Central Bank",
+            "polity": [
+              "AIA",
+              "ATG",
+              "DMA",
+              "GRD",
+              "MSR",
+              "KNA",
+              "LCA",
+              "VCT"
+            ],
+            "precision": 2,
+            "symbol": "$"
+          },
+          "name": "EastCaribbeanDollar"
+        },
+        {
+          "code": "XOF",
+          "label": "West African CFA franc",
+          "metadata": {
+            "fractional_unit": "Centime",
+            "monetary_authority": "Central Bank of West African States",
+            "polity": [
+              "BEN",
+              "BFA",
+              "CIV",
+              "GNB",
+              "MLI",
+              "NER",
+              "SEN",
+              "TGO"
+            ],
+            "precision": 2,
+            "symbol": "Fr"
+          },
+          "name": "WestAfricanCFAFranc"
+        },
+        {
+          "code": "YER",
+          "label": "Yemeni rial",
+          "metadata": {
+            "fractional_unit": "Fils",
+            "monetary_authority": "Central Bank of Yemen",
+            "polity": [
+              "YEM"
+            ],
+            "precision": 2,
+            "symbol": "﷼"
+          },
+          "name": "YemeniRial"
+        },
+        {
+          "code": "ZAR",
+          "label": "South African rand",
+          "metadata": {
+            "fractional_unit": "Cent",
+            "monetary_authority": "South African Reserve Bank",
+            "polity": [
+              "ZAF"
+            ],
+            "precision": 2,
+            "symbol": "R"
+          },
+          "name": "SouthAfricanRand"
+        },
+        {
+          "code": "ZMW",
+          "label": "Zambian kwacha",
+          "metadata": {
+            "fractional_unit": "Ngwee",
+            "monetary_authority": "Bank of Zambia",
+            "polity": [
+              "ZMB"
+            ],
+            "precision": 2,
+            "symbol": "ZK"
+          },
+          "name": "ZambianKwacha"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}
