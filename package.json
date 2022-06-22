@@ -2,7 +2,7 @@
   "name": "@tokenized/protocol-js",
   "version": "1.0.0",
   "description": "",
-  "exports": "./index.js",
+  "exports": "./protocol.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "@noble/secp256k1": "^1.5.5",
     "bitcoin-address-validation": "^2.2.1",
     "bs58": "^5.0.0",
+    "bsv": "^2.0.10",
     "node-fetch": "^3.2.5",
     "protobufjs": "^6.11.3"
   }

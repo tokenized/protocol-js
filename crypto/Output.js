@@ -3,6 +3,7 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import protobuf from "protobufjs";
 import { fileURLToPath } from "url";
+import { decodeTokenized, encodeTokenized } from "../protocol.js";
 import { addressToPublicKeyHash, publicKeyHashToAddress } from './address.js';
 import ReadBuffer from './ReadBuffer.js';
 import { bytesToHex, bytesToNumber, numberToBytes, padBytesEnd } from './utils.js';
@@ -63,23 +64,6 @@ function jsonTransform(value) {
   return value;
 }
 
-function decodeTokenized(actionCodeBuffer, payload) {
-  let actionCode = new TextDecoder().decode(actionCodeBuffer);
-
-  let message = actionLookup.get(actionCode)?.decode(payload);
-
-  let instrument = assetTypeLookup.get(message?.InstrumentType)?.decode(message?.InstrumentPayload);
-
-  let content = message?.MessagePayload && new TextDecoder().decode(message?.MessagePayload);
-
-  return {
-    actionCode,
-    message,
-    instrument,
-    content
-  }
-}
-
 
 // Output is a Bitcoin output containing a value and a locking script.
 export default class Output {
@@ -100,17 +84,7 @@ export default class Output {
   }
 
   static tokenized(actionCode, message) {
-    let writer = new WriteBuffer();
-    writer.writeUInt8(OP_FALSE);
-    writer.writeUInt8(OP_RETURN);
-    writer.writePushData(new Uint8Array([0xbd, 0x01]));
-    writer.writePushNumber(1);
-    writer.writePushData(new TextEncoder().encode("test.TKN"));
-    writer.writePushNumber(3);
-    writer.writePushData(new Uint8Array([0]));
-    writer.writePushData(new TextEncoder().encode(actionCode));
-    writer.writePushData(actionLookup.get(actionCode)?.encode(message).finish());
-    return new Output(writer.toBytes(), 0n);
+    return new Output(encodeTokenized(actionCode, message), 0n);
   }
 
   get payload() {
@@ -126,27 +100,8 @@ export default class Output {
         }
       }
 
-      if (initial == OP_FALSE && read.readUInt8() == OP_RETURN) {
-        const envelopeType = read.readPushData();
-        if (bytesToHex(envelopeType) == 'bd01' && read.readPushNumber() == 1) {
-          // https://tsc.bitcoinassociation.net/standards/envelope-specification/
-          const protocol = new TextDecoder().decode(read.readPushData());
-          if (protocol == "test.TKN" || protocol == "TKN") {
-            let [version, typeCode, payloadProtobuf] = new Array(read.readPushNumber()).fill().map(() => read.readPushData());
-            if (version.byteLength == 0 || bytesToHex(version) == '00') {
-              return decodeTokenized(typeCode, payloadProtobuf);
-            }
-          }
-        }
+      return decodeTokenized(this.script);
 
-        if (bytesToHex(envelopeType) == 'bd00') {
-          const protocol = new TextDecoder().decode(read.readPushData());
-          if (protocol == "test.TKN" || protocol == "TKN") {
-            let tokenizedEnvelope = Envelope.decode(new Uint8Array(read.readPushData()));
-            return decodeTokenized(tokenizedEnvelope.Identifier, read.readPushData());
-          }
-        }
-      }
     } catch (e) {
       console.log(e);
       return {error: `${e}`};
