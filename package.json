@@ -1,10 +1,15 @@
 {
   "name": "@tokenized/protocol-js",
-  "version": "1.0.0",
-  "description": "",
-  "exports": "./protocol.js",
-  "keywords": [],
-  "author": "",
+  "version": "0.0.1",
+  "description": "The Tokenized protocol",
+  "homepage": "https://github.com/tokenized/protocol-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tokenized/protocol-js.git"
+  },
+  "main": "index.js",
+  "exports": "./index.js",
+  "author": "Tokenized",
   "license": "ISC",
   "type": "module",
   "bin": "cli.js",
@@ -12,7 +17,6 @@
     "@noble/secp256k1": "^1.5.5",
     "bitcoin-address-validation": "^2.2.1",
     "bs58": "^5.0.0",
-    "bsv": "^2.0.10",
     "node-fetch": "^3.2.5",
     "protobufjs": "^6.11.3"
   }

@@ -28,15 +28,14 @@ import * as secp from "@noble/secp256k1";
 import { readFile, writeFile } from "fs/promises";
 import { addressToPublicKeyHash, publicKeyToAddress } from "./crypto/address.js";
 import Hash from "./crypto/Hash.js";
-import Input from "./crypto/Input.js";
-import Output, { base58AddressToContractAddress } from "./crypto/Output.js";
-import Tx from "./crypto/Tx.js";
+import { base58AddressToContractAddress } from "./crypto/Output.js";
+import { Tx, Input, Output, decodeTokenized, encodeTokenized } from "@tokenized/protocol-js";
 import { bytesToHex } from "./crypto/utils.js";
 import { broadcastTransaction, getAddressHistory, getTransaction } from "./network.js";
 import XKey from "./crypto/XKey.js";
 import fetch from "node-fetch";
-import bsv from "bsv";
-import { decodeTokenized, encodeTokenized } from "./protocol.js";
+
+const bsv = await import('bsv').catch(e => null);
 
 const { round } = Math;
 
@@ -152,7 +151,7 @@ async function getBSVTx(txid) {
 
 
 async function transferTxBuilder(privateKeyFile, bsvPath, tokenPath, bsvInput, tokenInput, tokenDust, quantityString, targetAddress) {
-
+    if (!bsv) throw "bsv library not found";
     let quantity = Number(quantityString);
     let [bsvTxId, bsvOutputIndex] = bsvInput.split(":").map((item, index) => index == 1 ? Number(item) : item);
     let [tokenTxId, tokenOutputIndex] = tokenInput.split(":").map((item, index) => index == 1 ? Number(item) : item);
@@ -199,7 +198,7 @@ async function transferTxBuilder(privateKeyFile, bsvPath, tokenPath, bsvInput, t
     const bsvXKey = await loadKey(privateKeyFile, bsvPath);
     const tokenXKey = await loadKey(privateKeyFile, tokenPath);
     const bsvKeyPair = new bsv.KeyPair(bsvXKey.key(), bsvXKey.publicKey());
-    const tokenKeyPair = new bsv.KeyPair(tokenXKey.key(), tokenXKey.publicKey()); 
+    const tokenKeyPair = new bsv.KeyPair(tokenXKey.key(), tokenXKey.publicKey());
 
 
     txBuilder.inputFromPubKeyHash(
@@ -216,7 +215,7 @@ async function transferTxBuilder(privateKeyFile, bsvPath, tokenPath, bsvInput, t
         bsvXKey.toPublic(),
     );
 
-    
+
     txBuilder.signTxIn(1, bsvKeyPair);
     txBuilder.signTxIn(0, tokenKeyPair);
 }
