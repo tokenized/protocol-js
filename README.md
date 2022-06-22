@@ -11,7 +11,7 @@ import { decodeTokenized, encodeTokenized } from "@tokenized/protocol-js";
 - **decodeTokenized** takes a Uint8Array (eg a Node Buffer) and returns
   a structure contaning the decoded Tokenized action.
 
-- **encodeTokenized** take an action code and an encoded action and returns the encoded action.
+- **encodeTokenized** takes an action code and an action and returns the encoded action.
 
 For example, send and receive tokens:
 
