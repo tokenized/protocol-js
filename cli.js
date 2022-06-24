@@ -12,9 +12,6 @@ Make a private key if it does not exist and print the address of a BIP-32 deriva
 protocol-js transfer private.key m/1 m/2 1 1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a
 protocol-js transfer <private key file> <bsv path> <token path> <token quantity> <target address>
 Transfer tokens from one address using bsv funding from another to a target address
-
-protocol-js transferTxBuilder private.key m/1 m/2 bsvTx:out tokenTx:out dustTx:out 1 1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a
-Transfer tokens using BSV library
 `;
 
 if (Number(process.versions.openssl.split(".")[0]) >= 3) {
@@ -24,52 +21,25 @@ if (Number(process.versions.openssl.split(".")[0]) >= 3) {
 }
 
 
-import * as secp from "@noble/secp256k1";
-import { readFile, writeFile } from "fs/promises";
-import { addressToPublicKeyHash, publicKeyToAddress } from "./crypto/address.js";
+import { Input, Output, Tx } from "@tokenized/protocol-js";
+import fetch from "node-fetch";
+import { publicKeyToAddress } from "./crypto/address.js";
 import Hash from "./crypto/Hash.js";
 import { base58AddressToContractAddress } from "./crypto/Output.js";
-import { Tx, Input, Output, decodeTokenized, encodeTokenized } from "@tokenized/protocol-js";
 import { bytesToHex } from "./crypto/utils.js";
+import { loadKey } from "./keys.js";
 import { broadcastTransaction, getAddressHistory, getTransaction } from "./network.js";
-import XKey from "./crypto/XKey.js";
-import fetch from "node-fetch";
-
-const bsv = await import('bsv').catch(e => null);
 
 const { round } = Math;
 
 const feeRate = 0.5;
-const dustAmount = 546;
 
 const CONTRACT_OPERATOR_SERVICE_TYPE = 3;
-
 
 async function get(txid) {
     let transaction = await getTransaction(txid);
 
     console.log("%s", new Tx(transaction));
-}
-
-
-
-async function loadKey(privateKeyFile, path) {
-    let seed;
-
-    try {
-        seed = await readFile(privateKeyFile);
-    } catch (e) {
-        if (e.code == 'ENOENT') {
-            seed = secp.utils.randomPrivateKey();
-            await writeFile(privateKeyFile, seed);
-        } else {
-            throw e;
-        }
-    }
-
-    let xkey = await XKey.fromSeed(seed);
-
-    return await xkey.derive(path);
 }
 
 async function key(privateKeyFile, path = "m") {
@@ -145,80 +115,6 @@ async function create(contractOperatorAddress) {
     console.log((await (await fetch(new URL('/new_contract', url)))).json());
 }
 
-async function getBSVTx(txid) {
-    return new bsv.Tx().fromBr(new bsv.Br(await getTransaction(txid)));
-}
-
-
-async function transferTxBuilder(privateKeyFile, bsvPath, tokenPath, bsvInput, tokenInput, tokenDust, quantityString, targetAddress) {
-    if (!bsv) throw "bsv library not found";
-    let quantity = Number(quantityString);
-    let [bsvTxId, bsvOutputIndex] = bsvInput.split(":").map((item, index) => index == 1 ? Number(item) : item);
-    let [tokenTxId, tokenOutputIndex] = tokenInput.split(":").map((item, index) => index == 1 ? Number(item) : item);
-    let [tokenDustTxId, tokenDustOutputIndex] = tokenDust.split(":").map((item, index) => index == 1 ? Number(item) : item);
-    let bsvUtxo = (await getBSVTx(bsvTxId)).txOuts[bsvOutputIndex];
-    let tokenUtxo = (await getBSVTx(tokenDustTxId)).txOuts[tokenDustOutputIndex];
-    let tokenizedActionTx = await getBSVTx(tokenTxId);
-    let tokenizedAction = decodeTokenized(tokenizedActionTx.txOuts[tokenOutputIndex].script.toBuffer());
-    let contractAgentAddress = new bsv.Address().fromTxInScript(tokenizedActionTx.txIns[0].script);
-
-    let instrument = tokenizedAction.message.Instruments[0];
-
-    const txBuilder = new bsv.TxBuilder()
-        .setFeePerKbNum(feeRate * 1000)
-        .setDust(dustAmount)
-        .sendDustChangeToFees(true);
-
-    const contractAgentFee = 3000;
-
-    txBuilder
-        .outputToAddress(
-            new bsv.Bn(contractAgentFee),
-            contractAgentAddress
-        );
-
-    txBuilder
-        .outputToScript(
-            new bsv.Bn(0),
-            new bsv.Script(encodeTokenized("T1", {
-                Instruments: [
-                    {
-                        InstrumentType: instrument.InstrumentType,
-                        InstrumentCode: instrument.InstrumentCode,
-                        InstrumentSenders: [{ Quantity: quantity, Index: 0 }],
-                        InstrumentReceivers: [{
-                            Address: base58AddressToContractAddress(targetAddress),
-                            Quantity: quantity
-                        }]
-                    }
-                ]
-            }))
-        );
-
-    const bsvXKey = await loadKey(privateKeyFile, bsvPath);
-    const tokenXKey = await loadKey(privateKeyFile, tokenPath);
-    const bsvKeyPair = new bsv.KeyPair(bsvXKey.key(), bsvXKey.publicKey());
-    const tokenKeyPair = new bsv.KeyPair(tokenXKey.key(), tokenXKey.publicKey());
-
-
-    txBuilder.inputFromPubKeyHash(
-        Buffer.from(tokenDustTxId, 'hex').reverse(),
-        tokenDustOutputIndex,
-        tokenUtxo,
-        tokenXKey.toPublic(),
-    );
-
-    txBuilder.inputFromPubKeyHash(
-        Buffer.from(bsvTxId, 'hex').reverse(),
-        bsvOutputIndex,
-        bsvUtxo,
-        bsvXKey.toPublic(),
-    );
-
-
-    txBuilder.signTxIn(1, bsvKeyPair);
-    txBuilder.signTxIn(0, tokenKeyPair);
-}
 
 async function transfer(privateKeyFile, bsvPath, tokenPath, quantity, targetAddress) {
     if (!targetAddress) {
@@ -324,7 +220,7 @@ async function send(privateKeyFile, path, inputs, quantity, targetAddress, chang
     await broadcastTransaction("main", bytesToHex(tx.toBytes()));
 }
 
-const commands = { get, key, send, transactions, create, transfer, transferTxBuilder };
+const commands = { get, key, send, transactions, create, transfer };
 
 function help() {
     console.log(usage);
