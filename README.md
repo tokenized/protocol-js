@@ -39,6 +39,17 @@ encodeTokenized("T1", {
 });
 ```
 
+Addresses are traditionally formatted in Base58.
+To represent them in binary form the functions `base58AddressToContractAddress` and `contractAddressToBase58`
+are exported:
+
+```js
+import { base58AddressToContractAddress, contractAddressToBase58 } from "@tokenized/protocol-js";
+
+console.log(Buffer.from(base58AddressToContractAddress('1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a')).toString("hex"));
+console.log(contractAddressToBase58(Buffer.from("2086f0f5db0593576ee3737f75eb7dcaf8d08a8c91", "hex")));
+```
+
 ## CLI
 
 If running from checkout:
