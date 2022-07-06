@@ -33,13 +33,13 @@ const assets = JSON.parse(await readFile(join(protobufsPath, "assets.json")));
 const assetsProtobuf = await protobuf.load(join(protobufsPath, "assets.proto"));
 
 const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
-    [code, assetsProtobuf.lookupType(`assets.${name}`)]
+  [code, assetsProtobuf.lookupType(`assets.${name}`)]
 ));
 
 export function protocolAddressToBase58(input) {
   let type = input[0];
   if (type != 0x20) {
-      throw "Not a public key hash address";
+    throw "Not a public key hash address";
   }
   return publicKeyHashToAddress(input.slice(1));
 }
@@ -58,9 +58,13 @@ function jsonTransform(value) {
   if (value instanceof Uint8Array) {
     return `bytes:${bytesToHex(value)}`;
   }
+  if (value?.constructor?.isLong?.(value)) {
+    return value.toNumber();
+  }
   if (value instanceof Object) {
     return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, jsonTransform(v)]));
   }
+
   return value;
 }
 
@@ -107,7 +111,7 @@ export default class Output {
 
     } catch (e) {
       console.log(e);
-      return {error: `${e}`};
+      return { error: `${e}` };
     }
   }
 
