@@ -16,38 +16,37 @@ import { decodeTokenized, encodeTokenized } from "@tokenized/protocol-js";
 For example, send and receive tokens:
 
 ```js
-// transactionOutput should contain a Tokenized T2 action:
+import { decodeTokenized, encodeTokenized, base58AddressToProtocolAddress, jsonPrettyPrint } from "@tokenized/protocol-js";
 
-let tokenizedAction = decodeTokenized(transactionOutput);
-
-let instrument = tokenizedAction.message.Instruments[0];
-
-encodeTokenized("T1", {
+const encoded = encodeTokenized("T1", {
   Instruments: [
     {
-      InstrumentType: instrument.InstrumentType,
-      InstrumentCode: instrument.InstrumentCode,
-      InstrumentSenders: [{ Quantity: quantity, Index: 0 }],
+      InstrumentType: 'CHP',
+      InstrumentCode: Buffer.from("6aa85187fc5536a0c6c8bd165b0245d33f34573f", "hex"),
+      InstrumentSenders: [{ Quantity: 1, Index: 0 }],
       InstrumentReceivers: [
         {
-          Address: base58AddressToContractAddress(targetAddress),
-          Quantity: quantity,
+          Address: base58AddressToProtocolAddress("1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a"),
+          Quantity: 1,
         },
       ],
     },
   ],
 });
+
+
+console.log(jsonPrettyPrint(decodeTokenized(encoded)), null, 4);
 ```
 
 Addresses are traditionally formatted in Base58.
-To represent them in binary form the functions `base58AddressToContractAddress` and `contractAddressToBase58`
+To represent them in binary form the functions `base58AddressToProtocolAddress` and `protocolAddressToBase58`
 are exported:
 
 ```js
-import { base58AddressToContractAddress, contractAddressToBase58 } from "@tokenized/protocol-js";
+import { base58AddressToProtocolAddress, protocolAddressToBase58 } from "@tokenized/protocol-js";
 
-console.log(Buffer.from(base58AddressToContractAddress('1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a')).toString("hex"));
-console.log(contractAddressToBase58(Buffer.from("2086f0f5db0593576ee3737f75eb7dcaf8d08a8c91", "hex")));
+console.log(Buffer.from(base58AddressToProtocolAddress('1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a')).toString("hex"));
+console.log(protocolAddressToBase58(Buffer.from("2086f0f5db0593576ee3737f75eb7dcaf8d08a8c91", "hex")));
 ```
 
 ## CLI

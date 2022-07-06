@@ -10,8 +10,7 @@ if (process.argv.length < 3) {
     process.exit(1);
 }
 
-import { Tx } from "@tokenized/protocol-js";
-import { base58AddressToContractAddress } from "./crypto/Output.js";
+import { Tx, base58AddressToProtocolAddress } from "@tokenized/protocol-js";
 import { bytesToHex } from "./crypto/utils.js";
 import { broadcastTransaction, getTransaction } from "./network.js";
 import { decodeTokenized, encodeTokenized } from "./protocol.js";
@@ -68,7 +67,7 @@ async function transferTxBuilder(privateKeyFile, bsvPath, tokenPath, bsvInput, t
                             Index: 0
                         }],
                         InstrumentReceivers: [{
-                            Address: base58AddressToContractAddress(targetAddress),
+                            Address: base58AddressToProtocolAddress(targetAddress),
                             Quantity: quantity
                         }]
                     }

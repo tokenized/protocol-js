@@ -21,11 +21,10 @@ if (Number(process.versions.openssl.split(".")[0]) >= 3) {
 }
 
 
-import { Input, Output, Tx } from "@tokenized/protocol-js";
+import { Input, Output, Tx, base58AddressToProtocolAddress } from "@tokenized/protocol-js";
 import fetch from "node-fetch";
 import { publicKeyToAddress } from "./crypto/address.js";
 import Hash from "./crypto/Hash.js";
-import { base58AddressToContractAddress } from "./crypto/Output.js";
 import { bytesToHex } from "./crypto/utils.js";
 import { loadKey } from "./keys.js";
 import { broadcastTransaction, getAddressHistory, getTransaction } from "./network.js";
@@ -162,7 +161,7 @@ async function transfer(privateKeyFile, bsvPath, tokenPath, quantity, targetAddr
                 InstrumentCode: instrument.InstrumentCode,
                 InstrumentSenders: [{ Quantity: quantity, Index: 0 }],
                 InstrumentReceivers: [{
-                    Address: base58AddressToContractAddress(targetAddress),
+                    Address: base58AddressToProtocolAddress(targetAddress),
                     Quantity: quantity
                 }]
             }

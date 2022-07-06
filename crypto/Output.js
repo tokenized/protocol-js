@@ -36,7 +36,7 @@ const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
     [code, assetsProtobuf.lookupType(`assets.${name}`)]
 ));
 
-export function contractAddressToBase58(input) {
+export function protocolAddressToBase58(input) {
   let type = input[0];
   if (type != 0x20) {
       throw "Not a public key hash address";
@@ -44,19 +44,19 @@ export function contractAddressToBase58(input) {
   return publicKeyHashToAddress(input.slice(1));
 }
 
-export function base58AddressToContractAddress(address) {
+export function base58AddressToProtocolAddress(address) {
   return new Uint8Array([0x20, ...addressToPublicKeyHash(address)]);
 }
 
 function jsonTransform(value) {
   if (value instanceof Uint8Array && value.length == 21 && value[0] == 0x20) {
-    return contractAddressToBase58(value);
+    return `address:${protocolAddressToBase58(value)}`;
   }
   if (value instanceof Array) {
     return value.map(jsonTransform);
   }
   if (value instanceof Uint8Array) {
-    return `0x${bytesToHex(value)}`;
+    return `bytes:${bytesToHex(value)}`;
   }
   if (value instanceof Object) {
     return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, jsonTransform(v)]));
@@ -64,6 +64,9 @@ function jsonTransform(value) {
   return value;
 }
 
+export function jsonPrettyPrint(value) {
+  return JSON.stringify(jsonTransform(value), null, 4);
+}
 
 // Output is a Bitcoin output containing a value and a locking script.
 export default class Output {
@@ -159,7 +162,7 @@ export default class Output {
       return `${value} -> ${payload.p2pkh} ${spent !== undefined ? (spent ? "SPENT" : "UNSPENT") : ''}`;
     }
     if (payload?.actionCode) {
-      return `${value}: ${payload.actionCode}\n${JSON.stringify(jsonTransform(payload), null, 4)}`
+      return `${value}: ${payload.actionCode}\n${jsonPrettyPrint(payload)}`
     }
     return `${this.value}`;
   }
