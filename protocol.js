@@ -47,7 +47,8 @@ export function encodeTokenized(actionCode, message) {
 function decodeTokenizedPayload(actionCodeBuffer, payload) {
     let actionCode = new TextDecoder().decode(actionCodeBuffer);
 
-    let message = actionLookup.get(actionCode)?.decode(payload);
+    let actionType = actionLookup.get(actionCode);
+    let message = actionType && actionType.toObject(actionType.decode(payload), {defaults: true});
 
     let instrument = assetTypeLookup.get(message?.InstrumentType)?.decode(message?.InstrumentPayload);
 
