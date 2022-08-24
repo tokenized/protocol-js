@@ -1,5 +1,7 @@
 import assert from "assert";
 
+const { max } = Math;
+
 // WriteBuffer creates a Buffer from a series of sequential writes.
 export default class WriteBuffer {
   constructor() {
@@ -9,7 +11,7 @@ export default class WriteBuffer {
 
   append(size, callback) {
     if (this.length + size > this.buffer.byteLength) {
-      let newBuffer = new ArrayBuffer(this.buffer.byteLength * 2);
+      let newBuffer = new ArrayBuffer(max(this.length + size, this.buffer.byteLength * 2));
       new Uint8Array(newBuffer).set(new Uint8Array(this.buffer));
       this.buffer = newBuffer;
     }
