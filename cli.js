@@ -12,14 +12,10 @@ Make a private key if it does not exist and print the address of a BIP-32 deriva
 protocol-js transfer private.key m/1 m/2 1 1DJWCvgTFQBxYiDnVX3edG1A9kEidzLs9a
 protocol-js transfer <private key file> <bsv path> <token path> <token quantity> <target address>
 Transfer tokens from one address using bsv funding from another to a target address
+
+protocol-js fees 78934b50a28b465319cdc61fbe960d6b5c69c9683cc35c13d1558f3014581276
+Re-compute the fees (settlement, contract and boomerang) for a broadcast transaction
 `;
-
-if (Number(process.versions.openssl.split(".")[0]) >= 3) {
-    console.log("openssl 3 does not provide ripemd160 required for bitcoin hashing");
-    console.log("Suggest using Node 16 or lower");
-    process.exit(1);
-}
-
 
 import { Input, Output, Tx, base58AddressToProtocolAddress } from "@tokenized/protocol-js";
 import fetch from "node-fetch";
@@ -28,10 +24,21 @@ import Hash from "./crypto/Hash.js";
 import { bytesToHex } from "./crypto/utils.js";
 import { loadKey } from "./keys.js";
 import { broadcastTransaction, getAddressHistory, getTransaction } from "./network.js";
+import { getHashes } from "crypto";
+import { protocolAddressToBase58 } from "./crypto/Output.js";
+import { computeTransferFees } from "./protocol.js";
+
+if (!getHashes().includes("ripemd160")) {
+    console.log("openssl 3 does not provide ripemd160 required for bitcoin hashing");
+    console.log("Suggest using Node 16 or lower, or export NODE_OPTIONS=--openssl-legacy-provider");
+    process.exit(1);
+}
+
 
 const { round } = Math;
 
-const feeRate = 0.5;
+const feeRate = 0.05;
+const smartContractFeeRate = 0.05;
 
 const CONTRACT_OPERATOR_SERVICE_TYPE = 3;
 
@@ -125,36 +132,27 @@ async function transfer(privateKeyFile, bsvPath, tokenPath, quantity, targetAddr
 
     let tx = new Tx();
 
-    const contractAgentFee = 3000n;
-    const maximumMinerFee = 500n;
 
     let tokenAddress = publicKeyToAddress(tokenXKey.publicKey().toBytes());
     let tokens = await getAction(tokenAddress, "T2");
-    let bsvAddress = publicKeyToAddress(bsvXKey.publicKey().toBytes());
-    let requiredValue = contractAgentFee + maximumMinerFee;
-    let bsv = await getBSV(bsvAddress, requiredValue);
 
     if (!tokens) {
         throw new Error("Tokens not found at address");
     }
 
-    if (!bsv) {
-        throw new Error(`Insufficient funds, required: ${requiredValue}`);
+    let contractAddresses = tokens.tx.inputs.map(input => input.payload.p2pkh);
+    if (contractAddresses.length > 1) {
+        throw new Error("Unsure which token to send");
     }
+    let [contractAddress] = contractAddresses;
 
-    let contractAgentAddress = tokens.tx.inputs[0].payload.p2pkh;
     let instrument = tokens.output.payload.message.Instruments[0];
 
-    let tokenUtxo = await getBSV(tokenAddress, 0);
-    if (!tokenUtxo < 0) {
-        throw new Error("Unable to find token utxo");
-    }
+    let contract = await getAction(contractAddress, "C2");
 
-    tx.inputs.push(Input.p2pkh(tokenUtxo, tokenXKey.key()));
-    tx.inputs.push(Input.p2pkh(bsv, bsvXKey.key()));
+    let contractFee = contract.output.payload.message.ContractFee.toNumber();
 
-    tx.outputs.push(Output.p2pkh(contractAgentAddress, contractAgentFee));
-    tx.outputs.push(Output.tokenized("T1", {
+    let transfer = {
         Instruments: [
             {
                 InstrumentType: instrument.InstrumentType,
@@ -166,7 +164,36 @@ async function transfer(privateKeyFile, bsvPath, tokenPath, quantity, targetAddr
                 }]
             }
         ]
-    }));
+    };
+
+    let [settlementFee, boomerangFee] = computeTransferFees(transfer, smartContractFeeRate);
+
+    if (boomerangFee > 0) {
+        throw new Error("Unexpected boomerang");
+    }
+
+    const contractAgentFee = BigInt(contractFee + settlementFee);
+    const maximumMinerFee = 500n;
+
+
+    let bsvAddress = publicKeyToAddress(bsvXKey.publicKey().toBytes());
+    let requiredValue = contractAgentFee + maximumMinerFee;
+    let bsv = await getBSV(bsvAddress, requiredValue);
+
+    if (!bsv) {
+        throw new Error(`Insufficient funds, required: ${requiredValue}`);
+    }
+
+    let tokenUtxo = await getBSV(tokenAddress, 0);
+    if (!tokenUtxo < 0) {
+        throw new Error("Unable to find token utxo");
+    }
+
+    tx.inputs.push(Input.p2pkh(tokenUtxo, tokenXKey.key()));
+    tx.inputs.push(Input.p2pkh(bsv, bsvXKey.key()));
+
+    tx.outputs.push(Output.p2pkh(contractAddress, contractAgentFee));
+    tx.outputs.push(Output.tokenized("T1", transfer));
     let changeOutput = Output.p2pkh(bsvAddress, 0);
 
     tx.outputs.push(changeOutput);
@@ -219,7 +246,26 @@ async function send(privateKeyFile, path, inputs, quantity, targetAddress, chang
     await broadcastTransaction("main", bytesToHex(tx.toBytes()));
 }
 
-const commands = { get, key, send, transactions, create, transfer };
+async function fees(txid) {
+    let tx = new Tx(await getTransaction(txid));
+
+    let transfer = tx.outputs.find(({ payload }) => payload?.actionCode == "T1").payload.message;
+
+    let contractAddresses = transfer.Instruments.map(({ ContractIndex }) => tx.outputs[ContractIndex].payload.p2pkh);
+
+    let contracts = await Promise.all(contractAddresses.map(async address => (await getAction(address, "C2")).output.payload.message));
+
+    let contractFees = contracts.map(contract => contract.ContractFee.toNumber());
+
+    let [settlementFee, boomerangFee] = computeTransferFees(transfer, 0.05);
+
+    console.log("Contract addresses:", contractAddresses);
+    console.log("Settlement fee:", settlementFee);
+    console.log("Boomerang fee:", boomerangFee);
+    console.log("Contract fees:", contractFees);
+}
+
+const commands = { get, key, send, transactions, create, transfer, fees };
 
 function help() {
     console.log(usage);

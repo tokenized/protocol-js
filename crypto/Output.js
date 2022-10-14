@@ -39,7 +39,7 @@ const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
 export function protocolAddressToBase58(input) {
   let type = input[0];
   if (type != 0x20) {
-    throw "Not a public key hash address";
+    throw new Error("Not a public key hash address");
   }
   return publicKeyHashToAddress(input.slice(1));
 }
@@ -84,7 +84,7 @@ export default class Output {
     let writer = new WriteBuffer();
     writer.writeUInt8(OP_DUP);
     writer.writeUInt8(OP_HASH160);
-    writer.writePushData(addressToPublicKeyHash(address));
+    writer.writePushData(address ? addressToPublicKeyHash(address) : new Uint8Array(20));
     writer.writeUInt8(OP_EQUALVERIFY);
     writer.writeUInt8(OP_CHECKSIG);
     return new Output(writer.toBytes(), value);
@@ -110,7 +110,7 @@ export default class Output {
       return decodeTokenized(this.script);
 
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       return { error: `${e}` };
     }
   }

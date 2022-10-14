@@ -14,8 +14,8 @@ export default class Input {
     this.sequence = sequence;
   }
 
-  static p2pkh({hash, index, output}, key) {
-    let input = new Input(new Hash(hash), index, new Uint8Array(106));
+  static p2pkh({hash = new Uint8Array(32), index, output} = {}, key) {
+    let input = new Input(hash && new Hash(hash), index, new Uint8Array(107));
     input.spendingOutput = output;
     input.key = key;
     return input;
