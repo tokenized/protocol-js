@@ -39,13 +39,13 @@ const signatureRequestProto = messagesProtobuf.lookupType('SignatureRequest');
 const settlementRequestProto = messagesProtobuf.lookupType('SettlementRequest');
 
 
-export function encodeTokenized(actionCode, message) {
+export function encodeTokenized(actionCode, message, production) {
     let writer = new WriteBuffer();
     writer.writeUInt8(OP_FALSE);
     writer.writeUInt8(OP_RETURN);
     writer.writePushData(new Uint8Array([0xbd, 0x01]));
     writer.writePushNumber(1);
-    writer.writePushData(new TextEncoder().encode("test.TKN"));
+    writer.writePushData(new TextEncoder().encode(production ? "TKN" : "test.TKN"));
     writer.writePushNumber(3);
     writer.writePushData(new Uint8Array([0]));
     writer.writePushData(new TextEncoder().encode(actionCode));

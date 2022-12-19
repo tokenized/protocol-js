@@ -15,7 +15,7 @@ import {
 - **decodeTokenized** takes a Uint8Array (eg a Node Buffer) and returns
   a structure contaning the decoded Tokenized action.
 
-- **encodeTokenized** takes an action code and an action and returns the encoded action.
+- **encodeTokenized** takes an action code and an action and a flag to indicate test (false) or production (true) encoding and returns the encoded action.
 
 - **computeTransferFees** takes a transfer (T1) action and computes the smart contract fee.
   It returns an array of [settlementFee, boomerangFee] where:
@@ -55,7 +55,7 @@ const transfer = {
   ],
 };
 
-const encoded = encodeTokenized("T1", transfer);
+const encoded = encodeTokenized("T1", transfer, true);
 
 console.log(jsonPrettyPrint(decodeTokenized(encoded)), null, 4);
 
