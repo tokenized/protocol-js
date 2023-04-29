@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import protobuf from "protobufjs";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import Input from "./crypto/Input.js";
 import Output, { protocolAddressToBase58 } from "./crypto/Output.js";
 import ReadBuffer from './crypto/ReadBuffer.js';
@@ -15,31 +15,20 @@ const { ceil } = Math;
 const OP_FALSE = 0x00;
 const OP_RETURN = 0x6a;
 
-const protobufsPath = fileURLToPath(new URL("./protobufs", import.meta.url));
+const protobufsPath = fileURLToPath(new URL("./protobufs", pathToFileURL(__filename)));
 
-const envelope = await protobuf.load(join(protobufsPath, "envelope.proto"));
-const Envelope = envelope.lookupType("protobuf.Envelope");
+async function getactionLookupt() {
+    const actions = JSON.parse(await readFile(join(protobufsPath, "actions.json")));
+    const actionsProtobuf = await protobuf.load(join(protobufsPath, "actions.proto"));
 
-const actions = JSON.parse(await readFile(join(protobufsPath, "actions.json")));
-const actionsProtobuf = await protobuf.load(join(protobufsPath, "actions.proto"));
+    return new Map(actions.messages.map(({ code, name }) =>
+        [code, actionsProtobuf.lookupType(`actions.${name}`)]
+    ));
+}
 
-const actionLookup = new Map(actions.messages.map(({ code, name }) =>
-    [code, actionsProtobuf.lookupType(`actions.${name}`)]
-));
+export async function encodeTokenized(actionCode, message, production) {
+    const actionLookup = await getactionLookupt();
 
-const assets = JSON.parse(await readFile(join(protobufsPath, "assets.json")));
-const assetsProtobuf = await protobuf.load(join(protobufsPath, "assets.proto"));
-
-const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
-    [code, assetsProtobuf.lookupType(`assets.${name}`)]
-));
-
-const messagesProtobuf = await protobuf.load(join(protobufsPath, "messages.proto"));
-const signatureRequestProto = messagesProtobuf.lookupType('SignatureRequest');
-const settlementRequestProto = messagesProtobuf.lookupType('SettlementRequest');
-
-
-export function encodeTokenized(actionCode, message, production) {
     let writer = new WriteBuffer();
     writer.writeUInt8(OP_FALSE);
     writer.writeUInt8(OP_RETURN);
@@ -53,11 +42,19 @@ export function encodeTokenized(actionCode, message, production) {
     return writer.toBytes();
 }
 
-function decodeTokenizedPayload(actionCodeBuffer, payload) {
+async function decodeTokenizedPayload(actionCodeBuffer, payload) {
     let actionCode = new TextDecoder().decode(actionCodeBuffer);
 
+    const actionLookup = await getactionLookupt();
     let actionType = actionLookup.get(actionCode);
     let message = actionType && actionType.toObject(actionType.decode(payload), { defaults: true });
+
+    const assets = JSON.parse(await readFile(join(protobufsPath, "assets.json")));
+    const assetsProtobuf = await protobuf.load(join(protobufsPath, "assets.proto"));
+
+    const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
+        [code, assetsProtobuf.lookupType(`assets.${name}`)]
+    ));
 
     let instrument = assetTypeLookup.get(message?.InstrumentType)?.decode(message?.InstrumentPayload);
 
@@ -71,7 +68,7 @@ function decodeTokenizedPayload(actionCodeBuffer, payload) {
     }
 }
 
-export function decodeTokenized(bytes) {
+export async function decodeTokenized(bytes) {
     let read = new ReadBuffer(bytes);
 
     let initial = read.readUInt8();
@@ -93,6 +90,8 @@ export function decodeTokenized(bytes) {
         if (bytesToHex(envelopeType) == 'bd00') {
             const protocol = new TextDecoder().decode(read.readPushData());
             if (protocol == "test.TKN" || protocol == "TKN") {
+                const envelope = await protobuf.load(join(protobufsPath, "envelope.proto"));
+                const Envelope = envelope.lookupType("protobuf.Envelope");
                 let tokenizedEnvelope = Envelope.decode(new Uint8Array(read.readPushData()));
                 return decodeTokenizedPayload(tokenizedEnvelope.Identifier, read.readPushData());
             }
@@ -100,7 +99,10 @@ export function decodeTokenized(bytes) {
     }
 }
 
-export function computeTransferFees(transfer, feeRate) {
+export async function computeTransferFees(transfer, feeRate) {
+    const messagesProtobuf = await protobuf.load(join(protobufsPath, "messages.proto"));
+    const signatureRequestProto = messagesProtobuf.lookupType('SignatureRequest');
+    const settlementRequestProto = messagesProtobuf.lookupType('SettlementRequest');
     // Estimate fees by constructing partially completed examples of expected on chain messages.
     // The aim is to over-estimate to avoid rejections due to insufficient funding
     // Example rejection message: Insufficient Transaction Fee Funding: 2019/2020: Insufficient Value
@@ -204,4 +206,3 @@ export function computeTransferFees(transfer, feeRate) {
 
     return [settlementFee, boomerangFee];
 }
-
