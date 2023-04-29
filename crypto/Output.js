@@ -1,40 +1,14 @@
 import assert from "assert";
-import { readFile } from "fs/promises";
-import { join } from "path";
-import protobuf from "protobufjs";
-import { fileURLToPath } from "url";
 import { decodeTokenized, encodeTokenized } from "../protocol.js";
 import { addressToPublicKeyHash, publicKeyHashToAddress } from './address.js';
 import ReadBuffer from './ReadBuffer.js';
 import { bytesToHex, bytesToNumber, numberToBytes, padBytesEnd } from './utils.js';
 import WriteBuffer from './WriteBuffer.js';
 
-
-const OP_FALSE = 0x00;
-const OP_RETURN = 0x6a;
 const OP_DUP = 0x76;
 const OP_HASH160 = 0xa9;
 const OP_EQUALVERIFY = 0x88;
 const OP_CHECKSIG = 0xac;
-
-const protobufsPath = fileURLToPath(new URL("../protobufs", import.meta.url));
-
-const envelope = await protobuf.load(join(protobufsPath, "envelope.proto"));
-const Envelope = envelope.lookupType("protobuf.Envelope");
-
-const actions = JSON.parse(await readFile(join(protobufsPath, "actions.json")));
-const actionsProtobuf = await protobuf.load(join(protobufsPath, "actions.proto"));
-
-const actionLookup = new Map(actions.messages.map(({ code, name }) =>
-  [code, actionsProtobuf.lookupType(`actions.${name}`)]
-));
-
-const assets = JSON.parse(await readFile(join(protobufsPath, "assets.json")));
-const assetsProtobuf = await protobuf.load(join(protobufsPath, "assets.proto"));
-
-const assetTypeLookup = new Map(assets.messages.map(({ code, name }) =>
-  [code, assetsProtobuf.lookupType(`assets.${name}`)]
-));
 
 export function protocolAddressToBase58(input) {
   let type = input[0];
